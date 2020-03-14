@@ -16,17 +16,16 @@ const (
 )
 
 type Walker struct {
-	Root      string
-	DirNum    int
-	FileNum   int
-	IsLastDir bool
+	Root    string
+	DirNum  int
+	FileNum int
 }
 
 type Row struct {
 	Name      string
 	Level     int
+	DoneLevel int
 	IsEnd     bool
-	WithBlank bool
 }
 
 func (row *Row) Str() string {
@@ -35,18 +34,14 @@ func (row *Row) Str() string {
 		c = CONNECTOR_RIGHT_ANGLE
 	}
 
-	if row.WithBlank {
-		c = strings.Repeat(CONNECTOR_BLANK, row.Level-1) + c
-	} else {
-		c = strings.Repeat(CONNECTOR_LINE, row.Level-1) + c
-	}
+	c = strings.Repeat(CONNECTOR_BLANK, row.DoneLevel) + strings.Repeat(CONNECTOR_LINE, row.Level-1-row.DoneLevel) + c
 
 	str := c + row.Name
 
 	return str
 }
 
-func (w *Walker) Walk(dir string, level int) error {
+func (w *Walker) Walk(dir string, level int, doneLevel int) error {
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -57,23 +52,24 @@ func (w *Walker) Walk(dir string, level int) error {
 		isEnd := false
 		if i == len(files)-1 {
 			isEnd = true
-			if dir == w.Root {
-				w.IsLastDir = true
-			}
 		}
 
 		row := Row{
 			Name:      file.Name(),
 			Level:     level,
+			DoneLevel: doneLevel,
 			IsEnd:     isEnd,
-			WithBlank: w.IsLastDir,
 		}
 
 		fmt.Println(row.Str())
 
+		if i == len(files)-1 {
+			doneLevel++
+		}
+
 		if file.IsDir() {
 			path := filepath.Join(dir, file.Name())
-			err := w.Walk(path, level+1)
+			err := w.Walk(path, level+1, doneLevel)
 			if err != nil {
 				return err
 			}
@@ -90,15 +86,14 @@ func (w *Walker) Walk(dir string, level int) error {
 
 func Tree(root string) error {
 	w := Walker{
-		Root:      root,
-		DirNum:    0,
-		FileNum:   0,
-		IsLastDir: false,
+		Root:    root,
+		DirNum:  0,
+		FileNum: 0,
 	}
 
 	fmt.Println(root)
 
-	err := w.Walk(root, 1)
+	err := w.Walk(root, 1, 0)
 	if err != nil {
 		return err
 	}
