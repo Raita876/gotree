@@ -12,17 +12,21 @@ const (
 	CONNECTOR_CROSS       = "├── "
 	CONNECTOR_RIGHT_ANGLE = "└── "
 	CONNECTOR_LINE        = "│   "
+	CONNECTOR_BLANK       = "    "
 )
 
 type Walker struct {
-	DirNum  int
-	FileNum int
+	Root      string
+	DirNum    int
+	FileNum   int
+	IsLastDir bool
 }
 
 type Row struct {
-	Name  string
-	Level int
-	IsEnd bool
+	Name      string
+	Level     int
+	IsEnd     bool
+	WithBlank bool
 }
 
 func (row *Row) Str() string {
@@ -31,16 +35,20 @@ func (row *Row) Str() string {
 		c = CONNECTOR_RIGHT_ANGLE
 	}
 
-	c = strings.Repeat(CONNECTOR_LINE, row.Level-1) + c
+	if row.WithBlank {
+		c = strings.Repeat(CONNECTOR_BLANK, row.Level-1) + c
+	} else {
+		c = strings.Repeat(CONNECTOR_LINE, row.Level-1) + c
+	}
 
 	str := c + row.Name
 
 	return str
 }
 
-func (w *Walker) Walk(root string, level int) error {
+func (w *Walker) Walk(dir string, level int) error {
 
-	files, err := ioutil.ReadDir(root)
+	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		return err
 	}
@@ -49,26 +57,30 @@ func (w *Walker) Walk(root string, level int) error {
 		isEnd := false
 		if i == len(files)-1 {
 			isEnd = true
+			if dir == w.Root {
+				w.IsLastDir = true
+			}
 		}
 
 		row := Row{
-			Name:  file.Name(),
-			Level: level,
-			IsEnd: isEnd,
+			Name:      file.Name(),
+			Level:     level,
+			IsEnd:     isEnd,
+			WithBlank: w.IsLastDir,
 		}
 
 		fmt.Println(row.Str())
 
 		if file.IsDir() {
-			path := filepath.Join(root, file.Name())
+			path := filepath.Join(dir, file.Name())
 			err := w.Walk(path, level+1)
 			if err != nil {
 				return err
 			}
 
-			w.DirNum += 1
+			w.DirNum++
 		} else {
-			w.FileNum += 1
+			w.FileNum++
 		}
 
 	}
@@ -77,20 +89,21 @@ func (w *Walker) Walk(root string, level int) error {
 }
 
 func Tree(root string) error {
-	fmt.Println(root)
-
 	w := Walker{
-		DirNum:  0,
-		FileNum: 0,
+		Root:      root,
+		DirNum:    0,
+		FileNum:   0,
+		IsLastDir: false,
 	}
+
+	fmt.Println(root)
 
 	err := w.Walk(root, 1)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println()
-	fmt.Printf("%d directories, %d files\n", w.DirNum, w.FileNum)
+	fmt.Printf("\n%d directories, %d files\n", w.DirNum, w.FileNum)
 
 	return nil
 }
