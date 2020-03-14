@@ -33,7 +33,7 @@ func (row *Row) Str() string {
 		c = CONNECTOR_RIGHT_ANGLE
 	}
 
-	c = strings.Repeat(CONNECTOR_BLANK, row.DoneLevel) + strings.Repeat(CONNECTOR_LINE, row.Level-1-row.DoneLevel) + c
+	c = strings.Repeat(CONNECTOR_LINE, row.Level-1-row.DoneLevel) + strings.Repeat(CONNECTOR_BLANK, row.DoneLevel) + c
 
 	str := c + row.Name
 
