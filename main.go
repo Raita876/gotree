@@ -14,6 +14,11 @@ const (
 	CONNECTOR_LINE        = "│   "
 )
 
+type Walker struct {
+	DirNum  int
+	FileNum int
+}
+
 type Row struct {
 	Name  string
 	Level int
@@ -33,7 +38,7 @@ func (row *Row) Str() string {
 	return str
 }
 
-func Walk(root string, level int) error {
+func (w *Walker) Walk(root string, level int) error {
 
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
@@ -56,10 +61,14 @@ func Walk(root string, level int) error {
 
 		if file.IsDir() {
 			path := filepath.Join(root, file.Name())
-			err := Walk(path, level+1)
+			err := w.Walk(path, level+1)
 			if err != nil {
 				return err
 			}
+
+			w.DirNum += 1
+		} else {
+			w.FileNum += 1
 		}
 
 	}
@@ -69,10 +78,19 @@ func Walk(root string, level int) error {
 
 func Tree(root string) error {
 	fmt.Println(root)
-	err := Walk(root, 1)
+
+	w := Walker{
+		DirNum:  0,
+		FileNum: 0,
+	}
+
+	err := w.Walk(root, 1)
 	if err != nil {
 		return err
 	}
+
+	fmt.Println()
+	fmt.Printf("%d directories, %d files\n", w.DirNum, w.FileNum)
 
 	return nil
 }
