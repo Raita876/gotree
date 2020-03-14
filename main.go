@@ -20,48 +20,6 @@ type Row struct {
 	IsEnd bool
 }
 
-func Walk(root string, level int) ([]Row, error) {
-	rows := []Row{}
-
-	files, err := ioutil.ReadDir(root)
-	if err != nil {
-		return rows, err
-	}
-
-	for i, file := range files {
-		isEnd := false
-		if i == len(files)-1 {
-			isEnd = true
-		}
-
-		rows = append(rows, Row{
-			Name:  file.Name(),
-			Level: level,
-			IsEnd: isEnd,
-		})
-
-		if file.IsDir() {
-			path := filepath.Join(root, file.Name())
-			r, err := Walk(path, level+1)
-			if err != nil {
-				return rows, err
-			}
-			rows = append(rows, r...)
-		}
-
-	}
-
-	return rows, nil
-}
-
-func Tree(rows []Row, root string) {
-	fmt.Println(root)
-
-	for _, row := range rows {
-		fmt.Println(row.Str())
-	}
-}
-
 func (row *Row) Str() string {
 	c := CONNECTOR_CROSS
 	if row.IsEnd {
@@ -75,12 +33,54 @@ func (row *Row) Str() string {
 	return str
 }
 
+func Walk(root string, level int) error {
+
+	files, err := ioutil.ReadDir(root)
+	if err != nil {
+		return err
+	}
+
+	for i, file := range files {
+		isEnd := false
+		if i == len(files)-1 {
+			isEnd = true
+		}
+
+		row := Row{
+			Name:  file.Name(),
+			Level: level,
+			IsEnd: isEnd,
+		}
+
+		fmt.Println(row.Str())
+
+		if file.IsDir() {
+			path := filepath.Join(root, file.Name())
+			err := Walk(path, level+1)
+			if err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func Tree(root string) error {
+	fmt.Println(root)
+	err := Walk(root, 1)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func main() {
 	root := "sample"
-	rows, err := Walk(root, 1)
+	err := Tree(root)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	Tree(rows, root)
 }
