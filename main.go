@@ -16,7 +16,6 @@ const (
 )
 
 type Walker struct {
-	Root    string
 	DirNum  int
 	FileNum int
 }
@@ -37,6 +36,9 @@ func (row *Row) Str() string {
 	c = strings.Repeat(CONNECTOR_BLANK, row.DoneLevel) + strings.Repeat(CONNECTOR_LINE, row.Level-1-row.DoneLevel) + c
 
 	str := c + row.Name
+
+	// debug
+	str += fmt.Sprintf("(level=%d, done=%d)", row.Level, row.DoneLevel)
 
 	return str
 }
@@ -61,7 +63,7 @@ func (w *Walker) Walk(dir string, level int, doneLevel int) error {
 			IsEnd:     isEnd,
 		}
 
-		fmt.Println(row.Str())
+		fmt.Println(row.Str(), dir)
 
 		if i == len(files)-1 {
 			doneLevel++
@@ -86,7 +88,6 @@ func (w *Walker) Walk(dir string, level int, doneLevel int) error {
 
 func Tree(root string) error {
 	w := Walker{
-		Root:    root,
 		DirNum:  0,
 		FileNum: 0,
 	}
