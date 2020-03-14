@@ -16,15 +16,17 @@ const (
 )
 
 type Walker struct {
+	Root    string
 	DirNum  int
 	FileNum int
 }
 
 type Row struct {
-	Name      string
-	Level     int
-	DoneLevel int
-	IsEnd     bool
+	Name  string
+	Level int
+	Done  int
+	Blank int
+	IsEnd bool
 }
 
 func (row *Row) Str() string {
@@ -33,17 +35,17 @@ func (row *Row) Str() string {
 		c = CONNECTOR_RIGHT_ANGLE
 	}
 
-	c = strings.Repeat(CONNECTOR_LINE, row.Level-1-row.DoneLevel) + strings.Repeat(CONNECTOR_BLANK, row.DoneLevel) + c
+	c = strings.Repeat(CONNECTOR_BLANK, row.Done) + strings.Repeat(CONNECTOR_LINE, row.Level-1-row.Done-row.Blank) + strings.Repeat(CONNECTOR_BLANK, row.Blank) + c
 
 	str := c + row.Name
 
 	// debug
-	str += fmt.Sprintf("(level=%d, done=%d)", row.Level, row.DoneLevel)
+	str += fmt.Sprintf("(level=%d, done=%d, blank=%d)", row.Level, row.Done, row.Blank)
 
 	return str
 }
 
-func (w *Walker) Walk(dir string, level int, doneLevel int) error {
+func (w *Walker) Walk(dir string, level int, done int, blank int) error {
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -57,21 +59,27 @@ func (w *Walker) Walk(dir string, level int, doneLevel int) error {
 		}
 
 		row := Row{
-			Name:      file.Name(),
-			Level:     level,
-			DoneLevel: doneLevel,
-			IsEnd:     isEnd,
+			Name:  file.Name(),
+			Level: level,
+			Done:  done,
+			Blank: blank,
+			IsEnd: isEnd,
 		}
 
-		fmt.Println(row.Str(), dir)
+		path := filepath.Join(dir, file.Name())
+		fmt.Println(row.Str(), path)
 
 		if i == len(files)-1 {
-			doneLevel++
+			if dir == w.Root {
+				done++
+				w.Root = path
+			} else {
+				blank++
+			}
 		}
 
 		if file.IsDir() {
-			path := filepath.Join(dir, file.Name())
-			err := w.Walk(path, level+1, doneLevel)
+			err := w.Walk(path, level+1, done, blank)
 			if err != nil {
 				return err
 			}
@@ -88,13 +96,14 @@ func (w *Walker) Walk(dir string, level int, doneLevel int) error {
 
 func Tree(root string) error {
 	w := Walker{
+		Root:    root,
 		DirNum:  0,
 		FileNum: 0,
 	}
 
 	fmt.Println(root)
 
-	err := w.Walk(root, 1, 0)
+	err := w.Walk(root, 1, 0, 0)
 	if err != nil {
 		return err
 	}
