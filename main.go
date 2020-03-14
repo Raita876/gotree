@@ -40,7 +40,7 @@ func (row *Row) Str() string {
 	str := c + row.Name
 
 	// debug
-	str += fmt.Sprintf("(level=%d, done=%d, blank=%d)", row.Level, row.Done, row.Blank)
+	// str += fmt.Sprintf("(level=%d, done=%d, blank=%d)", row.Level, row.Done, row.Blank)
 
 	return str
 }
@@ -66,8 +66,9 @@ func (w *Walker) Walk(dir string, level int, done int, blank int) error {
 			IsEnd: isEnd,
 		}
 
+		fmt.Println(row.Str())
+
 		path := filepath.Join(dir, file.Name())
-		fmt.Println(row.Str(), path)
 
 		if i == len(files)-1 {
 			if dir == w.Root {
