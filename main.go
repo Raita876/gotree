@@ -16,7 +16,6 @@ const (
 )
 
 type Walker struct {
-	Root    string
 	DirNum  int
 	FileNum int
 }
@@ -40,12 +39,12 @@ func (row *Row) Str() string {
 	str := c + row.Name
 
 	// debug
-	// str += fmt.Sprintf("(level=%d, done=%d, blank=%d)", row.Level, row.Done, row.Blank)
+	str += fmt.Sprintf("(level=%d, done=%d, blank=%d)", row.Level, row.Done, row.Blank)
 
 	return str
 }
 
-func (w *Walker) Walk(dir string, level int, done int, blank int) error {
+func (w *Walker) Walk(root string, dir string, level int, done int, blank int) error {
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -71,16 +70,16 @@ func (w *Walker) Walk(dir string, level int, done int, blank int) error {
 		path := filepath.Join(dir, file.Name())
 
 		if i == len(files)-1 {
-			if dir == w.Root {
+			if dir == root {
 				done++
-				w.Root = path
+				root = path
 			} else {
 				blank++
 			}
 		}
 
 		if file.IsDir() {
-			err := w.Walk(path, level+1, done, blank)
+			err := w.Walk(root, path, level+1, done, blank)
 			if err != nil {
 				return err
 			}
@@ -97,14 +96,13 @@ func (w *Walker) Walk(dir string, level int, done int, blank int) error {
 
 func Tree(root string) error {
 	w := Walker{
-		Root:    root,
 		DirNum:  0,
 		FileNum: 0,
 	}
 
 	fmt.Println(root)
 
-	err := w.Walk(root, 1, 0, 0)
+	err := w.Walk(root, root, 1, 0, 0)
 	if err != nil {
 		return err
 	}
