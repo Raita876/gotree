@@ -58,8 +58,6 @@ func (w *Walker) Walk(dir string, level int) error {
 
 	for i, file := range files {
 
-		path := filepath.Join(dir, file.Name())
-
 		if level-len(w.IsEndDir) == 1 {
 			w.IsEndDir = append(w.IsEndDir, false)
 		}
@@ -84,6 +82,7 @@ func (w *Walker) Walk(dir string, level int) error {
 		fmt.Println(row.Str())
 
 		if file.IsDir() {
+			path := filepath.Join(dir, file.Name())
 			err := w.Walk(path, level+1)
 			if err != nil {
 				return err
