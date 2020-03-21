@@ -144,7 +144,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint) error {
+func Tree(root string, colored bool, level uint, permission bool) error {
 	w := Walker{
 		dirNum:   0,
 		fileNum:  0,
@@ -193,7 +193,7 @@ func main() {
 
 			level := c.Uint("level")
 
-			err := Tree(root, colored, level)
+			err := Tree(root, colored, level, false)
 			if err != nil {
 				return err
 			}
