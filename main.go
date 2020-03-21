@@ -117,7 +117,7 @@ func Tree(root string) error {
 }
 
 func main() {
-	root := "sample"
+	root := "tmp"
 	err := Tree(root)
 	if err != nil {
 		log.Fatal(err)
