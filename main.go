@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
 
@@ -31,6 +32,7 @@ type Walker struct {
 	fileNum  int
 	isEndDir []bool
 	colored  bool
+	level    int
 }
 
 type Row struct {
@@ -89,6 +91,9 @@ func (w *Walker) PrintResult() {
 }
 
 func (w *Walker) Walk(dir string, level int) error {
+	if level > w.level {
+		return nil
+	}
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -139,12 +144,13 @@ func (w *Walker) Walk(dir string, level int) error {
 	return nil
 }
 
-func Tree(root string, colored bool) error {
+func Tree(root string, colored bool, level int) error {
 	w := Walker{
 		dirNum:   0,
 		fileNum:  0,
 		isEndDir: []bool{},
 		colored:  colored,
+		level:    level,
 	}
 
 	w.PrintRoot(root)
@@ -165,6 +171,12 @@ func main() {
 		Name:    name,
 		Usage:   "Golang tree command.",
 		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:    "level",
+				Aliases: []string{"L"},
+				Value:   math.MaxInt64,
+				Usage:   "Descend only level directories deep.",
+			},
 			&cli.BoolFlag{
 				Name:    "disable-color",
 				Aliases: []string{"d"},
@@ -179,7 +191,9 @@ func main() {
 				colored = false
 			}
 
-			err := Tree(root, colored)
+			level := c.Int("level")
+
+			err := Tree(root, colored, level)
 			if err != nil {
 				return err
 			}
