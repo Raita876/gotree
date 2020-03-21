@@ -4,5 +4,5 @@ The tree command was remade in golang.
 
 # Todo
 
-- [ ] github actions
-- [ ] color
+- [x] github actions
+- [x] color
