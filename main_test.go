@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -64,7 +65,15 @@ func TestMain(m *testing.M) {
 
 }
 func TestTree(t *testing.T) {
-	want := `tmp
+	tests := []struct {
+		name    string
+		want    string
+		colored bool
+		level   uint
+	}{
+		{
+			name: "gotree --disable-color <directory>",
+			want: `tmp
 ├── corge
 ├── foo
 │   ├── bar
@@ -83,31 +92,58 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-7 directories, 10 files`
+7 directories, 10 files`,
+			colored: false,
+			level:   math.MaxInt64,
+		},
+		{
+			name: "gotree --disable-color -L 2 <directory>",
+			want: `tmp
+├── corge
+├── foo
+│   ├── bar
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   └── plugh
+└── xyzzy
+    └── thud
 
-	tmpStdout := os.Stdout
-
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	err := Tree(TMP_DIR, false)
-	if err != nil {
-		t.Fatal(err)
+6 directories, 4 files`,
+			colored: false,
+			level:   2,
+		},
 	}
-	w.Close()
 
-	var buf bytes.Buffer
-	_, err = buf.ReadFrom(r)
-	if err != nil {
-		t.Fatal(err)
-	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tmpStdout := os.Stdout
 
-	got := strings.TrimRight(buf.String(), "\n")
+			r, w, _ := os.Pipe()
+			os.Stdout = w
 
-	os.Stdout = tmpStdout
+			err := Tree(TMP_DIR, tt.colored, tt.level)
+			if err != nil {
+				t.Fatal(err)
+			}
+			w.Close()
 
-	if diff := cmp.Diff(got, want); diff != "" {
-		t.Fatalf("Stdout missmatch (-got +want):\n%s", diff)
+			var buf bytes.Buffer
+			_, err = buf.ReadFrom(r)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := strings.TrimRight(buf.String(), "\n")
+
+			os.Stdout = tmpStdout
+
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Fatalf("Stdout missmatch (-got +want):\n%s", diff)
+			}
+		})
+
 	}
 
 }
