@@ -23,7 +23,7 @@ const (
 	CONNECTOR_BLANK       = "    "
 
 	// print color
-	PRINT_COLOR_CYAN = "\x1b[36m%s\x1b[0m"
+	PRINT_COLOR_BLUE = "\x1b[34m%s\x1b[0m"
 )
 
 type Walker struct {
@@ -47,7 +47,7 @@ func (row *Row) Name(colored bool) string {
 
 	if colored {
 		if row.isDir {
-			name = fmt.Sprintf(PRINT_COLOR_CYAN, row.name)
+			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
 		}
 	}
 
