@@ -1,6 +1,8 @@
 # Gotree
 
+The tree command was remade in golang.
+
 # Todo
 
-- [x] main_test.go
-- [x] add cli
+- [ ] github actions
+- [ ] color
