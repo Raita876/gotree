@@ -29,7 +29,7 @@ func setup() error {
 
 	for _, f := range files {
 		dir := filepath.Dir(f)
-		if err := os.MkdirAll(dir, 0777); err != nil {
+		if err := os.MkdirAll(dir, 0755); err != nil {
 			return err
 		}
 
