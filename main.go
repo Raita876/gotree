@@ -16,10 +16,14 @@ var (
 )
 
 const (
+	// connector
 	CONNECTOR_CROSS       = "├── "
 	CONNECTOR_RIGHT_ANGLE = "└── "
 	CONNECTOR_LINE        = "│   "
 	CONNECTOR_BLANK       = "    "
+
+	// print color
+	PRINT_COLOR_CYAN = "\x1b[36m%s\x1b[0m"
 )
 
 type Walker struct {
@@ -43,11 +47,8 @@ func (row *Row) Name(colored bool) string {
 
 	if colored {
 		if row.isDir {
-			name = fmt.Sprintf("\x1b[34m%s\x1b[0m", row.name)
-		} else {
-			name = fmt.Sprintf("\x1b[31m%s\x1b[0m", row.name)
+			name = fmt.Sprintf(PRINT_COLOR_CYAN, row.name)
 		}
-
 	}
 
 	return name
@@ -138,12 +139,12 @@ func (w *Walker) Walk(dir string, level int) error {
 	return nil
 }
 
-func Tree(root string) error {
+func Tree(root string, colored bool) error {
 	w := Walker{
 		dirNum:   0,
 		fileNum:  0,
 		isEndDir: []bool{},
-		colored:  false,
+		colored:  colored,
 	}
 
 	w.PrintRoot(root)
@@ -163,9 +164,22 @@ func main() {
 		Version: version,
 		Name:    name,
 		Usage:   "Golang tree command.",
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:    "disable-color",
+				Aliases: []string{"d"},
+				Usage:   "Disable color.",
+			},
+		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
-			err := Tree(root)
+
+			colored := true
+			if c.Bool("disable-color") {
+				colored = false
+			}
+
+			err := Tree(root, colored)
 			if err != nil {
 				return err
 			}

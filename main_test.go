@@ -90,7 +90,7 @@ func TestTree(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	err := Tree(TMP_DIR)
+	err := Tree(TMP_DIR, false)
 	if err != nil {
 		t.Fatal(err)
 	}
