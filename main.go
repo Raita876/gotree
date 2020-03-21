@@ -16,43 +16,62 @@ var (
 )
 
 const (
+	// connector
 	CONNECTOR_CROSS       = "├── "
 	CONNECTOR_RIGHT_ANGLE = "└── "
 	CONNECTOR_LINE        = "│   "
 	CONNECTOR_BLANK       = "    "
+
+	// print color
+	PRINT_COLOR_BLUE = "\x1b[34m%s\x1b[0m"
 )
 
 type Walker struct {
-	DirNum   int
-	FileNum  int
-	IsEndDir []bool
+	dirNum   int
+	fileNum  int
+	isEndDir []bool
+	colored  bool
 }
 
 type Row struct {
-	Name         string
-	Level        int
-	OnRightAngle bool
-	IsBlank      []bool
+	name         string
+	level        int
+	onRightAngle bool
+	isBlank      []bool
+	isDir        bool
+	colored      bool
+}
+
+func (row *Row) Name(colored bool) string {
+	name := row.name
+
+	if colored {
+		if row.isDir {
+			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
+		}
+	}
+
+	return name
 }
 
 func (row *Row) Str() string {
 	var str string
-	for i := 0; i < row.Level-1; i++ {
-		if row.IsBlank[i] {
+	for i := 0; i < row.level-1; i++ {
+		if row.isBlank[i] {
 			str += CONNECTOR_BLANK
 		} else {
 			str += CONNECTOR_LINE
 		}
 	}
 
-	if row.OnRightAngle {
-		str += CONNECTOR_RIGHT_ANGLE + row.Name
+	if row.onRightAngle {
+		str += CONNECTOR_RIGHT_ANGLE + row.Name(row.colored)
 	} else {
-		str += CONNECTOR_CROSS + row.Name
+		str += CONNECTOR_CROSS + row.Name(row.colored)
 	}
 
 	// debug
-	// str += fmt.Sprintf("(level=%d, isblank=%v)", row.Level, row.IsBlank)
+	// str += fmt.Sprintf("(level=%d, isblank=%v)", row.level, row.isBlank)
 
 	return str
 }
@@ -66,7 +85,7 @@ func (w *Walker) PrintRow(row Row) {
 }
 
 func (w *Walker) PrintResult() {
-	fmt.Printf("\n%d directories, %d files\n", w.DirNum, w.FileNum)
+	fmt.Printf("\n%d directories, %d files\n", w.dirNum, w.fileNum)
 }
 
 func (w *Walker) Walk(dir string, level int) error {
@@ -78,25 +97,27 @@ func (w *Walker) Walk(dir string, level int) error {
 
 	for i, file := range files {
 
-		if level-len(w.IsEndDir) == 1 {
-			w.IsEndDir = append(w.IsEndDir, false)
+		if level-len(w.isEndDir) == 1 {
+			w.isEndDir = append(w.isEndDir, false)
 		}
 
-		if level < len(w.IsEndDir) {
-			w.IsEndDir = w.IsEndDir[:level]
+		if level < len(w.isEndDir) {
+			w.isEndDir = w.isEndDir[:level]
 		}
 
 		var onRightAngle bool
 		if i == len(files)-1 {
 			onRightAngle = true
-			w.IsEndDir[level-1] = true
+			w.isEndDir[level-1] = true
 		}
 
 		row := Row{
-			Name:         file.Name(),
-			Level:        level,
-			OnRightAngle: onRightAngle,
-			IsBlank:      w.IsEndDir,
+			name:         file.Name(),
+			level:        level,
+			onRightAngle: onRightAngle,
+			isBlank:      w.isEndDir,
+			isDir:        file.IsDir(),
+			colored:      w.colored,
 		}
 
 		w.PrintRow(row)
@@ -108,9 +129,9 @@ func (w *Walker) Walk(dir string, level int) error {
 				return err
 			}
 
-			w.DirNum++
+			w.dirNum++
 		} else {
-			w.FileNum++
+			w.fileNum++
 		}
 
 	}
@@ -118,10 +139,12 @@ func (w *Walker) Walk(dir string, level int) error {
 	return nil
 }
 
-func Tree(root string) error {
+func Tree(root string, colored bool) error {
 	w := Walker{
-		DirNum:  0,
-		FileNum: 0,
+		dirNum:   0,
+		fileNum:  0,
+		isEndDir: []bool{},
+		colored:  colored,
 	}
 
 	w.PrintRoot(root)
@@ -141,9 +164,22 @@ func main() {
 		Version: version,
 		Name:    name,
 		Usage:   "Golang tree command.",
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:    "disable-color",
+				Aliases: []string{"d"},
+				Usage:   "Disable color.",
+			},
+		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
-			err := Tree(root)
+
+			colored := true
+			if c.Bool("disable-color") {
+				colored = false
+			}
+
+			err := Tree(root, colored)
 			if err != nil {
 				return err
 			}
