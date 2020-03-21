@@ -28,11 +28,12 @@ const (
 )
 
 type Walker struct {
-	dirNum   int
-	fileNum  int
-	isEndDir []bool
-	colored  bool
-	level    uint
+	dirNum     int
+	fileNum    int
+	isEndDir   []bool
+	colored    bool
+	level      uint
+	permission bool
 }
 
 type Row struct {
@@ -42,6 +43,8 @@ type Row struct {
 	isBlank      []bool
 	isDir        bool
 	colored      bool
+	permission   bool
+	mode         string
 }
 
 func (row *Row) Name() string {
@@ -51,6 +54,10 @@ func (row *Row) Name() string {
 		if row.isDir {
 			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
 		}
+	}
+
+	if row.permission {
+		name = fmt.Sprintf("[%s]  %s", row.Mode(), name)
 	}
 
 	return name
@@ -76,6 +83,10 @@ func (row *Row) Str() string {
 	// str += fmt.Sprintf("(level=%d, isblank=%v)", row.level, row.isBlank)
 
 	return str
+}
+
+func (row *Row) Mode() string {
+	return row.mode
 }
 
 func (w *Walker) PrintRoot(root string) {
@@ -123,6 +134,8 @@ func (w *Walker) Walk(dir string, level uint) error {
 			isBlank:      w.isEndDir,
 			isDir:        file.IsDir(),
 			colored:      w.colored,
+			permission:   w.permission,
+			mode:         file.Mode().String(),
 		}
 
 		w.PrintRow(row)
@@ -146,11 +159,12 @@ func (w *Walker) Walk(dir string, level uint) error {
 
 func Tree(root string, colored bool, level uint, permission bool) error {
 	w := Walker{
-		dirNum:   0,
-		fileNum:  0,
-		isEndDir: []bool{},
-		colored:  colored,
-		level:    level,
+		dirNum:     0,
+		fileNum:    0,
+		isEndDir:   []bool{},
+		colored:    colored,
+		level:      level,
+		permission: permission,
 	}
 
 	w.PrintRoot(root)
