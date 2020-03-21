@@ -44,10 +44,10 @@ type Row struct {
 	colored      bool
 }
 
-func (row *Row) Name(colored bool) string {
+func (row *Row) Name() string {
 	name := row.name
 
-	if colored {
+	if row.colored {
 		if row.isDir {
 			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
 		}
@@ -67,9 +67,9 @@ func (row *Row) Str() string {
 	}
 
 	if row.onRightAngle {
-		str += CONNECTOR_RIGHT_ANGLE + row.Name(row.colored)
+		str += CONNECTOR_RIGHT_ANGLE + row.Name()
 	} else {
-		str += CONNECTOR_CROSS + row.Name(row.colored)
+		str += CONNECTOR_CROSS + row.Name()
 	}
 
 	// debug
