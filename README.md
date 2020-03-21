@@ -2,5 +2,5 @@
 
 # Todo
 
-- [ ] main_test.go
+- [x] main_test.go
 - [ ] add cli
