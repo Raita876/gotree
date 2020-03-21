@@ -3,4 +3,4 @@
 # Todo
 
 - [x] main_test.go
-- [ ] add cli
+- [x] add cli

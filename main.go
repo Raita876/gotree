@@ -4,7 +4,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
+
+	"github.com/urfave/cli/v2"
+)
+
+var (
+	version string
+	name    string
 )
 
 const (
@@ -117,9 +125,24 @@ func Tree(root string) error {
 }
 
 func main() {
-	root := "tmp"
-	err := Tree(root)
+	app := &cli.App{
+		Version: version,
+		Name:    name,
+		Usage:   "Golang tree command.",
+		Action: func(c *cli.Context) error {
+			root := c.Args().Get(0)
+			err := Tree(root)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		},
+	}
+
+	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
