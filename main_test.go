@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -90,7 +91,7 @@ func TestTree(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	err := Tree(TMP_DIR, false)
+	err := Tree(TMP_DIR, false, math.MaxInt64)
 	if err != nil {
 		t.Fatal(err)
 	}
