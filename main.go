@@ -57,6 +57,18 @@ func (row *Row) Str() string {
 	return str
 }
 
+func (w *Walker) PrintRoot(root string) {
+	fmt.Println(root)
+}
+
+func (w *Walker) PrintRow(row Row) {
+	fmt.Println(row.Str())
+}
+
+func (w *Walker) PrintResult() {
+	fmt.Printf("\n%d directories, %d files\n", w.DirNum, w.FileNum)
+}
+
 func (w *Walker) Walk(dir string, level int) error {
 
 	files, err := ioutil.ReadDir(dir)
@@ -87,7 +99,7 @@ func (w *Walker) Walk(dir string, level int) error {
 			IsBlank:      w.IsEndDir,
 		}
 
-		fmt.Println(row.Str())
+		w.PrintRow(row)
 
 		if file.IsDir() {
 			path := filepath.Join(dir, file.Name())
@@ -112,14 +124,14 @@ func Tree(root string) error {
 		FileNum: 0,
 	}
 
-	fmt.Println(root)
+	w.PrintRoot(root)
 
 	err := w.Walk(root, 1)
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("\n%d directories, %d files\n", w.DirNum, w.FileNum)
+	w.PrintResult()
 
 	return nil
 }
