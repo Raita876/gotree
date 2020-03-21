@@ -72,7 +72,7 @@ func TestTree(t *testing.T) {
 		level   int
 	}{
 		{
-			name: "gotree --disable-color <dir>",
+			name: "gotree --disable-color <directory>",
 			want: `tmp
 ├── corge
 ├── foo
@@ -95,6 +95,24 @@ func TestTree(t *testing.T) {
 7 directories, 10 files`,
 			colored: false,
 			level:   math.MaxInt64,
+		},
+		{
+			name: "gotree --disable-color -L 2 <directory>",
+			want: `tmp
+├── corge
+├── foo
+│   ├── bar
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   └── plugh
+└── xyzzy
+    └── thud
+
+6 directories, 4 files`,
+			colored: false,
+			level:   2,
 		},
 	}
 
