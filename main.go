@@ -32,12 +32,12 @@ type Walker struct {
 	fileNum  int
 	isEndDir []bool
 	colored  bool
-	level    int
+	level    uint
 }
 
 type Row struct {
 	name         string
-	level        int
+	level        uint
 	onRightAngle bool
 	isBlank      []bool
 	isDir        bool
@@ -58,7 +58,7 @@ func (row *Row) Name(colored bool) string {
 
 func (row *Row) Str() string {
 	var str string
-	for i := 0; i < row.level-1; i++ {
+	for i := 0; i < int(row.level-1); i++ {
 		if row.isBlank[i] {
 			str += CONNECTOR_BLANK
 		} else {
@@ -90,7 +90,7 @@ func (w *Walker) PrintResult() {
 	fmt.Printf("\n%d directories, %d files\n", w.dirNum, w.fileNum)
 }
 
-func (w *Walker) Walk(dir string, level int) error {
+func (w *Walker) Walk(dir string, level uint) error {
 	if level > w.level {
 		return nil
 	}
@@ -102,11 +102,11 @@ func (w *Walker) Walk(dir string, level int) error {
 
 	for i, file := range files {
 
-		if level-len(w.isEndDir) == 1 {
+		if int(level)-len(w.isEndDir) == 1 {
 			w.isEndDir = append(w.isEndDir, false)
 		}
 
-		if level < len(w.isEndDir) {
+		if int(level) < len(w.isEndDir) {
 			w.isEndDir = w.isEndDir[:level]
 		}
 
@@ -144,7 +144,7 @@ func (w *Walker) Walk(dir string, level int) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level int) error {
+func Tree(root string, colored bool, level uint) error {
 	w := Walker{
 		dirNum:   0,
 		fileNum:  0,
@@ -171,10 +171,10 @@ func main() {
 		Name:    name,
 		Usage:   "Golang tree command.",
 		Flags: []cli.Flag{
-			&cli.IntFlag{
+			&cli.UintFlag{
 				Name:    "level",
 				Aliases: []string{"L"},
-				Value:   math.MaxInt64,
+				Value:   math.MaxUint64,
 				Usage:   "Descend only level directories deep.",
 			},
 			&cli.BoolFlag{
@@ -191,7 +191,7 @@ func main() {
 				colored = false
 			}
 
-			level := c.Int("level")
+			level := c.Uint("level")
 
 			err := Tree(root, colored, level)
 			if err != nil {

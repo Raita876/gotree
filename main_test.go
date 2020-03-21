@@ -69,7 +69,7 @@ func TestTree(t *testing.T) {
 		name    string
 		want    string
 		colored bool
-		level   int
+		level   uint
 	}{
 		{
 			name: "gotree --disable-color <directory>",
