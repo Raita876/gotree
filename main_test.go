@@ -65,7 +65,15 @@ func TestMain(m *testing.M) {
 
 }
 func TestTree(t *testing.T) {
-	want := `tmp
+	tests := []struct {
+		name    string
+		want    string
+		colored bool
+		level   int
+	}{
+		{
+			name: "gotree --disable-color <dir>",
+			want: `tmp
 ├── corge
 ├── foo
 │   ├── bar
@@ -84,31 +92,40 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-7 directories, 10 files`
-
-	tmpStdout := os.Stdout
-
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	err := Tree(TMP_DIR, false, math.MaxInt64)
-	if err != nil {
-		t.Fatal(err)
-	}
-	w.Close()
-
-	var buf bytes.Buffer
-	_, err = buf.ReadFrom(r)
-	if err != nil {
-		t.Fatal(err)
+7 directories, 10 files`,
+			colored: false,
+			level:   math.MaxInt64,
+		},
 	}
 
-	got := strings.TrimRight(buf.String(), "\n")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tmpStdout := os.Stdout
 
-	os.Stdout = tmpStdout
+			r, w, _ := os.Pipe()
+			os.Stdout = w
 
-	if diff := cmp.Diff(got, want); diff != "" {
-		t.Fatalf("Stdout missmatch (-got +want):\n%s", diff)
+			err := Tree(TMP_DIR, tt.colored, tt.level)
+			if err != nil {
+				t.Fatal(err)
+			}
+			w.Close()
+
+			var buf bytes.Buffer
+			_, err = buf.ReadFrom(r)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := strings.TrimRight(buf.String(), "\n")
+
+			os.Stdout = tmpStdout
+
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Fatalf("Stdout missmatch (-got +want):\n%s", diff)
+			}
+		})
+
 	}
 
 }
