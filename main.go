@@ -37,22 +37,20 @@ type Walker struct {
 }
 
 type Row struct {
-	name         string
+	file         os.FileInfo
 	level        uint
 	onRightAngle bool
 	isBlank      []bool
-	isDir        bool
 	colored      bool
 	permission   bool
-	mode         string
 }
 
 func (row *Row) Name() string {
-	name := row.name
+	name := row.file.Name()
 
 	if row.colored {
-		if row.isDir {
-			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
+		if row.file.IsDir() {
+			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
 		}
 	}
 
@@ -86,7 +84,7 @@ func (row *Row) Str() string {
 }
 
 func (row *Row) Mode() string {
-	return row.mode
+	return row.file.Mode().String()
 }
 
 func (w *Walker) PrintRoot(root string) {
@@ -128,14 +126,12 @@ func (w *Walker) Walk(dir string, level uint) error {
 		}
 
 		row := Row{
-			name:         file.Name(),
+			file:         file,
 			level:        level,
 			onRightAngle: onRightAngle,
 			isBlank:      w.isEndDir,
-			isDir:        file.IsDir(),
 			colored:      w.colored,
 			permission:   w.permission,
-			mode:         file.Mode().String(),
 		}
 
 		w.PrintRow(row)
