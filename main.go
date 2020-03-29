@@ -104,7 +104,7 @@ func (row *Row) Mode() string {
 	}
 
 	if modeStr[0] == "" {
-		modeStr[0] = "-"
+		modeStr[0] = "."
 	}
 
 	w := 1
