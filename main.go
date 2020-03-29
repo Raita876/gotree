@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -84,7 +85,33 @@ func (row *Row) Str() string {
 }
 
 func (row *Row) Mode() string {
-	return row.file.Mode().String()
+	var m uint32
+	m = uint32(row.file.Mode())
+	const str = "dalTLDpSugct?"
+	var modeStr [10]string
+
+	for i, c := range str {
+		if m&(1<<uint(32-1-i)) != 0 {
+			modeStr[0] = string(c)
+		}
+	}
+
+	if modeStr[0] == "" {
+		modeStr[0] = "-"
+	}
+
+	w := 1
+	const rwx = "rwxrwxrwx"
+	for i, c := range rwx {
+		if m&(1<<uint(9-1-i)) != 0 {
+			modeStr[w] = string(c)
+		} else {
+			modeStr[w] = "-"
+		}
+		w++
+	}
+
+	return strings.Join(modeStr[:], "")
 }
 
 func (w *Walker) PrintRoot(root string) {
@@ -192,6 +219,11 @@ func main() {
 				Aliases: []string{"d"},
 				Usage:   "Disable color.",
 			},
+			&cli.BoolFlag{
+				Name:    "permission",
+				Aliases: []string{"p"},
+				Usage:   "Print permission.",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
@@ -203,7 +235,9 @@ func main() {
 
 			level := c.Uint("level")
 
-			err := Tree(root, colored, level, false)
+			permission := c.Bool("permission")
+
+			err := Tree(root, colored, level, permission)
 			if err != nil {
 				return err
 			}
