@@ -7,4 +7,5 @@ The tree command was remade in golang.
 - [x] github actions
 - [x] color
 - [x] -L （表示するディレクトリの深さ）
-- [ ] -p （パーミッション表示）
+- [x] -p （パーミッション表示）
+- [ ] 実行可能ファイルに色をつける
