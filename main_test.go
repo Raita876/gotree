@@ -120,23 +120,23 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color --permission <directory>",
 			want: `tmp
-├── [-rw-r--r--]  corge
+├── [.rw-r--r--]  corge
 ├── [drwxr-xr-x]  foo
 │   ├── [drwxr-xr-x]  bar
-│   │   └── [-rw-r--r--]  baz
-│   ├── [-rw-r--r--]  quux
-│   └── [-rw-r--r--]  qux
+│   │   └── [.rw-r--r--]  baz
+│   ├── [.rw-r--r--]  quux
+│   └── [.rw-r--r--]  qux
 ├── [drwxr-xr-x]  grault
 │   ├── [drwxr-xr-x]  garply
-│   │   ├── [-rw-r--r--]  fred
+│   │   ├── [.rw-r--r--]  fred
 │   │   └── [drwxr-xr-x]  waldo
-│   │       ├── [-rw-r--r--]  wibble
-│   │       └── [-rw-r--r--]  wobble
-│   └── [-rw-r--r--]  plugh
+│   │       ├── [.rw-r--r--]  wibble
+│   │       └── [.rw-r--r--]  wobble
+│   └── [.rw-r--r--]  plugh
 └── [drwxr-xr-x]  xyzzy
     └── [drwxr-xr-x]  thud
-        ├── [-rw-r--r--]  flob
-        └── [-rw-r--r--]  wubble
+        ├── [.rw-r--r--]  flob
+        └── [.rw-r--r--]  wubble
 
 7 directories, 10 files`,
 			colored:    false,
