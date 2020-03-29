@@ -8,4 +8,4 @@ The tree command was remade in golang.
 - [x] color
 - [x] -L （表示するディレクトリの深さ）
 - [x] -p （パーミッション表示）
-- [ ] 実行可能ファイルに色をつける
+- [x] 実行可能ファイルに色をつける
