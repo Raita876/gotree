@@ -25,7 +25,10 @@ const (
 	CONNECTOR_BLANK       = "    "
 
 	// print color
-	PRINT_COLOR_BLUE = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_RED    = "\x1b[31m%s\x1b[0m"
+	PRINT_COLOR_GREEN  = "\x1b[32m%s\x1b[0m"
+	PRINT_COLOR_YELLOW = "\x1b[33m%s\x1b[0m"
+	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
 )
 
 type Walker struct {
@@ -92,7 +95,11 @@ func (row *Row) Mode() string {
 
 	for i, c := range str {
 		if m&(1<<uint(32-1-i)) != 0 {
-			modeStr[0] = string(c)
+			if row.colored {
+				modeStr[0] = fmt.Sprintf(PRINT_COLOR_BLUE, string(c))
+			} else {
+				modeStr[0] = string(c)
+			}
 		}
 	}
 
@@ -104,7 +111,18 @@ func (row *Row) Mode() string {
 	const rwx = "rwxrwxrwx"
 	for i, c := range rwx {
 		if m&(1<<uint(9-1-i)) != 0 {
-			modeStr[w] = string(c)
+			if row.colored {
+				switch s := string(c); s {
+				case "r":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_YELLOW, string(c))
+				case "w":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_RED, string(c))
+				case "x":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_GREEN, string(c))
+				}
+			} else {
+				modeStr[w] = string(c)
+			}
 		} else {
 			modeStr[w] = "-"
 		}
