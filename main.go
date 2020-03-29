@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -24,33 +25,41 @@ const (
 	CONNECTOR_BLANK       = "    "
 
 	// print color
-	PRINT_COLOR_BLUE = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_RED    = "\x1b[31m%s\x1b[0m"
+	PRINT_COLOR_GREEN  = "\x1b[32m%s\x1b[0m"
+	PRINT_COLOR_YELLOW = "\x1b[33m%s\x1b[0m"
+	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
 )
 
 type Walker struct {
-	dirNum   int
-	fileNum  int
-	isEndDir []bool
-	colored  bool
-	level    uint
+	dirNum     int
+	fileNum    int
+	isEndDir   []bool
+	colored    bool
+	level      uint
+	permission bool
 }
 
 type Row struct {
-	name         string
+	file         os.FileInfo
 	level        uint
 	onRightAngle bool
 	isBlank      []bool
-	isDir        bool
 	colored      bool
+	permission   bool
 }
 
 func (row *Row) Name() string {
-	name := row.name
+	name := row.file.Name()
 
 	if row.colored {
-		if row.isDir {
-			name = fmt.Sprintf(PRINT_COLOR_BLUE, row.name)
+		if row.file.IsDir() {
+			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
 		}
+	}
+
+	if row.permission {
+		name = fmt.Sprintf("[%s]  %s", row.Mode(), name)
 	}
 
 	return name
@@ -76,6 +85,51 @@ func (row *Row) Str() string {
 	// str += fmt.Sprintf("(level=%d, isblank=%v)", row.level, row.isBlank)
 
 	return str
+}
+
+func (row *Row) Mode() string {
+	var m uint32
+	m = uint32(row.file.Mode())
+	const str = "dalTLDpSugct?"
+	var modeStr [10]string
+
+	for i, c := range str {
+		if m&(1<<uint(32-1-i)) != 0 {
+			if row.colored {
+				modeStr[0] = fmt.Sprintf(PRINT_COLOR_BLUE, string(c))
+			} else {
+				modeStr[0] = string(c)
+			}
+		}
+	}
+
+	if modeStr[0] == "" {
+		modeStr[0] = "."
+	}
+
+	w := 1
+	const rwx = "rwxrwxrwx"
+	for i, c := range rwx {
+		if m&(1<<uint(9-1-i)) != 0 {
+			if row.colored {
+				switch s := string(c); s {
+				case "r":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_YELLOW, string(c))
+				case "w":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_RED, string(c))
+				case "x":
+					modeStr[w] = fmt.Sprintf(PRINT_COLOR_GREEN, string(c))
+				}
+			} else {
+				modeStr[w] = string(c)
+			}
+		} else {
+			modeStr[w] = "-"
+		}
+		w++
+	}
+
+	return strings.Join(modeStr[:], "")
 }
 
 func (w *Walker) PrintRoot(root string) {
@@ -117,12 +171,12 @@ func (w *Walker) Walk(dir string, level uint) error {
 		}
 
 		row := Row{
-			name:         file.Name(),
+			file:         file,
 			level:        level,
 			onRightAngle: onRightAngle,
 			isBlank:      w.isEndDir,
-			isDir:        file.IsDir(),
 			colored:      w.colored,
+			permission:   w.permission,
 		}
 
 		w.PrintRow(row)
@@ -144,13 +198,14 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint) error {
+func Tree(root string, colored bool, level uint, permission bool) error {
 	w := Walker{
-		dirNum:   0,
-		fileNum:  0,
-		isEndDir: []bool{},
-		colored:  colored,
-		level:    level,
+		dirNum:     0,
+		fileNum:    0,
+		isEndDir:   []bool{},
+		colored:    colored,
+		level:      level,
+		permission: permission,
 	}
 
 	w.PrintRoot(root)
@@ -182,6 +237,11 @@ func main() {
 				Aliases: []string{"d"},
 				Usage:   "Disable color.",
 			},
+			&cli.BoolFlag{
+				Name:    "permission",
+				Aliases: []string{"p"},
+				Usage:   "Print permission.",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
@@ -193,7 +253,9 @@ func main() {
 
 			level := c.Uint("level")
 
-			err := Tree(root, colored, level)
+			permission := c.Bool("permission")
+
+			err := Tree(root, colored, level, permission)
 			if err != nil {
 				return err
 			}

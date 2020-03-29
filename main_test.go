@@ -66,10 +66,11 @@ func TestMain(m *testing.M) {
 }
 func TestTree(t *testing.T) {
 	tests := []struct {
-		name    string
-		want    string
-		colored bool
-		level   uint
+		name       string
+		want       string
+		colored    bool
+		level      uint
+		permission bool
 	}{
 		{
 			name: "gotree --disable-color <directory>",
@@ -93,8 +94,9 @@ func TestTree(t *testing.T) {
         └── wubble
 
 7 directories, 10 files`,
-			colored: false,
-			level:   math.MaxInt64,
+			colored:    false,
+			level:      math.MaxInt64,
+			permission: false,
 		},
 		{
 			name: "gotree --disable-color -L 2 <directory>",
@@ -111,8 +113,35 @@ func TestTree(t *testing.T) {
     └── thud
 
 6 directories, 4 files`,
-			colored: false,
-			level:   2,
+			colored:    false,
+			level:      2,
+			permission: false,
+		},
+		{
+			name: "gotree --disable-color --permission <directory>",
+			want: `tmp
+├── [.rw-r--r--]  corge
+├── [drwxr-xr-x]  foo
+│   ├── [drwxr-xr-x]  bar
+│   │   └── [.rw-r--r--]  baz
+│   ├── [.rw-r--r--]  quux
+│   └── [.rw-r--r--]  qux
+├── [drwxr-xr-x]  grault
+│   ├── [drwxr-xr-x]  garply
+│   │   ├── [.rw-r--r--]  fred
+│   │   └── [drwxr-xr-x]  waldo
+│   │       ├── [.rw-r--r--]  wibble
+│   │       └── [.rw-r--r--]  wobble
+│   └── [.rw-r--r--]  plugh
+└── [drwxr-xr-x]  xyzzy
+    └── [drwxr-xr-x]  thud
+        ├── [.rw-r--r--]  flob
+        └── [.rw-r--r--]  wubble
+
+7 directories, 10 files`,
+			colored:    false,
+			level:      math.MaxInt64,
+			permission: true,
 		},
 	}
 
@@ -123,7 +152,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -140,7 +169,7 @@ func TestTree(t *testing.T) {
 			os.Stdout = tmpStdout
 
 			if diff := cmp.Diff(got, tt.want); diff != "" {
-				t.Fatalf("Stdout missmatch (-got +want):\n%s", diff)
+				t.Errorf("Stdout missmatch (-got +want):\n%s", diff)
 			}
 		})
 
