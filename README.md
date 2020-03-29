@@ -9,3 +9,4 @@ The tree command was remade in golang.
 - [x] -L （表示するディレクトリの深さ）
 - [x] -p （パーミッション表示）
 - [x] 実行可能ファイルに色をつける
+- [ ] exclude オプションを追加
