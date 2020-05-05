@@ -15,6 +15,8 @@ const TMP_DIR = "tmp"
 
 func setup() error {
 	files := []string{
+		TMP_DIR + "/.a",
+		TMP_DIR + "/.b/.c",
 		TMP_DIR + "/foo/bar/baz",
 		TMP_DIR + "/foo/qux",
 		TMP_DIR + "/foo/quux",
@@ -71,6 +73,7 @@ func TestTree(t *testing.T) {
 		colored    bool
 		level      uint
 		permission bool
+		includeDot bool
 	}{
 		{
 			name: "gotree --disable-color <directory>",
@@ -97,6 +100,7 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
+			includeDot: false,
 		},
 		{
 			name: "gotree --disable-color -L 2 <directory>",
@@ -116,6 +120,7 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      2,
 			permission: false,
+			includeDot: false,
 		},
 		{
 			name: "gotree --disable-color --permission <directory>",
@@ -142,6 +147,37 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: true,
+			includeDot: false,
+		},
+		{
+			name: "gotree --disable-color -a <directory>",
+			want: `tmp
+├── .a
+├── .b
+│   └── .c
+├── corge
+├── foo
+│   ├── bar
+│   │   └── baz
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   │   ├── fred
+│   │   └── waldo
+│   │       ├── wibble
+│   │       └── wobble
+│   └── plugh
+└── xyzzy
+    └── thud
+        ├── flob
+        └── wubble
+
+8 directories, 12 files`,
+			colored:    false,
+			level:      math.MaxInt64,
+			permission: false,
+			includeDot: true,
 		},
 	}
 
@@ -152,7 +188,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.includeDot)
 			if err != nil {
 				t.Fatal(err)
 			}

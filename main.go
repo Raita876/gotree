@@ -38,6 +38,7 @@ type Walker struct {
 	colored    bool
 	level      uint
 	permission bool
+	includeDot bool
 }
 
 type Row struct {
@@ -173,6 +174,9 @@ func (w *Walker) Walk(dir string, level uint) error {
 	}
 
 	for i, file := range files {
+		if !w.includeDot && file.Name()[:1] == "." && file.Name() != "." {
+			continue
+		}
 
 		if int(level)-len(w.isEndDir) == 1 {
 			w.isEndDir = append(w.isEndDir, false)
@@ -216,7 +220,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint, permission bool) error {
+func Tree(root string, colored bool, level uint, permission bool, includeDot bool) error {
 	w := Walker{
 		dirNum:     0,
 		fileNum:    0,
@@ -224,6 +228,7 @@ func Tree(root string, colored bool, level uint, permission bool) error {
 		colored:    colored,
 		level:      level,
 		permission: permission,
+		includeDot: includeDot,
 	}
 
 	w.PrintRoot(root)
@@ -260,6 +265,11 @@ func main() {
 				Aliases: []string{"p"},
 				Usage:   "Print permission.",
 			},
+			&cli.BoolFlag{
+				Name:    "all",
+				Aliases: []string{"a"},
+				Usage:   "All files are listed.",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
@@ -273,7 +283,9 @@ func main() {
 
 			permission := c.Bool("permission")
 
-			err := Tree(root, colored, level, permission)
+			includeDot := c.Bool("all")
+
+			err := Tree(root, colored, level, permission, includeDot)
 			if err != nil {
 				return err
 			}
