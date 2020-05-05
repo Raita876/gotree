@@ -11,7 +11,7 @@ test:
 	go test -v
 
 .PHONY: install
-install: test build
+install: build
 	chmod 755 ./bin/$(PACKAGE_NAME) && mv ./bin/$(PACKAGE_NAME) /usr/local/bin/
 
 .PHONY: run
