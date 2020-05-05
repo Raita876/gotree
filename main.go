@@ -50,6 +50,20 @@ type Row struct {
 	permission   bool
 }
 
+func (row *Row) Status() string {
+	status := ""
+
+	if row.permission {
+		status += row.Mode()
+	}
+
+	if status != "" {
+		return fmt.Sprintf("[%s]  ", row.Mode())
+	}
+
+	return status
+}
+
 func (row *Row) Name() string {
 	name := row.file.Name()
 
@@ -64,7 +78,7 @@ func (row *Row) Name() string {
 	}
 
 	if row.permission {
-		name = fmt.Sprintf("[%s]  %s", row.Mode(), name)
+		name = fmt.Sprintf("%s%s", row.Status(), name)
 	}
 
 	return name
