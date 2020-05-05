@@ -38,6 +38,7 @@ type Walker struct {
 	colored    bool
 	level      uint
 	permission bool
+	includeDot bool
 }
 
 type Row struct {
@@ -173,6 +174,9 @@ func (w *Walker) Walk(dir string, level uint) error {
 	}
 
 	for i, file := range files {
+		if !w.includeDot && file.Name()[:1] == "." && file.Name() != "." {
+			continue
+		}
 
 		if int(level)-len(w.isEndDir) == 1 {
 			w.isEndDir = append(w.isEndDir, false)
@@ -224,6 +228,7 @@ func Tree(root string, colored bool, level uint, permission bool) error {
 		colored:    colored,
 		level:      level,
 		permission: permission,
+		includeDot: false,
 	}
 
 	w.PrintRoot(root)
