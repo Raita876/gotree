@@ -308,6 +308,11 @@ func main() {
 				Usage:   "Print permission.",
 			},
 			&cli.BoolFlag{
+				Name:    "uid",
+				Aliases: []string{"u"},
+				Usage:   "Print file owner or UID number.",
+			},
+			&cli.BoolFlag{
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "All files are listed.",
@@ -325,9 +330,11 @@ func main() {
 
 			permission := c.Bool("permission")
 
+			uid := c.Bool("uid")
+
 			includeDot := c.Bool("all")
 
-			err := Tree(root, colored, level, permission, true, includeDot)
+			err := Tree(root, colored, level, permission, uid, includeDot)
 			if err != nil {
 				return err
 			}
