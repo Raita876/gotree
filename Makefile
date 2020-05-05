@@ -13,3 +13,7 @@ test:
 .PHONY: install
 install: test build
 	chmod 755 ./bin/$(PACKAGE_NAME) && mv ./bin/$(PACKAGE_NAME) /usr/local/bin/
+
+.PHONY: run
+run:
+	go run main.go .
