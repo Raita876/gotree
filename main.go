@@ -6,8 +6,10 @@ import (
 	"log"
 	"math"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/urfave/cli/v2"
 )
@@ -38,6 +40,7 @@ type Walker struct {
 	colored    bool
 	level      uint
 	permission bool
+	uid        bool
 	includeDot bool
 }
 
@@ -48,20 +51,45 @@ type Row struct {
 	isBlank      []bool
 	colored      bool
 	permission   bool
+	uid          bool
 }
 
 func (row *Row) Status() string {
 	status := ""
 
 	if row.permission {
-		status += row.Mode()
+		status += row.Mode() + " "
+	}
+
+	if row.uid {
+		status += row.User() + " "
 	}
 
 	if status != "" {
-		return fmt.Sprintf("[%s]  ", row.Mode())
+		return fmt.Sprintf("[%s]  ", strings.TrimSpace(status))
 	}
 
 	return status
+}
+
+func (row *Row) User() string {
+	var userName string
+	var uid string
+
+	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+		uid = fmt.Sprintf("%d", stat.Uid)
+	} else {
+		uid = fmt.Sprintf("%d", os.Getuid())
+	}
+
+	u, err := user.LookupId(uid)
+	if err != nil {
+		userName = uid
+	} else {
+		userName = u.Username
+	}
+
+	return userName
 }
 
 func (row *Row) Name() string {
@@ -77,9 +105,7 @@ func (row *Row) Name() string {
 		}
 	}
 
-	if row.permission {
-		name = fmt.Sprintf("%s%s", row.Status(), name)
-	}
+	name = fmt.Sprintf("%s%s", row.Status(), name)
 
 	return name
 }
@@ -213,6 +239,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 			isBlank:      w.isEndDir,
 			colored:      w.colored,
 			permission:   w.permission,
+			uid:          w.uid,
 		}
 
 		w.PrintRow(row)
@@ -242,6 +269,7 @@ func Tree(root string, colored bool, level uint, permission bool, includeDot boo
 		colored:    colored,
 		level:      level,
 		permission: permission,
+		uid:        false,
 		includeDot: includeDot,
 	}
 
