@@ -55,6 +55,10 @@ func (row *Row) Name() string {
 	if row.colored {
 		if row.file.IsDir() {
 			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
+		} else {
+			if row.isExec() {
+				name = fmt.Sprintf(PRINT_COLOR_GREEN, name)
+			}
 		}
 	}
 
@@ -130,6 +134,20 @@ func (row *Row) Mode() string {
 	}
 
 	return strings.Join(modeStr[:], "")
+}
+
+func (row *Row) isExec() bool {
+	var m uint32
+	m = uint32(row.file.Mode())
+
+	const rwx = "rwxrwxrwx"
+	for i := 0; i < 9; i++ {
+		if m&(1<<uint(9-1-i)) != 0 && i%3 == 2 {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (w *Walker) PrintRoot(root string) {
