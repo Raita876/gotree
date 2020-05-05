@@ -265,6 +265,11 @@ func main() {
 				Aliases: []string{"p"},
 				Usage:   "Print permission.",
 			},
+			&cli.BoolFlag{
+				Name:    "all",
+				Aliases: []string{"a"},
+				Usage:   "All files are listed.",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
@@ -278,7 +283,9 @@ func main() {
 
 			permission := c.Bool("permission")
 
-			err := Tree(root, colored, level, permission, false)
+			includeDot := c.Bool("all")
+
+			err := Tree(root, colored, level, permission, includeDot)
 			if err != nil {
 				return err
 			}
