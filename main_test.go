@@ -189,26 +189,28 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			includeDot: true,
 		},
-		{ // This test case was created for "github actions". uid has a value according to it.
+		{
+			// This test case was created for "github actions". uid has a value according to it.
+			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --user --group <directory>",
 			want: `tmp
-├── [runner]  corge
-├── [runner]  foo
-│   ├── [runner]  bar
-│   │   └── [runner]  baz
-│   ├── [runner]  quux
-│   └── [runner]  qux
-├── [runner]  grault
-│   ├── [runner]  garply
-│   │   ├── [runner]  fred
-│   │   └── [runner]  waldo
-│   │       ├── [runner]  wibble
-│   │       └── [runner]  wobble
-│   └── [runner]  plugh
-└── [runner]  xyzzy
-    └── [runner]  thud
-        ├── [runner]  flob
-        └── [runner]  wubble
+├── [runner docker]  corge
+├── [runner docker]  foo
+│   ├── [runner docker]  bar
+│   │   └── [runner docker]  baz
+│   ├── [runner docker]  quux
+│   └── [runner docker]  qux
+├── [runner docker]  grault
+│   ├── [runner docker]  garply
+│   │   ├── [runner docker]  fred
+│   │   └── [runner docker]  waldo
+│   │       ├── [runner docker]  wibble
+│   │       └── [runner docker]  wobble
+│   └── [runner docker]  plugh
+└── [runner docker]  xyzzy
+    └── [runner docker]  thud
+        ├── [runner docker]  flob
+        └── [runner docker]  wubble
 
 7 directories, 10 files`,
 			colored:    false,
