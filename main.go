@@ -95,6 +95,10 @@ func (row *Row) User() string {
 		userName = u.Username
 	}
 
+	if row.colored {
+		userName = fmt.Sprintf(PRINT_COLOR_YELLOW, userName)
+	}
+
 	return userName
 }
 
@@ -113,6 +117,10 @@ func (row *Row) Group() string {
 		group = gid
 	} else {
 		group = g.Name
+	}
+
+	if row.colored {
+		group = fmt.Sprintf(PRINT_COLOR_YELLOW, group)
 	}
 
 	return group
