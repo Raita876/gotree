@@ -192,7 +192,7 @@ func TestTree(t *testing.T) {
 		{
 			// This test case was created for "github actions". uid has a value according to it.
 			// TODO: allow user group to be specified.
-			name: "gotree --disable-color --user --group <directory>",
+			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
 ├── [runner docker]  corge
 ├── [runner docker]  foo
