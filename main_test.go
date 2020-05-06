@@ -74,6 +74,7 @@ func TestTree(t *testing.T) {
 		level      uint
 		permission bool
 		uid        bool
+		gid        bool
 		includeDot bool
 	}{
 		{
@@ -102,6 +103,7 @@ func TestTree(t *testing.T) {
 			level:      math.MaxInt64,
 			permission: false,
 			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -123,6 +125,7 @@ func TestTree(t *testing.T) {
 			level:      2,
 			permission: false,
 			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -151,6 +154,7 @@ func TestTree(t *testing.T) {
 			level:      math.MaxInt64,
 			permission: true,
 			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -182,10 +186,11 @@ func TestTree(t *testing.T) {
 			level:      math.MaxInt64,
 			permission: false,
 			uid:        false,
+			gid:        false,
 			includeDot: true,
 		},
 		{ // This test case was created for "github actions". uid has a value according to it.
-			name: "gotree --disable-color --user <directory>",
+			name: "gotree --disable-color --user --group <directory>",
 			want: `tmp
 ├── [runner]  corge
 ├── [runner]  foo
@@ -210,6 +215,7 @@ func TestTree(t *testing.T) {
 			level:      math.MaxInt64,
 			permission: false,
 			uid:        true,
+			gid:        true,
 			includeDot: false,
 		},
 	}
@@ -221,7 +227,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.includeDot)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.includeDot)
 			if err != nil {
 				t.Fatal(err)
 			}

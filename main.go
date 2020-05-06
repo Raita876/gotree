@@ -41,6 +41,7 @@ type Walker struct {
 	level      uint
 	permission bool
 	uid        bool
+	gid        bool
 	includeDot bool
 }
 
@@ -52,6 +53,7 @@ type Row struct {
 	colored      bool
 	permission   bool
 	uid          bool
+	gid          bool
 }
 
 func (row *Row) Status() string {
@@ -63,6 +65,10 @@ func (row *Row) Status() string {
 
 	if row.uid {
 		status += row.User() + " "
+	}
+
+	if row.gid {
+		status += row.Group() + " "
 	}
 
 	if status != "" {
@@ -90,6 +96,26 @@ func (row *Row) User() string {
 	}
 
 	return userName
+}
+
+func (row *Row) Group() string {
+	var group string
+	var gid string
+
+	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+		gid = fmt.Sprintf("%d", stat.Gid)
+	} else {
+		gid = fmt.Sprintf("%d", os.Getgid())
+	}
+
+	g, err := user.LookupGroupId(gid)
+	if err != nil {
+		group = gid
+	} else {
+		group = g.Name
+	}
+
+	return group
 }
 
 func (row *Row) Name() string {
@@ -240,6 +266,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 			colored:      w.colored,
 			permission:   w.permission,
 			uid:          w.uid,
+			gid:          w.gid,
 		}
 
 		w.PrintRow(row)
@@ -261,7 +288,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint, permission bool, uid bool, includeDot bool) error {
+func Tree(root string, colored bool, level uint, permission bool, uid bool, gid bool, includeDot bool) error {
 	w := Walker{
 		dirNum:     0,
 		fileNum:    0,
@@ -270,6 +297,7 @@ func Tree(root string, colored bool, level uint, permission bool, uid bool, incl
 		level:      level,
 		permission: permission,
 		uid:        uid,
+		gid:        gid,
 		includeDot: includeDot,
 	}
 
@@ -334,7 +362,7 @@ func main() {
 
 			includeDot := c.Bool("all")
 
-			err := Tree(root, colored, level, permission, uid, includeDot)
+			err := Tree(root, colored, level, permission, uid, true, includeDot)
 			if err != nil {
 				return err
 			}
