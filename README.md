@@ -15,3 +15,4 @@ The tree command was remade in golang.
 - [ ] -h ファイルのサイズを単位付きで表示
 - [ ] -D ファイルの更新時刻を表示
 - [x] -a 名前がドットから始まるディレクトリを含めて表示する
+- [ ] ファイルタイプによって出力する色を変更する。[参考](https://github.com/ogham/exa/blob/master/src/info/filetype.rs)
