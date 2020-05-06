@@ -6,8 +6,10 @@ import (
 	"log"
 	"math"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/urfave/cli/v2"
 )
@@ -38,6 +40,8 @@ type Walker struct {
 	colored    bool
 	level      uint
 	permission bool
+	uid        bool
+	gid        bool
 	includeDot bool
 }
 
@@ -48,6 +52,78 @@ type Row struct {
 	isBlank      []bool
 	colored      bool
 	permission   bool
+	uid          bool
+	gid          bool
+}
+
+func (row *Row) Status() string {
+	status := ""
+
+	if row.permission {
+		status += row.Mode() + " "
+	}
+
+	if row.uid {
+		status += row.User() + " "
+	}
+
+	if row.gid {
+		status += row.Group() + " "
+	}
+
+	if status != "" {
+		return fmt.Sprintf("[%s]  ", strings.TrimSpace(status))
+	}
+
+	return status
+}
+
+func (row *Row) User() string {
+	var userName string
+	var uid string
+
+	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+		uid = fmt.Sprintf("%d", stat.Uid)
+	} else {
+		uid = fmt.Sprintf("%d", os.Getuid())
+	}
+
+	u, err := user.LookupId(uid)
+	if err != nil {
+		userName = uid
+	} else {
+		userName = u.Username
+	}
+
+	if row.colored {
+		userName = fmt.Sprintf(PRINT_COLOR_YELLOW, userName)
+	}
+
+	return userName
+}
+
+func (row *Row) Group() string {
+	var group string
+	var gid string
+
+	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+		gid = fmt.Sprintf("%d", stat.Gid)
+	} else {
+		gid = fmt.Sprintf("%d", os.Getgid())
+	}
+
+	g, err := user.LookupGroupId(gid)
+	if err != nil {
+		group = gid
+	} else {
+		group = g.Name
+	}
+
+	if row.colored {
+		group = fmt.Sprintf(PRINT_COLOR_YELLOW, group)
+	}
+
+	return group
 }
 
 func (row *Row) Name() string {
@@ -63,9 +139,7 @@ func (row *Row) Name() string {
 		}
 	}
 
-	if row.permission {
-		name = fmt.Sprintf("[%s]  %s", row.Mode(), name)
-	}
+	name = fmt.Sprintf("%s%s", row.Status(), name)
 
 	return name
 }
@@ -199,6 +273,8 @@ func (w *Walker) Walk(dir string, level uint) error {
 			isBlank:      w.isEndDir,
 			colored:      w.colored,
 			permission:   w.permission,
+			uid:          w.uid,
+			gid:          w.gid,
 		}
 
 		w.PrintRow(row)
@@ -220,7 +296,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint, permission bool, includeDot bool) error {
+func Tree(root string, colored bool, level uint, permission bool, uid bool, gid bool, includeDot bool) error {
 	w := Walker{
 		dirNum:     0,
 		fileNum:    0,
@@ -228,6 +304,8 @@ func Tree(root string, colored bool, level uint, permission bool, includeDot boo
 		colored:    colored,
 		level:      level,
 		permission: permission,
+		uid:        uid,
+		gid:        gid,
 		includeDot: includeDot,
 	}
 
@@ -266,6 +344,16 @@ func main() {
 				Usage:   "Print permission.",
 			},
 			&cli.BoolFlag{
+				Name:    "uid",
+				Aliases: []string{"u"},
+				Usage:   "Print file owner or UID number.",
+			},
+			&cli.BoolFlag{
+				Name:    "gid",
+				Aliases: []string{"g"},
+				Usage:   "Print file group or GID number.",
+			},
+			&cli.BoolFlag{
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "All files are listed.",
@@ -283,9 +371,12 @@ func main() {
 
 			permission := c.Bool("permission")
 
+			uid := c.Bool("uid")
+			gid := c.Bool("gid")
+
 			includeDot := c.Bool("all")
 
-			err := Tree(root, colored, level, permission, includeDot)
+			err := Tree(root, colored, level, permission, uid, gid, includeDot)
 			if err != nil {
 				return err
 			}

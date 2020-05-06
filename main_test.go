@@ -73,6 +73,8 @@ func TestTree(t *testing.T) {
 		colored    bool
 		level      uint
 		permission bool
+		uid        bool
+		gid        bool
 		includeDot bool
 	}{
 		{
@@ -100,6 +102,8 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
+			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -120,6 +124,8 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      2,
 			permission: false,
+			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -147,6 +153,8 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: true,
+			uid:        false,
+			gid:        false,
 			includeDot: false,
 		},
 		{
@@ -177,7 +185,40 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
+			uid:        false,
+			gid:        false,
 			includeDot: true,
+		},
+		{
+			// This test case was created for "github actions". uid has a value according to it.
+			// TODO: allow user group to be specified.
+			name: "gotree --disable-color --uid --gid <directory>",
+			want: `tmp
+├── [runner docker]  corge
+├── [runner docker]  foo
+│   ├── [runner docker]  bar
+│   │   └── [runner docker]  baz
+│   ├── [runner docker]  quux
+│   └── [runner docker]  qux
+├── [runner docker]  grault
+│   ├── [runner docker]  garply
+│   │   ├── [runner docker]  fred
+│   │   └── [runner docker]  waldo
+│   │       ├── [runner docker]  wibble
+│   │       └── [runner docker]  wobble
+│   └── [runner docker]  plugh
+└── [runner docker]  xyzzy
+    └── [runner docker]  thud
+        ├── [runner docker]  flob
+        └── [runner docker]  wubble
+
+7 directories, 10 files`,
+			colored:    false,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        true,
+			gid:        true,
+			includeDot: false,
 		},
 	}
 
@@ -188,7 +229,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.includeDot)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.includeDot)
 			if err != nil {
 				t.Fatal(err)
 			}
