@@ -49,6 +49,22 @@ func ColorBlue(s string) string {
 	return fmt.Sprintf(PRINT_COLOR_BLUE, s)
 }
 
+func FormatSize(size int64) string {
+	if size < 1000 {
+		return fmt.Sprintf("%d", size)
+	}
+
+	prefix := "kMGTP"
+	for i := 0; i < len(prefix); i++ {
+		s := int(size) / 1000 * (i + 1)
+		if s < 1000 {
+			return fmt.Sprintf("%d%s", s, string(prefix[i]))
+		}
+	}
+
+	return "?????"
+}
+
 type Walker struct {
 	dirNum     int
 	fileNum    int
@@ -113,22 +129,6 @@ func (row *Row) Size() string {
 	}
 
 	return fs
-}
-
-func FormatSize(size int64) string {
-	if size < 1000 {
-		return fmt.Sprintf("%d", size)
-	}
-
-	prefix := "kMGTP"
-	for i := 0; i < len(prefix); i++ {
-		s := int(size) / 1000 * (i + 1)
-		if s < 1000 {
-			return fmt.Sprintf("%d%s", s, string(prefix[i]))
-		}
-	}
-
-	return "?????"
 }
 
 func (row *Row) User() string {
