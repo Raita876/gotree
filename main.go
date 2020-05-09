@@ -33,6 +33,22 @@ const (
 	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
 )
 
+func ColorRed(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_RED, s)
+}
+
+func ColorGreen(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_GREEN, s)
+}
+
+func ColorYellow(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_YELLOW, s)
+}
+
+func ColorBlue(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_BLUE, s)
+}
+
 type Walker struct {
 	dirNum     int
 	fileNum    int
@@ -93,7 +109,7 @@ func (row *Row) Size() string {
 	fs := FormatSize(size)
 
 	if row.colored {
-		fs = fmt.Sprintf(PRINT_COLOR_GREEN, fs)
+		fs = ColorGreen(fs)
 	}
 
 	return fs
@@ -133,7 +149,7 @@ func (row *Row) User() string {
 	}
 
 	if row.colored {
-		userName = fmt.Sprintf(PRINT_COLOR_YELLOW, userName)
+		userName = ColorYellow(userName)
 	}
 
 	return userName
@@ -157,7 +173,7 @@ func (row *Row) Group() string {
 	}
 
 	if row.colored {
-		group = fmt.Sprintf(PRINT_COLOR_YELLOW, group)
+		group = ColorYellow(group)
 	}
 
 	return group
@@ -168,10 +184,10 @@ func (row *Row) Name() string {
 
 	if row.colored {
 		if row.fileInfo.IsDir() {
-			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
+			name = ColorBlue(name)
 		} else {
 			if row.isExec() {
-				name = fmt.Sprintf(PRINT_COLOR_GREEN, name)
+				name = ColorGreen(name)
 			}
 		}
 	}
@@ -214,7 +230,7 @@ func (row *Row) Mode() string {
 	for i, c := range str {
 		if m&(1<<uint(32-1-i)) != 0 {
 			if row.colored {
-				modeStr[0] = fmt.Sprintf(PRINT_COLOR_BLUE, string(c))
+				modeStr[0] = ColorBlue(string(c))
 			} else {
 				modeStr[0] = string(c)
 			}
@@ -232,11 +248,11 @@ func (row *Row) Mode() string {
 			if row.colored {
 				switch s := string(c); s {
 				case "r":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_YELLOW, string(c))
+					modeStr[w] = ColorYellow(string(c))
 				case "w":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_RED, string(c))
+					modeStr[w] = ColorRed(string(c))
 				case "x":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_GREEN, string(c))
+					modeStr[w] = ColorGreen(string(c))
 				}
 			} else {
 				modeStr[w] = string(c)
