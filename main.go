@@ -33,6 +33,38 @@ const (
 	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
 )
 
+func ColorRed(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_RED, s)
+}
+
+func ColorGreen(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_GREEN, s)
+}
+
+func ColorYellow(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_YELLOW, s)
+}
+
+func ColorBlue(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_BLUE, s)
+}
+
+func FormatSize(size int64) string {
+	if size < 1000 {
+		return fmt.Sprintf("%d", size)
+	}
+
+	prefix := "kMGTP"
+	for i := 0; i < len(prefix); i++ {
+		s := int(size) / 1000 * (i + 1)
+		if s < 1000 {
+			return fmt.Sprintf("%d%s", s, string(prefix[i]))
+		}
+	}
+
+	return "?????"
+}
+
 type Walker struct {
 	dirNum     int
 	fileNum    int
@@ -47,7 +79,7 @@ type Walker struct {
 }
 
 type Row struct {
-	file         os.FileInfo
+	fileInfo     os.FileInfo
 	level        uint
 	onRightAngle bool
 	isBlank      []bool
@@ -85,41 +117,25 @@ func (row *Row) Status() string {
 }
 
 func (row *Row) Size() string {
-	if row.file.IsDir() {
+	if row.fileInfo.IsDir() {
 		return "-"
 	}
 
-	size := row.file.Size()
+	size := row.fileInfo.Size()
 	fs := FormatSize(size)
 
 	if row.colored {
-		fs = fmt.Sprintf(PRINT_COLOR_GREEN, fs)
+		fs = ColorGreen(fs)
 	}
 
 	return fs
-}
-
-func FormatSize(size int64) string {
-	if size < 1000 {
-		return fmt.Sprintf("%d", size)
-	}
-
-	prefix := "kMGTP"
-	for i := 0; i < len(prefix); i++ {
-		s := int(size) / 1000 * (i + 1)
-		if s < 1000 {
-			return fmt.Sprintf("%d%s", s, string(prefix[i]))
-		}
-	}
-
-	return "?????"
 }
 
 func (row *Row) User() string {
 	var userName string
 	var uid string
 
-	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+	if stat, ok := row.fileInfo.Sys().(*syscall.Stat_t); ok {
 		uid = fmt.Sprintf("%d", stat.Uid)
 	} else {
 		uid = fmt.Sprintf("%d", os.Getuid())
@@ -133,7 +149,7 @@ func (row *Row) User() string {
 	}
 
 	if row.colored {
-		userName = fmt.Sprintf(PRINT_COLOR_YELLOW, userName)
+		userName = ColorYellow(userName)
 	}
 
 	return userName
@@ -143,7 +159,7 @@ func (row *Row) Group() string {
 	var group string
 	var gid string
 
-	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+	if stat, ok := row.fileInfo.Sys().(*syscall.Stat_t); ok {
 		gid = fmt.Sprintf("%d", stat.Gid)
 	} else {
 		gid = fmt.Sprintf("%d", os.Getgid())
@@ -157,28 +173,30 @@ func (row *Row) Group() string {
 	}
 
 	if row.colored {
-		group = fmt.Sprintf(PRINT_COLOR_YELLOW, group)
+		group = ColorYellow(group)
 	}
 
 	return group
 }
 
 func (row *Row) Name() string {
-	name := row.file.Name()
+	name := row.fileInfo.Name()
 
 	if row.colored {
-		if row.file.IsDir() {
-			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
+		if row.fileInfo.IsDir() {
+			name = ColorBlue(name)
 		} else {
 			if row.isExec() {
-				name = fmt.Sprintf(PRINT_COLOR_GREEN, name)
+				name = ColorGreen(name)
 			}
 		}
 	}
 
-	name = fmt.Sprintf("%s%s", row.Status(), name)
-
 	return name
+}
+
+func (row *Row) File() string {
+	return fmt.Sprintf("%s%s", row.Status(), row.Name())
 }
 
 func (row *Row) Str() string {
@@ -192,9 +210,9 @@ func (row *Row) Str() string {
 	}
 
 	if row.onRightAngle {
-		str += CONNECTOR_RIGHT_ANGLE + row.Name()
+		str += CONNECTOR_RIGHT_ANGLE + row.File()
 	} else {
-		str += CONNECTOR_CROSS + row.Name()
+		str += CONNECTOR_CROSS + row.File()
 	}
 
 	// debug
@@ -205,14 +223,14 @@ func (row *Row) Str() string {
 
 func (row *Row) Mode() string {
 	var m uint32
-	m = uint32(row.file.Mode())
+	m = uint32(row.fileInfo.Mode())
 	const str = "dalTLDpSugct?"
 	var modeStr [10]string
 
 	for i, c := range str {
 		if m&(1<<uint(32-1-i)) != 0 {
 			if row.colored {
-				modeStr[0] = fmt.Sprintf(PRINT_COLOR_BLUE, string(c))
+				modeStr[0] = ColorBlue(string(c))
 			} else {
 				modeStr[0] = string(c)
 			}
@@ -230,11 +248,11 @@ func (row *Row) Mode() string {
 			if row.colored {
 				switch s := string(c); s {
 				case "r":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_YELLOW, string(c))
+					modeStr[w] = ColorYellow(string(c))
 				case "w":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_RED, string(c))
+					modeStr[w] = ColorRed(string(c))
 				case "x":
-					modeStr[w] = fmt.Sprintf(PRINT_COLOR_GREEN, string(c))
+					modeStr[w] = ColorGreen(string(c))
 				}
 			} else {
 				modeStr[w] = string(c)
@@ -250,7 +268,7 @@ func (row *Row) Mode() string {
 
 func (row *Row) isExec() bool {
 	var m uint32
-	m = uint32(row.file.Mode())
+	m = uint32(row.fileInfo.Mode())
 
 	const rwx = "rwxrwxrwx"
 	for i := 0; i < 9; i++ {
@@ -304,7 +322,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 		}
 
 		row := Row{
-			file:         file,
+			fileInfo:     file,
 			level:        level,
 			onRightAngle: onRightAngle,
 			isBlank:      w.isEndDir,
@@ -406,20 +424,14 @@ func main() {
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
 
-			colored := true
-			if c.Bool("disable-color") {
-				colored = false
-			}
-
 			level := c.Uint("level")
 
+			// TODO: Manage with Functional Options
+			colored := !c.Bool("disable-color")
 			permission := c.Bool("permission")
-
 			uid := c.Bool("uid")
 			gid := c.Bool("gid")
-
 			size := c.Bool("size")
-
 			includeDot := c.Bool("all")
 
 			err := Tree(root, colored, level, permission, uid, gid, size, includeDot)
