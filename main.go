@@ -85,8 +85,13 @@ func (row *Row) Status() string {
 }
 
 func (row *Row) Size() string {
+	if row.file.IsDir() {
+		return "-"
+	}
+
 	size := row.file.Size()
 	fs := FormatSize(size)
+
 	if row.colored {
 		fs = fmt.Sprintf(PRINT_COLOR_GREEN, fs)
 	}
