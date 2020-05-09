@@ -1,4 +1,4 @@
-VERSION := v0.4.3
+VERSION := v0.4.4
 PACKAGE_NAME := gotree
 
 
