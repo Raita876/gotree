@@ -47,7 +47,7 @@ type Walker struct {
 }
 
 type Row struct {
-	file         os.FileInfo
+	fileInfo     os.FileInfo
 	level        uint
 	onRightAngle bool
 	isBlank      []bool
@@ -85,11 +85,11 @@ func (row *Row) Status() string {
 }
 
 func (row *Row) Size() string {
-	if row.file.IsDir() {
+	if row.fileInfo.IsDir() {
 		return "-"
 	}
 
-	size := row.file.Size()
+	size := row.fileInfo.Size()
 	fs := FormatSize(size)
 
 	if row.colored {
@@ -119,7 +119,7 @@ func (row *Row) User() string {
 	var userName string
 	var uid string
 
-	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+	if stat, ok := row.fileInfo.Sys().(*syscall.Stat_t); ok {
 		uid = fmt.Sprintf("%d", stat.Uid)
 	} else {
 		uid = fmt.Sprintf("%d", os.Getuid())
@@ -143,7 +143,7 @@ func (row *Row) Group() string {
 	var group string
 	var gid string
 
-	if stat, ok := row.file.Sys().(*syscall.Stat_t); ok {
+	if stat, ok := row.fileInfo.Sys().(*syscall.Stat_t); ok {
 		gid = fmt.Sprintf("%d", stat.Gid)
 	} else {
 		gid = fmt.Sprintf("%d", os.Getgid())
@@ -164,10 +164,10 @@ func (row *Row) Group() string {
 }
 
 func (row *Row) Name() string {
-	name := row.file.Name()
+	name := row.fileInfo.Name()
 
 	if row.colored {
-		if row.file.IsDir() {
+		if row.fileInfo.IsDir() {
 			name = fmt.Sprintf(PRINT_COLOR_BLUE, name)
 		} else {
 			if row.isExec() {
@@ -205,7 +205,7 @@ func (row *Row) Str() string {
 
 func (row *Row) Mode() string {
 	var m uint32
-	m = uint32(row.file.Mode())
+	m = uint32(row.fileInfo.Mode())
 	const str = "dalTLDpSugct?"
 	var modeStr [10]string
 
@@ -250,7 +250,7 @@ func (row *Row) Mode() string {
 
 func (row *Row) isExec() bool {
 	var m uint32
-	m = uint32(row.file.Mode())
+	m = uint32(row.fileInfo.Mode())
 
 	const rwx = "rwxrwxrwx"
 	for i := 0; i < 9; i++ {
@@ -304,7 +304,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 		}
 
 		row := Row{
-			file:         file,
+			fileInfo:     file,
 			level:        level,
 			onRightAngle: onRightAngle,
 			isBlank:      w.isEndDir,
