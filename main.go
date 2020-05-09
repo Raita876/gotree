@@ -176,9 +176,11 @@ func (row *Row) Name() string {
 		}
 	}
 
-	name = fmt.Sprintf("%s%s", row.Status(), name)
-
 	return name
+}
+
+func (row *Row) File() string {
+	return fmt.Sprintf("%s%s", row.Status(), row.Name())
 }
 
 func (row *Row) Str() string {
@@ -192,9 +194,9 @@ func (row *Row) Str() string {
 	}
 
 	if row.onRightAngle {
-		str += CONNECTOR_RIGHT_ANGLE + row.Name()
+		str += CONNECTOR_RIGHT_ANGLE + row.File()
 	} else {
-		str += CONNECTOR_CROSS + row.Name()
+		str += CONNECTOR_CROSS + row.File()
 	}
 
 	// debug
