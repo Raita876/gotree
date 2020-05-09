@@ -75,6 +75,7 @@ func TestTree(t *testing.T) {
 		permission bool
 		uid        bool
 		gid        bool
+		size       bool
 		includeDot bool
 	}{
 		{
@@ -104,6 +105,7 @@ func TestTree(t *testing.T) {
 			permission: false,
 			uid:        false,
 			gid:        false,
+			size:       false,
 			includeDot: false,
 		},
 		{
@@ -126,6 +128,7 @@ func TestTree(t *testing.T) {
 			permission: false,
 			uid:        false,
 			gid:        false,
+			size:       false,
 			includeDot: false,
 		},
 		{
@@ -155,6 +158,7 @@ func TestTree(t *testing.T) {
 			permission: true,
 			uid:        false,
 			gid:        false,
+			size:       false,
 			includeDot: false,
 		},
 		{
@@ -187,6 +191,7 @@ func TestTree(t *testing.T) {
 			permission: false,
 			uid:        false,
 			gid:        false,
+			size:       false,
 			includeDot: true,
 		},
 		{
@@ -218,6 +223,37 @@ func TestTree(t *testing.T) {
 			permission: false,
 			uid:        true,
 			gid:        true,
+			size:       false,
+			includeDot: false,
+		},
+		{
+			name: "gotree --disable-color --size <directory>",
+			want: `tmp
+├── [0]  corge
+├── [160]  foo
+│   ├── [96]  bar
+│   │   └── [0]  baz
+│   ├── [0]  quux
+│   └── [0]  qux
+├── [128]  grault
+│   ├── [128]  garply
+│   │   ├── [0]  fred
+│   │   └── [128]  waldo
+│   │       ├── [0]  wibble
+│   │       └── [0]  wobble
+│   └── [0]  plugh
+└── [96]  xyzzy
+    └── [128]  thud
+        ├── [0]  flob
+        └── [0]  wubble
+
+7 directories, 10 files`,
+			colored:    false,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       true,
 			includeDot: false,
 		},
 	}
@@ -229,7 +265,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.includeDot)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.size, tt.includeDot)
 			if err != nil {
 				t.Fatal(err)
 			}
