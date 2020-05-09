@@ -42,6 +42,7 @@ type Walker struct {
 	permission bool
 	uid        bool
 	gid        bool
+	size       bool
 	includeDot bool
 }
 
@@ -54,6 +55,7 @@ type Row struct {
 	permission   bool
 	uid          bool
 	gid          bool
+	size         bool
 }
 
 func (row *Row) Status() string {
@@ -71,11 +73,41 @@ func (row *Row) Status() string {
 		status += row.Group() + " "
 	}
 
+	if row.size {
+		status += row.Size() + " "
+	}
+
 	if status != "" {
 		return fmt.Sprintf("[%s]  ", strings.TrimSpace(status))
 	}
 
 	return status
+}
+
+func (row *Row) Size() string {
+	size := row.file.Size()
+	fs := FormatSize(size)
+	if row.colored {
+		fs = fmt.Sprintf(PRINT_COLOR_GREEN, fs)
+	}
+
+	return fs
+}
+
+func FormatSize(size int64) string {
+	if size < 1000 {
+		return fmt.Sprintf("%d", size)
+	}
+
+	prefix := "kMGTP"
+	for i := 0; i < len(prefix); i++ {
+		s := int(size) / 1000 * (i + 1)
+		if s < 1000 {
+			return fmt.Sprintf("%d%s", s, string(prefix[i]))
+		}
+	}
+
+	return "?????"
 }
 
 func (row *Row) User() string {
@@ -275,6 +307,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 			permission:   w.permission,
 			uid:          w.uid,
 			gid:          w.gid,
+			size:         w.size,
 		}
 
 		w.PrintRow(row)
@@ -306,6 +339,7 @@ func Tree(root string, colored bool, level uint, permission bool, uid bool, gid 
 		permission: permission,
 		uid:        uid,
 		gid:        gid,
+		size:       false,
 		includeDot: includeDot,
 	}
 
