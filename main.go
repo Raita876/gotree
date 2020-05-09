@@ -393,6 +393,11 @@ func main() {
 				Usage:   "Print file group or GID number.",
 			},
 			&cli.BoolFlag{
+				Name:    "size",
+				Aliases: []string{"s"},
+				Usage:   "Print the size.",
+			},
+			&cli.BoolFlag{
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "All files are listed.",
@@ -413,9 +418,11 @@ func main() {
 			uid := c.Bool("uid")
 			gid := c.Bool("gid")
 
+			size := c.Bool("size")
+
 			includeDot := c.Bool("all")
 
-			err := Tree(root, colored, level, permission, uid, gid, true, includeDot)
+			err := Tree(root, colored, level, permission, uid, gid, size, includeDot)
 			if err != nil {
 				return err
 			}
