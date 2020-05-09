@@ -66,9 +66,13 @@ func FormatSize(size int64) string {
 }
 
 type Walker struct {
-	dirNum     int
-	fileNum    int
-	isEndDir   []bool
+	dirNum   int
+	fileNum  int
+	isEndDir []bool
+	opts     *options
+}
+
+type options struct {
 	colored    bool
 	level      uint
 	permission bool
@@ -293,7 +297,7 @@ func (w *Walker) PrintResult() {
 }
 
 func (w *Walker) Walk(dir string, level uint) error {
-	if level > w.level {
+	if level > w.opts.level {
 		return nil
 	}
 
@@ -303,7 +307,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 	}
 
 	for i, file := range files {
-		if !w.includeDot && file.Name()[:1] == "." && file.Name() != "." {
+		if !w.opts.includeDot && file.Name()[:1] == "." && file.Name() != "." {
 			continue
 		}
 
@@ -326,11 +330,11 @@ func (w *Walker) Walk(dir string, level uint) error {
 			level:        level,
 			onRightAngle: onRightAngle,
 			isBlank:      w.isEndDir,
-			colored:      w.colored,
-			permission:   w.permission,
-			uid:          w.uid,
-			gid:          w.gid,
-			size:         w.size,
+			colored:      w.opts.colored,
+			permission:   w.opts.permission,
+			uid:          w.opts.uid,
+			gid:          w.opts.gid,
+			size:         w.opts.size,
 		}
 
 		w.PrintRow(row)
@@ -354,16 +358,18 @@ func (w *Walker) Walk(dir string, level uint) error {
 
 func Tree(root string, colored bool, level uint, permission bool, uid bool, gid bool, size bool, includeDot bool) error {
 	w := Walker{
-		dirNum:     0,
-		fileNum:    0,
-		isEndDir:   []bool{},
-		colored:    colored,
-		level:      level,
-		permission: permission,
-		uid:        uid,
-		gid:        gid,
-		size:       size,
-		includeDot: includeDot,
+		dirNum:   0,
+		fileNum:  0,
+		isEndDir: []bool{},
+		opts: &options{
+			colored:    colored,
+			level:      level,
+			permission: permission,
+			uid:        uid,
+			gid:        gid,
+			size:       size,
+			includeDot: includeDot,
+		},
 	}
 
 	w.PrintRoot(root)
