@@ -70,13 +70,13 @@ func TestTree(t *testing.T) {
 	tests := []struct {
 		name       string
 		want       string
-		colored    bool
-		level      uint
-		permission bool
-		uid        bool
-		gid        bool
-		size       bool
-		includeDot bool
+		colored    coloredOption
+		level      levelOption
+		permission permissionOption
+		uid        uidOption
+		gid        gidOption
+		size       sizeOption
+		includeDot includeDotOption
 	}{
 		{
 			name: "gotree --disable-color <directory>",
