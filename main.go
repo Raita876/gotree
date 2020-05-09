@@ -78,6 +78,52 @@ type Walker struct {
 	includeDot bool
 }
 
+type Option interface {
+	apply(*Walker)
+}
+
+type coloredOption bool
+
+func (c coloredOption) apply(w *Walker) {
+	w.colored = bool(c)
+}
+
+type levelOption uint
+
+func (l levelOption) apply(w *Walker) {
+	w.level = uint(l)
+}
+
+type permissionOption bool
+
+func (p permissionOption) apply(w *Walker) {
+	w.permission = bool(p)
+}
+
+type uidOption bool
+
+func (u uidOption) apply(w *Walker) {
+	w.uid = bool(u)
+}
+
+type gidOption bool
+
+func (g gidOption) apply(w *Walker) {
+	w.gid = bool(g)
+}
+
+type sizeOption bool
+
+func (s sizeOption) apply(w *Walker) {
+	w.size = bool(s)
+}
+
+type includeDotOption bool
+
+func (i includeDotOption) apply(w *Walker) {
+	w.includeDot = bool(i)
+}
+
 type Row struct {
 	fileInfo     os.FileInfo
 	level        uint
@@ -352,18 +398,22 @@ func (w *Walker) Walk(dir string, level uint) error {
 	return nil
 }
 
-func Tree(root string, colored bool, level uint, permission bool, uid bool, gid bool, size bool, includeDot bool) error {
-	w := Walker{
+func Tree(root string, opts ...Option) error {
+	w := &Walker{
 		dirNum:     0,
 		fileNum:    0,
 		isEndDir:   []bool{},
-		colored:    colored,
-		level:      level,
-		permission: permission,
-		uid:        uid,
-		gid:        gid,
-		size:       size,
-		includeDot: includeDot,
+		colored:    true,
+		level:      math.MaxUint64,
+		permission: false,
+		uid:        false,
+		gid:        false,
+		size:       false,
+		includeDot: false,
+	}
+
+	for _, o := range opts {
+		o.apply(w)
 	}
 
 	w.PrintRoot(root)
@@ -424,15 +474,13 @@ func main() {
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
 
-			level := c.Uint("level")
-
-			// TODO: Manage with Functional Options
-			colored := !c.Bool("disable-color")
-			permission := c.Bool("permission")
-			uid := c.Bool("uid")
-			gid := c.Bool("gid")
-			size := c.Bool("size")
-			includeDot := c.Bool("all")
+			level := levelOption(c.Uint("level"))
+			colored := coloredOption(!c.Bool("disable-color"))
+			permission := permissionOption(c.Bool("permission"))
+			uid := uidOption(c.Bool("uid"))
+			gid := gidOption(c.Bool("gid"))
+			size := sizeOption(c.Bool("size"))
+			includeDot := includeDotOption(c.Bool("all"))
 
 			err := Tree(root, colored, level, permission, uid, gid, size, includeDot)
 			if err != nil {
