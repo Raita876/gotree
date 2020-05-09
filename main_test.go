@@ -230,20 +230,20 @@ func TestTree(t *testing.T) {
 			name: "gotree --disable-color --size <directory>",
 			want: `tmp
 ├── [0]  corge
-├── [160]  foo
-│   ├── [96]  bar
+├── [-]  foo
+│   ├── [-]  bar
 │   │   └── [0]  baz
 │   ├── [0]  quux
 │   └── [0]  qux
-├── [128]  grault
-│   ├── [128]  garply
+├── [-]  grault
+│   ├── [-]  garply
 │   │   ├── [0]  fred
-│   │   └── [128]  waldo
+│   │   └── [-]  waldo
 │   │       ├── [0]  wibble
 │   │       └── [0]  wobble
 │   └── [0]  plugh
-└── [96]  xyzzy
-    └── [128]  thud
+└── [-]  xyzzy
+    └── [-]  thud
         ├── [0]  flob
         └── [0]  wubble
 
