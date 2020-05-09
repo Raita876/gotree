@@ -424,20 +424,14 @@ func main() {
 		Action: func(c *cli.Context) error {
 			root := c.Args().Get(0)
 
-			colored := true
-			if c.Bool("disable-color") {
-				colored = false
-			}
-
 			level := c.Uint("level")
 
+			// TODO: Manage with Functional Options
+			colored := !c.Bool("disable-color")
 			permission := c.Bool("permission")
-
 			uid := c.Bool("uid")
 			gid := c.Bool("gid")
-
 			size := c.Bool("size")
-
 			includeDot := c.Bool("all")
 
 			err := Tree(root, colored, level, permission, uid, gid, size, includeDot)
