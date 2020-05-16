@@ -17,6 +17,17 @@ func setup() error {
 	files := []string{
 		TMP_DIR + "/.aaa",
 		TMP_DIR + "/.bbb/.ccc",
+		TMP_DIR + "/01/README.md",
+		TMP_DIR + "/01/compiled.o",
+		TMP_DIR + "/01/compressed.zip",
+		TMP_DIR + "/01/crypto.asc",
+		TMP_DIR + "/01/document.xlsx",
+		TMP_DIR + "/01/exec",
+		TMP_DIR + "/01/image.png",
+		TMP_DIR + "/01/music.mp3",
+		TMP_DIR + "/01/tmp.bk",
+		TMP_DIR + "/01/video.mp4",
+		TMP_DIR + "/01/wav.wav",
 		TMP_DIR + "/foo/bar/baz",
 		TMP_DIR + "/foo/qux",
 		TMP_DIR + "/foo/quux",
@@ -41,6 +52,9 @@ func setup() error {
 		}
 
 	}
+
+	// TODO: 個別にパーミッションを付与しているので、struct で管理できるようにする。
+	os.Chmod(TMP_DIR+"/01/exec", 0777)
 
 	return nil
 }
@@ -87,6 +101,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree <directory>",
 			want: `tmp
+├── [34m01[0m
+│   ├── [4m[93mREADME.md[0m[0m
+│   ├── [33mcompiled.o[0m
+│   ├── [31mcompressed.zip[0m
+│   ├── [96mcrypto.asc[0m
+│   ├── [32mdocument.xlsx[0m
+│   ├── [92mexec*[0m
+│   ├── [95mimage.png[0m
+│   ├── [35mmusic.mp3[0m
+│   ├── [90mtmp.bk[0m
+│   ├── [35mvideo.mp4[0m
+│   └── [35mwav.wav[0m
 ├── corge
 ├── [34mfoo[0m
 │   ├── [34mbar[0m
@@ -118,6 +144,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color <directory>",
 			want: `tmp
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
 ├── corge
 ├── foo
 │   ├── bar
@@ -149,6 +187,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree -L 2 <directory>",
 			want: `tmp
+├── [34m01[0m
+│   ├── [4m[93mREADME.md[0m[0m
+│   ├── [33mcompiled.o[0m
+│   ├── [31mcompressed.zip[0m
+│   ├── [96mcrypto.asc[0m
+│   ├── [32mdocument.xlsx[0m
+│   ├── [92mexec*[0m
+│   ├── [95mimage.png[0m
+│   ├── [35mmusic.mp3[0m
+│   ├── [90mtmp.bk[0m
+│   ├── [35mvideo.mp4[0m
+│   └── [35mwav.wav[0m
 ├── corge
 ├── [34mfoo[0m
 │   ├── [34mbar[0m
@@ -173,6 +223,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color -L 2 <directory>",
 			want: `tmp
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
 ├── corge
 ├── foo
 │   ├── bar
@@ -197,6 +259,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --permission <directory>",
 			want: `tmp
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34m01[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [4m[93mREADME.md[0m[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [33mcompiled.o[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [31mcompressed.zip[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [96mcrypto.asc[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [32mdocument.xlsx[0m
+│   ├── [.[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m]  [92mexec*[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [95mimage.png[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mmusic.mp3[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [90mtmp.bk[0m
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mvideo.mp4[0m
+│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mwav.wav[0m
 ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
 ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mfoo[0m
 │   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mbar[0m
@@ -228,6 +302,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color --permission <directory>",
 			want: `tmp
+├── [drwxr-xr-x]  01
+│   ├── [.rw-r--r--]  README.md
+│   ├── [.rw-r--r--]  compiled.o
+│   ├── [.rw-r--r--]  compressed.zip
+│   ├── [.rw-r--r--]  crypto.asc
+│   ├── [.rw-r--r--]  document.xlsx
+│   ├── [.rwxrwxrwx]  exec
+│   ├── [.rw-r--r--]  image.png
+│   ├── [.rw-r--r--]  music.mp3
+│   ├── [.rw-r--r--]  tmp.bk
+│   ├── [.rw-r--r--]  video.mp4
+│   └── [.rw-r--r--]  wav.wav
 ├── [.rw-r--r--]  corge
 ├── [drwxr-xr-x]  foo
 │   ├── [drwxr-xr-x]  bar
@@ -262,6 +348,18 @@ func TestTree(t *testing.T) {
 ├── .aaa
 ├── [34m.bbb[0m
 │   └── .ccc
+├── [34m01[0m
+│   ├── [4m[93mREADME.md[0m[0m
+│   ├── [33mcompiled.o[0m
+│   ├── [31mcompressed.zip[0m
+│   ├── [96mcrypto.asc[0m
+│   ├── [32mdocument.xlsx[0m
+│   ├── [92mexec*[0m
+│   ├── [95mimage.png[0m
+│   ├── [35mmusic.mp3[0m
+│   ├── [90mtmp.bk[0m
+│   ├── [35mvideo.mp4[0m
+│   └── [35mwav.wav[0m
 ├── corge
 ├── [34mfoo[0m
 │   ├── [34mbar[0m
@@ -296,6 +394,18 @@ func TestTree(t *testing.T) {
 ├── .aaa
 ├── .bbb
 │   └── .ccc
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
 ├── corge
 ├── foo
 │   ├── bar
@@ -329,6 +439,18 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --uid --gid <directory>",
 			want: `tmp
+├── [[33mrunner[0m [33mdocker[0m]  [34m01[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [4m[93mREADME.md[0m[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [33mcompiled.o[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [31mcompressed.zip[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [96mcrypto.asc[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [32mdocument.xlsx[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [92mexec*[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [95mimage.png[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [35mmusic.mp3[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [90mtmp.bk[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [35mvideo.mp4[0m
+│   └── [[33mrunner[0m [33mdocker[0m]  [35mwav.wav[0m
 ├── [[33mrunner[0m [33mdocker[0m]  corge
 ├── [[33mrunner[0m [33mdocker[0m]  [34mfoo[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [34mbar[0m
@@ -362,6 +484,18 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
+├── 01
+│   ├── [runner docker]  README.md
+│   ├── [runner docker]  compiled.o
+│   ├── [runner docker]  compressed.zip
+│   ├── [runner docker]  crypto.asc
+│   ├── [runner docker]  document.xlsx
+│   ├── [runner docker]  exec
+│   ├── [runner docker]  image.png
+│   ├── [runner docker]  music.mp3
+│   ├── [runner docker]  tmp.bk
+│   ├── [runner docker]  video.mp4
+│   └── [runner docker]  wav.wav
 ├── [runner docker]  corge
 ├── [runner docker]  foo
 │   ├── [runner docker]  bar
@@ -393,6 +527,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --size <directory>",
 			want: `tmp
+├── [-]  [34m01[0m
+│   ├── [[32m0[0m]  [4m[93mREADME.md[0m[0m
+│   ├── [[32m0[0m]  [33mcompiled.o[0m
+│   ├── [[32m0[0m]  [31mcompressed.zip[0m
+│   ├── [[32m0[0m]  [96mcrypto.asc[0m
+│   ├── [[32m0[0m]  [32mdocument.xlsx[0m
+│   ├── [[32m0[0m]  [92mexec*[0m
+│   ├── [[32m0[0m]  [95mimage.png[0m
+│   ├── [[32m0[0m]  [35mmusic.mp3[0m
+│   ├── [[32m0[0m]  [90mtmp.bk[0m
+│   ├── [[32m0[0m]  [35mvideo.mp4[0m
+│   └── [[32m0[0m]  [35mwav.wav[0m
 ├── [[32m0[0m]  corge
 ├── [-]  [34mfoo[0m
 │   ├── [-]  [34mbar[0m
@@ -424,6 +570,18 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color --size <directory>",
 			want: `tmp
+├── [-]  01
+│   ├── [0]  README.md
+│   ├── [0]  compiled.o
+│   ├── [0]  compressed.zip
+│   ├── [0]  crypto.asc
+│   ├── [0]  document.xlsx
+│   ├── [0]  exec
+│   ├── [0]  image.png
+│   ├── [0]  music.mp3
+│   ├── [0]  tmp.bk
+│   ├── [0]  video.mp4
+│   └── [0]  wav.wav
 ├── [0]  corge
 ├── [-]  foo
 │   ├── [-]  bar
