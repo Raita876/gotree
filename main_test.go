@@ -531,7 +531,7 @@ func testCaseWithDate() (string, error) {
 }
 
 func modTime(path string) (string, error) {
-	f, err := os.Open("exec.sh")
+	f, err := os.Open(path)
 	if err != nil {
 		return "", err
 	}
