@@ -124,6 +124,12 @@ func (i includeDotOption) apply(w *Walker) {
 	w.includeDot = bool(i)
 }
 
+type datetimeOption bool
+
+func (dt datetimeOption) apply(w *Walker) {
+	// TODO
+}
+
 type Row struct {
 	fileInfo     os.FileInfo
 	level        uint

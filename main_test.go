@@ -67,6 +67,11 @@ func TestMain(m *testing.M) {
 
 }
 func TestTree(t *testing.T) {
+	testCaseWithDate, err := testCaseWithDate()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	tests := []struct {
 		name       string
 		want       string
@@ -77,6 +82,7 @@ func TestTree(t *testing.T) {
 		gid        gidOption
 		size       sizeOption
 		includeDot includeDotOption
+		datetime   datetimeOption
 	}{
 		{
 			name: "gotree <directory>",
@@ -107,6 +113,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --disable-color <directory>",
@@ -137,6 +144,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree -L 2 <directory>",
@@ -160,6 +168,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --disable-color -L 2 <directory>",
@@ -183,6 +192,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --permission <directory>",
@@ -213,6 +223,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --disable-color --permission <directory>",
@@ -243,6 +254,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree -a <directory>",
@@ -276,6 +288,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: true,
+			datetime:   false,
 		},
 		{
 			name: "gotree --disable-color -a <directory>",
@@ -309,6 +322,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: true,
+			datetime:   false,
 		},
 		{
 			// This test case was created for "github actions". uid has a value according to it.
@@ -341,6 +355,7 @@ func TestTree(t *testing.T) {
 			gid:        true,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			// This test case was created for "github actions". uid has a value according to it.
@@ -373,6 +388,7 @@ func TestTree(t *testing.T) {
 			gid:        true,
 			size:       false,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --size <directory>",
@@ -403,6 +419,7 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       true,
 			includeDot: false,
+			datetime:   false,
 		},
 		{
 			name: "gotree --disable-color --size <directory>",
@@ -433,6 +450,19 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       true,
 			includeDot: false,
+			datetime:   false,
+		},
+		{
+			name:       "gotree -D <directory>",
+			want:       testCaseWithDate,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+			datetime:   true,
 		},
 	}
 
@@ -443,7 +473,7 @@ func TestTree(t *testing.T) {
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.size, tt.includeDot)
+			err := Tree(TMP_DIR, tt.colored, tt.level, tt.permission, tt.uid, tt.gid, tt.size, tt.includeDot, tt.datetime)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -466,4 +496,52 @@ func TestTree(t *testing.T) {
 
 	}
 
+}
+
+func testCaseWithDate() (string, error) {
+	testCase := `tmp
+├── [[34m__DATETIME__[0m]  corge
+├── [[34m__DATETIME__[0m]  [34mfoo[0m
+│   ├── [[34m__DATETIME__[0m]  [34mbar[0m
+│   │   └── [[34m__DATETIME__[0m]  baz
+│   ├── [[34m__DATETIME__[0m]  quux
+│   └── [[34m__DATETIME__[0m]  qux
+├── [[34m__DATETIME__[0m]  [34mgrault[0m
+│   ├── [[34m__DATETIME__[0m]  [34mgarply[0m
+│   │   ├── [[34m__DATETIME__[0m]  fred
+│   │   └── [[34m__DATETIME__[0m]  [34mwaldo[0m
+│   │       ├── [[34m__DATETIME__[0m]  wibble
+│   │       └── [[34m__DATETIME__[0m]  wobble
+│   └── [[34m__DATETIME__[0m]  plugh
+└── [[34m__DATETIME__[0m]  [34mxyzzy[0m
+    └── [[34m__DATETIME__[0m]  [34mthud[0m
+        ├── [[34m__DATETIME__[0m]  flob
+        └── [[34m__DATETIME__[0m]  wubble
+
+7 directories, 10 files`
+
+	modTime, err := modTime(TMP_DIR)
+	if err != nil {
+		return "", err
+	}
+
+	testCase = strings.Replace(testCase, "__DATETIME__", modTime, -1)
+
+	return testCase, nil
+}
+
+func modTime(path string) (string, error) {
+	f, err := os.Open("exec.sh")
+	if err != nil {
+		return "", err
+	}
+
+	fi, err := f.Stat()
+	if err != nil {
+		return "", err
+	}
+
+	modTime := fi.ModTime().Format("2006-01-02 15:04")
+
+	return modTime, nil
 }
