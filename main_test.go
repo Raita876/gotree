@@ -131,7 +131,7 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    true,
 			level:      math.MaxInt64,
 			permission: false,
@@ -174,7 +174,7 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
@@ -289,7 +289,7 @@ func TestTree(t *testing.T) {
         ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
         └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    true,
 			level:      math.MaxInt64,
 			permission: true,
@@ -332,7 +332,7 @@ func TestTree(t *testing.T) {
         ├── [.rw-r--r--]  flob
         └── [.rw-r--r--]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: true,
@@ -378,7 +378,7 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-8 directories, 12 files`,
+9 directories, 23 files`,
 			colored:    true,
 			level:      math.MaxInt64,
 			permission: false,
@@ -424,7 +424,7 @@ func TestTree(t *testing.T) {
         ├── flob
         └── wubble
 
-8 directories, 12 files`,
+9 directories, 23 files`,
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
@@ -469,7 +469,7 @@ func TestTree(t *testing.T) {
         ├── [[33mrunner[0m [33mdocker[0m]  flob
         └── [[33mrunner[0m [33mdocker[0m]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    true,
 			level:      math.MaxInt64,
 			permission: false,
@@ -514,7 +514,7 @@ func TestTree(t *testing.T) {
         ├── [runner docker]  flob
         └── [runner docker]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
@@ -557,7 +557,7 @@ func TestTree(t *testing.T) {
         ├── [[32m0[0m]  flob
         └── [[32m0[0m]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    true,
 			level:      math.MaxInt64,
 			permission: false,
@@ -600,7 +600,7 @@ func TestTree(t *testing.T) {
         ├── [0]  flob
         └── [0]  wubble
 
-7 directories, 10 files`,
+8 directories, 21 files`,
 			colored:    false,
 			level:      math.MaxInt64,
 			permission: false,
@@ -676,7 +676,7 @@ func testCaseWithDate() (string, error) {
         ├── [[34m__DATETIME__[0m]  flob
         └── [[34m__DATETIME__[0m]  wubble
 
-7 directories, 10 files`
+8 directories, 21 files`
 
 	modTime, err := modTime(TMP_DIR)
 	if err != nil {
