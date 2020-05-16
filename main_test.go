@@ -15,8 +15,8 @@ const TMP_DIR = "tmp"
 
 func setup() error {
 	files := []string{
-		TMP_DIR + "/.a",
-		TMP_DIR + "/.b/.c",
+		TMP_DIR + "/.aaa",
+		TMP_DIR + "/.bbb/.ccc",
 		TMP_DIR + "/foo/bar/baz",
 		TMP_DIR + "/foo/qux",
 		TMP_DIR + "/foo/quux",
@@ -259,9 +259,9 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree -a <directory>",
 			want: `tmp
-├── .a
-├── [34m.b[0m
-│   └── .c
+├── .aaa
+├── [34m.bbb[0m
+│   └── .ccc
 ├── corge
 ├── [34mfoo[0m
 │   ├── [34mbar[0m
@@ -293,9 +293,9 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color -a <directory>",
 			want: `tmp
-├── .a
-├── .b
-│   └── .c
+├── .aaa
+├── .bbb
+│   └── .ccc
 ├── corge
 ├── foo
 │   ├── bar
