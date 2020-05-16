@@ -344,7 +344,7 @@ func (row *Row) Name() string {
 		}
 
 		if row.isExec() {
-			return ColorLightGreen(name + "*")
+			return ColorLightGreen(name) + "*"
 		}
 
 		if row.isImmediate() {
