@@ -375,6 +375,36 @@ func TestTree(t *testing.T) {
 			includeDot: false,
 		},
 		{
+			name: "gotree --size <directory>",
+			want: `tmp
+├── [[32m351[0m]  corge
+├── [-]  [34mfoo[0m
+│   ├── [-]  [34mbar[0m
+│   │   └── [[32m351[0m]  baz
+│   ├── [[32m351[0m]  quux
+│   └── [[32m351[0m]  qux
+├── [-]  [34mgrault[0m
+│   ├── [-]  [34mgarply[0m
+│   │   ├── [[32m351[0m]  fred
+│   │   └── [-]  [34mwaldo[0m
+│   │       ├── [[32m351[0m]  wibble
+│   │       └── [[32m351[0m]  wobble
+│   └── [[32m351[0m]  plugh
+└── [-]  [34mxyzzy[0m
+    └── [-]  [34mthud[0m
+        ├── [[32m351[0m]  flob
+        └── [[32m351[0m]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       true,
+			includeDot: false,
+		},
+		{
 			name: "gotree --disable-color --size <directory>",
 			want: `tmp
 ├── [0]  corge
