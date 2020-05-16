@@ -17,3 +17,8 @@ install: build
 .PHONY: run
 run:
 	go run main.go .
+
+.PHONY: tag
+tag:
+	git tag $(VERSION)
+	git push origin $(VERSION)
