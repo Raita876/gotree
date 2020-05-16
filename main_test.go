@@ -139,6 +139,29 @@ func TestTree(t *testing.T) {
 			includeDot: false,
 		},
 		{
+			name: "gotree -L 2 <directory>",
+			want: `tmp
+├── corge
+├── [34mfoo[0m
+│   ├── [34mbar[0m
+│   ├── quux
+│   └── qux
+├── [34mgrault[0m
+│   ├── [34mgarply[0m
+│   └── plugh
+└── [34mxyzzy[0m
+    └── [34mthud[0m
+
+6 directories, 4 files`,
+			colored:    true,
+			level:      2,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+		},
+		{
 			name: "gotree --disable-color -L 2 <directory>",
 			want: `tmp
 ├── corge
