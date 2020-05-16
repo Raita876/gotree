@@ -185,6 +185,36 @@ func TestTree(t *testing.T) {
 			includeDot: false,
 		},
 		{
+			name: "gotree --permission <directory>",
+			want: `tmp
+├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mfoo[0m
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mbar[0m
+│   │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  baz
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  quux
+│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  qux
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgrault[0m
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgarply[0m
+│   │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  fred
+│   │   └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mwaldo[0m
+│   │       ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wibble
+│   │       └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wobble
+│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  plugh
+└── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mxyzzy[0m
+    └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mthud[0m
+        ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
+        └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: true,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+		},
+		{
 			name: "gotree --disable-color --permission <directory>",
 			want: `tmp
 ├── [.rw-r--r--]  corge
