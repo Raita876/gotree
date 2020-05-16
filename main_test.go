@@ -313,6 +313,38 @@ func TestTree(t *testing.T) {
 		{
 			// This test case was created for "github actions". uid has a value according to it.
 			// TODO: allow user group to be specified.
+			name: "gotree --uid --gid <directory>",
+			want: `tmp
+├── [[33mrunner[0m [33mdocker[0m]  corge
+├── [[33mrunner[0m [33mdocker[0m]  [34mfoo[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mbar[0m
+│   │   └── [[33mrunner[0m [33mdocker[0m]  baz
+│   ├── [[33mrunner[0m [33mdocker[0m]  quux
+│   └── [[33mrunner[0m [33mdocker[0m]  qux
+├── [[33mrunner[0m [33mdocker[0m]  [34mgrault[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mgarply[0m
+│   │   ├── [[33mrunner[0m [33mdocker[0m]  fred
+│   │   └── [[33mrunner[0m [33mdocker[0m]  [34mwaldo[0m
+│   │       ├── [[33mrunner[0m [33mdocker[0m]  wibble
+│   │       └── [[33mrunner[0m [33mdocker[0m]  wobble
+│   └── [[33mrunner[0m [33mdocker[0m]  plugh
+└── [[33mrunner[0m [33mdocker[0m]  [34mxyzzy[0m
+    └── [[33mrunner[0m [33mdocker[0m]  [34mthud[0m
+        ├── [[33mrunner[0m [33mdocker[0m]  flob
+        └── [[33mrunner[0m [33mdocker[0m]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        true,
+			gid:        true,
+			size:       false,
+			includeDot: false,
+		},
+		{
+			// This test case was created for "github actions". uid has a value according to it.
+			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
 ├── [runner docker]  corge
@@ -332,7 +364,6 @@ func TestTree(t *testing.T) {
     └── [runner docker]  thud
         ├── [runner docker]  flob
         └── [runner docker]  wubble
-
 7 directories, 10 files`,
 			colored:    false,
 			level:      math.MaxInt64,
