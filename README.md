@@ -14,5 +14,5 @@ The tree command was remade in golang.
 - [x] -s ファイルのサイズを表示
 - [x] -D ファイルの更新時刻を表示
 - [x] -a 名前がドットから始まるディレクトリを含めて表示する
-- [ ] ファイルタイプによって出力する色を変更する。[参考](https://github.com/ogham/exa/blob/master/src/info/filetype.rs)
+- [x] ファイルタイプによって出力する色を変更する。[参考](https://github.com/ogham/exa/blob/master/src/info/filetype.rs)
 - [ ] エラーメッセージ整理
