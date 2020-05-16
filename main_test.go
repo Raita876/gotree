@@ -144,35 +144,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color <directory>",
 			want: `tmp
-[90m├── [0m01
-[90m│   [0m[90m├── [0mREADME.md
-[90m│   [0m[90m├── [0mcompiled.o
-[90m│   [0m[90m├── [0mcompressed.zip
-[90m│   [0m[90m├── [0mcrypto.asc
-[90m│   [0m[90m├── [0mdocument.xlsx
-[90m│   [0m[90m├── [0mexec
-[90m│   [0m[90m├── [0mimage.png
-[90m│   [0m[90m├── [0mmusic.mp3
-[90m│   [0m[90m├── [0mtmp.bk
-[90m│   [0m[90m├── [0mvideo.mp4
-[90m│   [0m[90m└── [0mwav.wav
-[90m├── [0mcorge
-[90m├── [0mfoo
-[90m│   [0m[90m├── [0mbar
-[90m│   [0m[90m│   [0m[90m└── [0mbaz
-[90m│   [0m[90m├── [0mquux
-[90m│   [0m[90m└── [0mqux
-[90m├── [0mgrault
-[90m│   [0m[90m├── [0mgarply
-[90m│   [0m[90m│   [0m[90m├── [0mfred
-[90m│   [0m[90m│   [0m[90m└── [0mwaldo
-[90m│   [0m[90m│   [0m    [90m├── [0mwibble
-[90m│   [0m[90m│   [0m    [90m└── [0mwobble
-[90m│   [0m[90m└── [0mplugh
-[90m└── [0mxyzzy
-    [90m└── [0mthud
-        [90m├── [0mflob
-        [90m└── [0mwubble
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
+├── corge
+├── foo
+│   ├── bar
+│   │   └── baz
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   │   ├── fred
+│   │   └── waldo
+│   │       ├── wibble
+│   │       └── wobble
+│   └── plugh
+└── xyzzy
+    └── thud
+        ├── flob
+        └── wubble
 
 8 directories, 21 files`,
 			colored:    false,
@@ -223,28 +223,28 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color -L 2 <directory>",
 			want: `tmp
-[90m├── [0m01
-[90m│   [0m[90m├── [0mREADME.md
-[90m│   [0m[90m├── [0mcompiled.o
-[90m│   [0m[90m├── [0mcompressed.zip
-[90m│   [0m[90m├── [0mcrypto.asc
-[90m│   [0m[90m├── [0mdocument.xlsx
-[90m│   [0m[90m├── [0mexec
-[90m│   [0m[90m├── [0mimage.png
-[90m│   [0m[90m├── [0mmusic.mp3
-[90m│   [0m[90m├── [0mtmp.bk
-[90m│   [0m[90m├── [0mvideo.mp4
-[90m│   [0m[90m└── [0mwav.wav
-[90m├── [0mcorge
-[90m├── [0mfoo
-[90m│   [0m[90m├── [0mbar
-[90m│   [0m[90m├── [0mquux
-[90m│   [0m[90m└── [0mqux
-[90m├── [0mgrault
-[90m│   [0m[90m├── [0mgarply
-[90m│   [0m[90m└── [0mplugh
-[90m└── [0mxyzzy
-    [90m└── [0mthud
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
+├── corge
+├── foo
+│   ├── bar
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   └── plugh
+└── xyzzy
+    └── thud
 
 7 directories, 15 files`,
 			colored:    false,
@@ -302,35 +302,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color --permission <directory>",
 			want: `tmp
-[90m├── [0m[drwxr-xr-x]  01
-[90m│   [0m[90m├── [0m[.rw-r--r--]  README.md
-[90m│   [0m[90m├── [0m[.rw-r--r--]  compiled.o
-[90m│   [0m[90m├── [0m[.rw-r--r--]  compressed.zip
-[90m│   [0m[90m├── [0m[.rw-r--r--]  crypto.asc
-[90m│   [0m[90m├── [0m[.rw-r--r--]  document.xlsx
-[90m│   [0m[90m├── [0m[.rwxrwxrwx]  exec
-[90m│   [0m[90m├── [0m[.rw-r--r--]  image.png
-[90m│   [0m[90m├── [0m[.rw-r--r--]  music.mp3
-[90m│   [0m[90m├── [0m[.rw-r--r--]  tmp.bk
-[90m│   [0m[90m├── [0m[.rw-r--r--]  video.mp4
-[90m│   [0m[90m└── [0m[.rw-r--r--]  wav.wav
-[90m├── [0m[.rw-r--r--]  corge
-[90m├── [0m[drwxr-xr-x]  foo
-[90m│   [0m[90m├── [0m[drwxr-xr-x]  bar
-[90m│   [0m[90m│   [0m[90m└── [0m[.rw-r--r--]  baz
-[90m│   [0m[90m├── [0m[.rw-r--r--]  quux
-[90m│   [0m[90m└── [0m[.rw-r--r--]  qux
-[90m├── [0m[drwxr-xr-x]  grault
-[90m│   [0m[90m├── [0m[drwxr-xr-x]  garply
-[90m│   [0m[90m│   [0m[90m├── [0m[.rw-r--r--]  fred
-[90m│   [0m[90m│   [0m[90m└── [0m[drwxr-xr-x]  waldo
-[90m│   [0m[90m│   [0m    [90m├── [0m[.rw-r--r--]  wibble
-[90m│   [0m[90m│   [0m    [90m└── [0m[.rw-r--r--]  wobble
-[90m│   [0m[90m└── [0m[.rw-r--r--]  plugh
-[90m└── [0m[drwxr-xr-x]  xyzzy
-    [90m└── [0m[drwxr-xr-x]  thud
-        [90m├── [0m[.rw-r--r--]  flob
-        [90m└── [0m[.rw-r--r--]  wubble
+├── [drwxr-xr-x]  01
+│   ├── [.rw-r--r--]  README.md
+│   ├── [.rw-r--r--]  compiled.o
+│   ├── [.rw-r--r--]  compressed.zip
+│   ├── [.rw-r--r--]  crypto.asc
+│   ├── [.rw-r--r--]  document.xlsx
+│   ├── [.rwxrwxrwx]  exec
+│   ├── [.rw-r--r--]  image.png
+│   ├── [.rw-r--r--]  music.mp3
+│   ├── [.rw-r--r--]  tmp.bk
+│   ├── [.rw-r--r--]  video.mp4
+│   └── [.rw-r--r--]  wav.wav
+├── [.rw-r--r--]  corge
+├── [drwxr-xr-x]  foo
+│   ├── [drwxr-xr-x]  bar
+│   │   └── [.rw-r--r--]  baz
+│   ├── [.rw-r--r--]  quux
+│   └── [.rw-r--r--]  qux
+├── [drwxr-xr-x]  grault
+│   ├── [drwxr-xr-x]  garply
+│   │   ├── [.rw-r--r--]  fred
+│   │   └── [drwxr-xr-x]  waldo
+│   │       ├── [.rw-r--r--]  wibble
+│   │       └── [.rw-r--r--]  wobble
+│   └── [.rw-r--r--]  plugh
+└── [drwxr-xr-x]  xyzzy
+    └── [drwxr-xr-x]  thud
+        ├── [.rw-r--r--]  flob
+        └── [.rw-r--r--]  wubble
 
 8 directories, 21 files`,
 			colored:    false,
@@ -391,38 +391,38 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color -a <directory>",
 			want: `tmp
-[90m├── [0m.aaa
-[90m├── [0m.bbb
-[90m│   [0m[90m└── [0m.ccc
-[90m├── [0m01
-[90m│   [0m[90m├── [0mREADME.md
-[90m│   [0m[90m├── [0mcompiled.o
-[90m│   [0m[90m├── [0mcompressed.zip
-[90m│   [0m[90m├── [0mcrypto.asc
-[90m│   [0m[90m├── [0mdocument.xlsx
-[90m│   [0m[90m├── [0mexec
-[90m│   [0m[90m├── [0mimage.png
-[90m│   [0m[90m├── [0mmusic.mp3
-[90m│   [0m[90m├── [0mtmp.bk
-[90m│   [0m[90m├── [0mvideo.mp4
-[90m│   [0m[90m└── [0mwav.wav
-[90m├── [0mcorge
-[90m├── [0mfoo
-[90m│   [0m[90m├── [0mbar
-[90m│   [0m[90m│   [0m[90m└── [0mbaz
-[90m│   [0m[90m├── [0mquux
-[90m│   [0m[90m└── [0mqux
-[90m├── [0mgrault
-[90m│   [0m[90m├── [0mgarply
-[90m│   [0m[90m│   [0m[90m├── [0mfred
-[90m│   [0m[90m│   [0m[90m└── [0mwaldo
-[90m│   [0m[90m│   [0m    [90m├── [0mwibble
-[90m│   [0m[90m│   [0m    [90m└── [0mwobble
-[90m│   [0m[90m└── [0mplugh
-[90m└── [0mxyzzy
-    [90m└── [0mthud
-        [90m├── [0mflob
-        [90m└── [0mwubble
+├── .aaa
+├── .bbb
+│   └── .ccc
+├── 01
+│   ├── README.md
+│   ├── compiled.o
+│   ├── compressed.zip
+│   ├── crypto.asc
+│   ├── document.xlsx
+│   ├── exec
+│   ├── image.png
+│   ├── music.mp3
+│   ├── tmp.bk
+│   ├── video.mp4
+│   └── wav.wav
+├── corge
+├── foo
+│   ├── bar
+│   │   └── baz
+│   ├── quux
+│   └── qux
+├── grault
+│   ├── garply
+│   │   ├── fred
+│   │   └── waldo
+│   │       ├── wibble
+│   │       └── wobble
+│   └── plugh
+└── xyzzy
+    └── thud
+        ├── flob
+        └── wubble
 
 9 directories, 23 files`,
 			colored:    false,
@@ -484,35 +484,35 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
-[90m├── [0m[runner docker]  01
-[90m│   [0m[90m├── [0m[runner docker]  README.md
-[90m│   [0m[90m├── [0m[runner docker]  compiled.o
-[90m│   [0m[90m├── [0m[runner docker]  compressed.zip
-[90m│   [0m[90m├── [0m[runner docker]  crypto.asc
-[90m│   [0m[90m├── [0m[runner docker]  document.xlsx
-[90m│   [0m[90m├── [0m[runner docker]  exec
-[90m│   [0m[90m├── [0m[runner docker]  image.png
-[90m│   [0m[90m├── [0m[runner docker]  music.mp3
-[90m│   [0m[90m├── [0m[runner docker]  tmp.bk
-[90m│   [0m[90m├── [0m[runner docker]  video.mp4
-[90m│   [0m[90m└── [0m[runner docker]  wav.wav
-[90m├── [0m[runner docker]  corge
-[90m├── [0m[runner docker]  foo
-[90m│   [0m[90m├── [0m[runner docker]  bar
-[90m│   [0m[90m│   [0m[90m└── [0m[runner docker]  baz
-[90m│   [0m[90m├── [0m[runner docker]  quux
-[90m│   [0m[90m└── [0m[runner docker]  qux
-[90m├── [0m[runner docker]  grault
-[90m│   [0m[90m├── [0m[runner docker]  garply
-[90m│   [0m[90m│   [0m[90m├── [0m[runner docker]  fred
-[90m│   [0m[90m│   [0m[90m└── [0m[runner docker]  waldo
-[90m│   [0m[90m│   [0m    [90m├── [0m[runner docker]  wibble
-[90m│   [0m[90m│   [0m    [90m└── [0m[runner docker]  wobble
-[90m│   [0m[90m└── [0m[runner docker]  plugh
-[90m└── [0m[runner docker]  xyzzy
-    [90m└── [0m[runner docker]  thud
-        [90m├── [0m[runner docker]  flob
-        [90m└── [0m[runner docker]  wubble
+├── [runner docker]  01
+│   ├── [runner docker]  README.md
+│   ├── [runner docker]  compiled.o
+│   ├── [runner docker]  compressed.zip
+│   ├── [runner docker]  crypto.asc
+│   ├── [runner docker]  document.xlsx
+│   ├── [runner docker]  exec
+│   ├── [runner docker]  image.png
+│   ├── [runner docker]  music.mp3
+│   ├── [runner docker]  tmp.bk
+│   ├── [runner docker]  video.mp4
+│   └── [runner docker]  wav.wav
+├── [runner docker]  corge
+├── [runner docker]  foo
+│   ├── [runner docker]  bar
+│   │   └── [runner docker]  baz
+│   ├── [runner docker]  quux
+│   └── [runner docker]  qux
+├── [runner docker]  grault
+│   ├── [runner docker]  garply
+│   │   ├── [runner docker]  fred
+│   │   └── [runner docker]  waldo
+│   │       ├── [runner docker]  wibble
+│   │       └── [runner docker]  wobble
+│   └── [runner docker]  plugh
+└── [runner docker]  xyzzy
+    └── [runner docker]  thud
+        ├── [runner docker]  flob
+        └── [runner docker]  wubble
 
 8 directories, 21 files`,
 			colored:    false,
@@ -570,35 +570,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --disable-color --size <directory>",
 			want: `tmp
-[90m├── [0m[-]  01
-[90m│   [0m[90m├── [0m[0]  README.md
-[90m│   [0m[90m├── [0m[0]  compiled.o
-[90m│   [0m[90m├── [0m[0]  compressed.zip
-[90m│   [0m[90m├── [0m[0]  crypto.asc
-[90m│   [0m[90m├── [0m[0]  document.xlsx
-[90m│   [0m[90m├── [0m[0]  exec
-[90m│   [0m[90m├── [0m[0]  image.png
-[90m│   [0m[90m├── [0m[0]  music.mp3
-[90m│   [0m[90m├── [0m[0]  tmp.bk
-[90m│   [0m[90m├── [0m[0]  video.mp4
-[90m│   [0m[90m└── [0m[0]  wav.wav
-[90m├── [0m[0]  corge
-[90m├── [0m[-]  foo
-[90m│   [0m[90m├── [0m[-]  bar
-[90m│   [0m[90m│   [0m[90m└── [0m[0]  baz
-[90m│   [0m[90m├── [0m[0]  quux
-[90m│   [0m[90m└── [0m[0]  qux
-[90m├── [0m[-]  grault
-[90m│   [0m[90m├── [0m[-]  garply
-[90m│   [0m[90m│   [0m[90m├── [0m[0]  fred
-[90m│   [0m[90m│   [0m[90m└── [0m[-]  waldo
-[90m│   [0m[90m│   [0m    [90m├── [0m[0]  wibble
-[90m│   [0m[90m│   [0m    [90m└── [0m[0]  wobble
-[90m│   [0m[90m└── [0m[0]  plugh
-[90m└── [0m[-]  xyzzy
-    [90m└── [0m[-]  thud
-        [90m├── [0m[0]  flob
-        [90m└── [0m[0]  wubble
+├── [-]  01
+│   ├── [0]  README.md
+│   ├── [0]  compiled.o
+│   ├── [0]  compressed.zip
+│   ├── [0]  crypto.asc
+│   ├── [0]  document.xlsx
+│   ├── [0]  exec
+│   ├── [0]  image.png
+│   ├── [0]  music.mp3
+│   ├── [0]  tmp.bk
+│   ├── [0]  video.mp4
+│   └── [0]  wav.wav
+├── [0]  corge
+├── [-]  foo
+│   ├── [-]  bar
+│   │   └── [0]  baz
+│   ├── [0]  quux
+│   └── [0]  qux
+├── [-]  grault
+│   ├── [-]  garply
+│   │   ├── [0]  fred
+│   │   └── [-]  waldo
+│   │       ├── [0]  wibble
+│   │       └── [0]  wobble
+│   └── [0]  plugh
+└── [-]  xyzzy
+    └── [-]  thud
+        ├── [0]  flob
+        └── [0]  wubble
 
 8 directories, 21 files`,
 			colored:    false,
