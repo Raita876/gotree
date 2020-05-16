@@ -76,6 +76,7 @@ type Walker struct {
 	gid        bool
 	size       bool
 	includeDot bool
+	datetime   bool
 }
 
 type Option interface {
@@ -124,6 +125,12 @@ func (i includeDotOption) apply(w *Walker) {
 	w.includeDot = bool(i)
 }
 
+type datetimeOption bool
+
+func (dt datetimeOption) apply(w *Walker) {
+	w.datetime = bool(dt)
+}
+
 type Row struct {
 	fileInfo     os.FileInfo
 	level        uint
@@ -134,6 +141,7 @@ type Row struct {
 	uid          bool
 	gid          bool
 	size         bool
+	datetime     bool
 }
 
 func (row *Row) Status() string {
@@ -155,11 +163,25 @@ func (row *Row) Status() string {
 		status += row.Size() + " "
 	}
 
+	if row.datetime {
+		status += row.Datetime() + " "
+	}
+
 	if status != "" {
 		return fmt.Sprintf("[%s]  ", strings.TrimSpace(status))
 	}
 
 	return status
+}
+
+func (row *Row) Datetime() string {
+	mt := row.fileInfo.ModTime().Format("2006-01-02 15:04")
+
+	if row.colored {
+		mt = ColorBlue(mt)
+	}
+
+	return mt
 }
 
 func (row *Row) Size() string {
@@ -377,6 +399,7 @@ func (w *Walker) Walk(dir string, level uint) error {
 			uid:          w.uid,
 			gid:          w.gid,
 			size:         w.size,
+			datetime:     w.datetime,
 		}
 
 		w.PrintRow(row)
@@ -410,6 +433,7 @@ func Tree(root string, opts ...Option) error {
 		gid:        false,
 		size:       false,
 		includeDot: false,
+		datetime:   false,
 	}
 
 	for _, o := range opts {
@@ -466,6 +490,11 @@ func main() {
 				Usage:   "Print the size.",
 			},
 			&cli.BoolFlag{
+				Name:    "datetime",
+				Aliases: []string{"D"},
+				Usage:   "Print file datetime.",
+			},
+			&cli.BoolFlag{
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "All files are listed.",
@@ -481,8 +510,9 @@ func main() {
 			gid := gidOption(c.Bool("gid"))
 			size := sizeOption(c.Bool("size"))
 			includeDot := includeDotOption(c.Bool("all"))
+			datetime := datetimeOption(c.Bool("datetime"))
 
-			err := Tree(root, colored, level, permission, uid, gid, size, includeDot)
+			err := Tree(root, colored, level, permission, uid, gid, size, includeDot, datetime)
 			if err != nil {
 				return err
 			}
