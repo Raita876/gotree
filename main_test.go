@@ -527,7 +527,7 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --size <directory>",
 			want: `tmp
-├── [-]  [34m01[0m
+├── [-]  [34m01[0m/
 │   ├── [[32m0[0m]  [4m[93mREADME.md[0m[0m
 │   ├── [[32m0[0m]  [33mcompiled.o[0m
 │   ├── [[32m0[0m]  [31mcompressed.zip[0m
@@ -540,20 +540,20 @@ func TestTree(t *testing.T) {
 │   ├── [[32m0[0m]  [35mvideo.mp4[0m
 │   └── [[32m0[0m]  [35mwav.wav[0m
 ├── [[32m0[0m]  corge
-├── [-]  [34mfoo[0m
-│   ├── [-]  [34mbar[0m
+├── [-]  [34mfoo[0m/
+│   ├── [-]  [34mbar[0m/
 │   │   └── [[32m0[0m]  baz
 │   ├── [[32m0[0m]  quux
 │   └── [[32m0[0m]  qux
-├── [-]  [34mgrault[0m
-│   ├── [-]  [34mgarply[0m
+├── [-]  [34mgrault[0m/
+│   ├── [-]  [34mgarply[0m/
 │   │   ├── [[32m0[0m]  fred
-│   │   └── [-]  [34mwaldo[0m
+│   │   └── [-]  [34mwaldo[0m/
 │   │       ├── [[32m0[0m]  wibble
 │   │       └── [[32m0[0m]  wobble
 │   └── [[32m0[0m]  plugh
-└── [-]  [34mxyzzy[0m
-    └── [-]  [34mthud[0m
+└── [-]  [34mxyzzy[0m/
+    └── [-]  [34mthud[0m/
         ├── [[32m0[0m]  flob
         └── [[32m0[0m]  wubble
 
@@ -658,7 +658,7 @@ func TestTree(t *testing.T) {
 
 func testCaseWithDate() (string, error) {
 	testCase := `tmp
-├── [[34m__DATETIME__[0m]  [34m01[0m
+├── [[34m__DATETIME__[0m]  [34m01[0m/
 │   ├── [[34m__DATETIME__[0m]  [4m[93mREADME.md[0m[0m
 │   ├── [[34m__DATETIME__[0m]  [33mcompiled.o[0m
 │   ├── [[34m__DATETIME__[0m]  [31mcompressed.zip[0m
@@ -671,20 +671,20 @@ func testCaseWithDate() (string, error) {
 │   ├── [[34m__DATETIME__[0m]  [35mvideo.mp4[0m
 │   └── [[34m__DATETIME__[0m]  [35mwav.wav[0m
 ├── [[34m__DATETIME__[0m]  corge
-├── [[34m__DATETIME__[0m]  [34mfoo[0m
-│   ├── [[34m__DATETIME__[0m]  [34mbar[0m
+├── [[34m__DATETIME__[0m]  [34mfoo[0m/
+│   ├── [[34m__DATETIME__[0m]  [34mbar[0m/
 │   │   └── [[34m__DATETIME__[0m]  baz
 │   ├── [[34m__DATETIME__[0m]  quux
 │   └── [[34m__DATETIME__[0m]  qux
-├── [[34m__DATETIME__[0m]  [34mgrault[0m
-│   ├── [[34m__DATETIME__[0m]  [34mgarply[0m
+├── [[34m__DATETIME__[0m]  [34mgrault[0m/
+│   ├── [[34m__DATETIME__[0m]  [34mgarply[0m/
 │   │   ├── [[34m__DATETIME__[0m]  fred
-│   │   └── [[34m__DATETIME__[0m]  [34mwaldo[0m
+│   │   └── [[34m__DATETIME__[0m]  [34mwaldo[0m/
 │   │       ├── [[34m__DATETIME__[0m]  wibble
 │   │       └── [[34m__DATETIME__[0m]  wobble
 │   └── [[34m__DATETIME__[0m]  plugh
-└── [[34m__DATETIME__[0m]  [34mxyzzy[0m
-    └── [[34m__DATETIME__[0m]  [34mthud[0m
+└── [[34m__DATETIME__[0m]  [34mxyzzy[0m/
+    └── [[34m__DATETIME__[0m]  [34mthud[0m/
         ├── [[34m__DATETIME__[0m]  flob
         └── [[34m__DATETIME__[0m]  wubble
 
