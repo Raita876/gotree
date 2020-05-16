@@ -101,7 +101,7 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree <directory>",
 			want: `tmp
-├── [34m01[0m
+├── [34m01[0m/
 │   ├── [4m[93mREADME.md[0m[0m
 │   ├── [33mcompiled.o[0m
 │   ├── [31mcompressed.zip[0m
@@ -114,20 +114,20 @@ func TestTree(t *testing.T) {
 │   ├── [35mvideo.mp4[0m
 │   └── [35mwav.wav[0m
 ├── corge
-├── [34mfoo[0m
-│   ├── [34mbar[0m
+├── [34mfoo[0m/
+│   ├── [34mbar[0m/
 │   │   └── baz
 │   ├── quux
 │   └── qux
-├── [34mgrault[0m
-│   ├── [34mgarply[0m
+├── [34mgrault[0m/
+│   ├── [34mgarply[0m/
 │   │   ├── fred
-│   │   └── [34mwaldo[0m
+│   │   └── [34mwaldo[0m/
 │   │       ├── wibble
 │   │       └── wobble
 │   └── plugh
-└── [34mxyzzy[0m
-    └── [34mthud[0m
+└── [34mxyzzy[0m/
+    └── [34mthud[0m/
         ├── flob
         └── wubble
 
@@ -187,7 +187,7 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree -L 2 <directory>",
 			want: `tmp
-├── [34m01[0m
+├── [34m01[0m/
 │   ├── [4m[93mREADME.md[0m[0m
 │   ├── [33mcompiled.o[0m
 │   ├── [31mcompressed.zip[0m
@@ -200,15 +200,15 @@ func TestTree(t *testing.T) {
 │   ├── [35mvideo.mp4[0m
 │   └── [35mwav.wav[0m
 ├── corge
-├── [34mfoo[0m
-│   ├── [34mbar[0m
+├── [34mfoo[0m/
+│   ├── [34mbar[0m/
 │   ├── quux
 │   └── qux
-├── [34mgrault[0m
-│   ├── [34mgarply[0m
+├── [34mgrault[0m/
+│   ├── [34mgarply[0m/
 │   └── plugh
-└── [34mxyzzy[0m
-    └── [34mthud[0m
+└── [34mxyzzy[0m/
+    └── [34mthud[0m/
 
 7 directories, 15 files`,
 			colored:    true,
@@ -259,7 +259,7 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --permission <directory>",
 			want: `tmp
-├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34m01[0m
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34m01[0m/
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [4m[93mREADME.md[0m[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [33mcompiled.o[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [31mcompressed.zip[0m
@@ -272,20 +272,20 @@ func TestTree(t *testing.T) {
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mvideo.mp4[0m
 │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mwav.wav[0m
 ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
-├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mfoo[0m
-│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mbar[0m
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mfoo[0m/
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mbar[0m/
 │   │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  baz
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  quux
 │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  qux
-├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgrault[0m
-│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgarply[0m
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgrault[0m/
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgarply[0m/
 │   │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  fred
-│   │   └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mwaldo[0m
+│   │   └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mwaldo[0m/
 │   │       ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wibble
 │   │       └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wobble
 │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  plugh
-└── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mxyzzy[0m
-    └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mthud[0m
+└── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mxyzzy[0m/
+    └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mthud[0m/
         ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
         └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
 
@@ -346,9 +346,9 @@ func TestTree(t *testing.T) {
 			name: "gotree -a <directory>",
 			want: `tmp
 ├── .aaa
-├── [34m.bbb[0m
+├── [34m.bbb[0m/
 │   └── .ccc
-├── [34m01[0m
+├── [34m01[0m/
 │   ├── [4m[93mREADME.md[0m[0m
 │   ├── [33mcompiled.o[0m
 │   ├── [31mcompressed.zip[0m
@@ -361,20 +361,20 @@ func TestTree(t *testing.T) {
 │   ├── [35mvideo.mp4[0m
 │   └── [35mwav.wav[0m
 ├── corge
-├── [34mfoo[0m
-│   ├── [34mbar[0m
+├── [34mfoo[0m/
+│   ├── [34mbar[0m/
 │   │   └── baz
 │   ├── quux
 │   └── qux
-├── [34mgrault[0m
-│   ├── [34mgarply[0m
+├── [34mgrault[0m/
+│   ├── [34mgarply[0m/
 │   │   ├── fred
-│   │   └── [34mwaldo[0m
+│   │   └── [34mwaldo[0m/
 │   │       ├── wibble
 │   │       └── wobble
 │   └── plugh
-└── [34mxyzzy[0m
-    └── [34mthud[0m
+└── [34mxyzzy[0m/
+    └── [34mthud[0m/
         ├── flob
         └── wubble
 
@@ -439,7 +439,7 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --uid --gid <directory>",
 			want: `tmp
-├── [[33mrunner[0m [33mdocker[0m]  [34m01[0m
+├── [[33mrunner[0m [33mdocker[0m]  [34m01[0m/
 │   ├── [[33mrunner[0m [33mdocker[0m]  [4m[93mREADME.md[0m[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [33mcompiled.o[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [31mcompressed.zip[0m
@@ -452,20 +452,20 @@ func TestTree(t *testing.T) {
 │   ├── [[33mrunner[0m [33mdocker[0m]  [35mvideo.mp4[0m
 │   └── [[33mrunner[0m [33mdocker[0m]  [35mwav.wav[0m
 ├── [[33mrunner[0m [33mdocker[0m]  corge
-├── [[33mrunner[0m [33mdocker[0m]  [34mfoo[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [34mbar[0m
+├── [[33mrunner[0m [33mdocker[0m]  [34mfoo[0m/
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mbar[0m/
 │   │   └── [[33mrunner[0m [33mdocker[0m]  baz
 │   ├── [[33mrunner[0m [33mdocker[0m]  quux
 │   └── [[33mrunner[0m [33mdocker[0m]  qux
-├── [[33mrunner[0m [33mdocker[0m]  [34mgrault[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [34mgarply[0m
+├── [[33mrunner[0m [33mdocker[0m]  [34mgrault[0m/
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mgarply[0m/
 │   │   ├── [[33mrunner[0m [33mdocker[0m]  fred
-│   │   └── [[33mrunner[0m [33mdocker[0m]  [34mwaldo[0m
+│   │   └── [[33mrunner[0m [33mdocker[0m]  [34mwaldo[0m/
 │   │       ├── [[33mrunner[0m [33mdocker[0m]  wibble
 │   │       └── [[33mrunner[0m [33mdocker[0m]  wobble
 │   └── [[33mrunner[0m [33mdocker[0m]  plugh
-└── [[33mrunner[0m [33mdocker[0m]  [34mxyzzy[0m
-    └── [[33mrunner[0m [33mdocker[0m]  [34mthud[0m
+└── [[33mrunner[0m [33mdocker[0m]  [34mxyzzy[0m/
+    └── [[33mrunner[0m [33mdocker[0m]  [34mthud[0m/
         ├── [[33mrunner[0m [33mdocker[0m]  flob
         └── [[33mrunner[0m [33mdocker[0m]  wubble
 

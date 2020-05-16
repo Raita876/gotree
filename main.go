@@ -340,7 +340,7 @@ func (row *Row) Name() string {
 
 	if row.colored {
 		if row.isDir() {
-			return ColorBlue(name)
+			return ColorBlue(name) + "/"
 		}
 
 		if row.isExec() {
