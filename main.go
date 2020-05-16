@@ -27,10 +27,22 @@ const (
 	CONNECTOR_BLANK       = "    "
 
 	// print color
-	PRINT_COLOR_RED    = "\x1b[31m%s\x1b[0m"
-	PRINT_COLOR_GREEN  = "\x1b[32m%s\x1b[0m"
-	PRINT_COLOR_YELLOW = "\x1b[33m%s\x1b[0m"
-	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_BLACK         = "\x1b[30m%s\x1b[0m"
+	PRINT_COLOR_RED           = "\x1b[31m%s\x1b[0m"
+	PRINT_COLOR_GREEN         = "\x1b[32m%s\x1b[0m"
+	PRINT_COLOR_YELLOW        = "\x1b[33m%s\x1b[0m"
+	PRINT_COLOR_BLUE          = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_PURPLE        = "\x1b[35m%s\x1b[0m"
+	PRINT_COLOR_CYAN          = "\x1b[36m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_GRAY    = "\x1b[37m%s\x1b[0m"
+	PRINT_COLOR_DARK_GRAY     = "\x1b[90m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_RED     = "\x1b[91m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_GREEN   = "\x1b[92m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_YELLOW  = "\x1b[93m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_BLUE    = "\x1b[94m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_MAGENTA = "\x1b[95m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_CYAN    = "\x1b[96m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_WHITE   = "\x1b[97m%s\x1b[0m"
 )
 
 func ColorRed(s string) string {
@@ -47,6 +59,50 @@ func ColorYellow(s string) string {
 
 func ColorBlue(s string) string {
 	return fmt.Sprintf(PRINT_COLOR_BLUE, s)
+}
+
+func ColorPurple(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_PURPLE, s)
+}
+
+func ColorCyan(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_CYAN, s)
+}
+
+func ColorLightGray(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_GRAY, s)
+}
+
+func ColorDarkGray(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_DARK_GRAY, s)
+}
+
+func ColorLightRed(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_RED, s)
+}
+
+func ColorLightGreen(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_GREEN, s)
+}
+
+func ColorLightYellow(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_YELLOW, s)
+}
+
+func ColorLightBlue(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_BLUE, s)
+}
+
+func ColorLightMagenta(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_MAGENTA, s)
+}
+
+func ColorLightCyan(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_CYAN, s)
+}
+
+func ColorLightWhite(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_WHITE, s)
 }
 
 func FormatSize(size int64) string {
