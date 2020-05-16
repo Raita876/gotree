@@ -132,7 +132,13 @@ func contains(sl []string, s string) bool {
 }
 
 func ext(fileName string) string {
-	return filepath.Ext(fileName)[1:]
+	ext := filepath.Ext(fileName)
+
+	if ext == "" {
+		return ext
+	} else {
+		return ext[1:]
+	}
 }
 
 type Walker struct {
