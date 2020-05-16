@@ -326,7 +326,43 @@ func (row *Row) Name() string {
 		}
 
 		if row.isExec() {
-			return ColorGreen(name)
+			return ColorLightGreen(name)
+		}
+
+		if row.isImmediate() {
+			return ColorLightYellow(name)
+		}
+
+		if row.isImage() {
+			return ColorLightMagenta(name)
+		}
+
+		if row.isVideo() {
+			return ColorPurple(name)
+		}
+
+		if row.isMusic() {
+			return ColorPurple(name)
+		}
+
+		if row.isCrypto() {
+			return ColorLightCyan(name)
+		}
+
+		if row.isDocument() {
+			return ColorCyan(name)
+		}
+
+		if row.isCompressed() {
+			return ColorRed(name)
+		}
+
+		if row.isTemp() {
+			return ColorDarkGray(name)
+		}
+
+		if row.isCompiled() {
+			return ColorYellow(name)
 		}
 	}
 
