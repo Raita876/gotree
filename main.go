@@ -27,10 +27,26 @@ const (
 	CONNECTOR_BLANK       = "    "
 
 	// print color
-	PRINT_COLOR_RED    = "\x1b[31m%s\x1b[0m"
-	PRINT_COLOR_GREEN  = "\x1b[32m%s\x1b[0m"
-	PRINT_COLOR_YELLOW = "\x1b[33m%s\x1b[0m"
-	PRINT_COLOR_BLUE   = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_BLACK         = "\x1b[30m%s\x1b[0m"
+	PRINT_COLOR_RED           = "\x1b[31m%s\x1b[0m"
+	PRINT_COLOR_GREEN         = "\x1b[32m%s\x1b[0m"
+	PRINT_COLOR_YELLOW        = "\x1b[33m%s\x1b[0m"
+	PRINT_COLOR_BLUE          = "\x1b[34m%s\x1b[0m"
+	PRINT_COLOR_PURPLE        = "\x1b[35m%s\x1b[0m"
+	PRINT_COLOR_CYAN          = "\x1b[36m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_GRAY    = "\x1b[37m%s\x1b[0m"
+	PRINT_COLOR_DARK_GRAY     = "\x1b[90m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_RED     = "\x1b[91m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_GREEN   = "\x1b[92m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_YELLOW  = "\x1b[93m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_BLUE    = "\x1b[94m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_MAGENTA = "\x1b[95m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_CYAN    = "\x1b[96m%s\x1b[0m"
+	PRINT_COLOR_LIGHT_WHITE   = "\x1b[97m%s\x1b[0m"
+
+	// format
+	PRINT_BOLD       = "\x1b[1m%s\x1b[0m"
+	PRINT_UNDER_LINE = "\x1b[4m%s\x1b[0m"
 )
 
 func ColorRed(s string) string {
@@ -49,6 +65,58 @@ func ColorBlue(s string) string {
 	return fmt.Sprintf(PRINT_COLOR_BLUE, s)
 }
 
+func ColorPurple(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_PURPLE, s)
+}
+
+func ColorCyan(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_CYAN, s)
+}
+
+func ColorLightGray(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_GRAY, s)
+}
+
+func ColorDarkGray(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_DARK_GRAY, s)
+}
+
+func ColorLightRed(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_RED, s)
+}
+
+func ColorLightGreen(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_GREEN, s)
+}
+
+func ColorLightYellow(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_YELLOW, s)
+}
+
+func ColorLightBlue(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_BLUE, s)
+}
+
+func ColorLightMagenta(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_MAGENTA, s)
+}
+
+func ColorLightCyan(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_CYAN, s)
+}
+
+func ColorLightWhite(s string) string {
+	return fmt.Sprintf(PRINT_COLOR_LIGHT_WHITE, s)
+}
+
+func FormatBold(s string) string {
+	return fmt.Sprintf(PRINT_BOLD, s)
+}
+
+func FormatUnderLine(s string) string {
+	return fmt.Sprintf(PRINT_UNDER_LINE, s)
+}
+
 func FormatSize(size int64) string {
 	if size < 1000 {
 		return fmt.Sprintf("%d", size)
@@ -63,6 +131,26 @@ func FormatSize(size int64) string {
 	}
 
 	return "?????"
+}
+
+func contains(sl []string, s string) bool {
+	for _, v := range sl {
+		if v == s {
+			return true
+		}
+	}
+
+	return false
+}
+
+func ext(fileName string) string {
+	ext := filepath.Ext(fileName)
+
+	if ext == "" {
+		return ext
+	} else {
+		return ext[1:]
+	}
 }
 
 type Walker struct {
@@ -251,12 +339,48 @@ func (row *Row) Name() string {
 	name := row.fileInfo.Name()
 
 	if row.colored {
-		if row.fileInfo.IsDir() {
-			name = ColorBlue(name)
-		} else {
-			if row.isExec() {
-				name = ColorGreen(name)
-			}
+		if row.isDir() {
+			return ColorBlue(name) + "/"
+		}
+
+		if row.isExec() {
+			return ColorLightGreen(name) + "*"
+		}
+
+		if row.isImmediate() {
+			return FormatUnderLine(ColorLightYellow(name))
+		}
+
+		if row.isImage() {
+			return ColorLightMagenta(name)
+		}
+
+		if row.isVideo() {
+			return ColorPurple(name)
+		}
+
+		if row.isMusic() {
+			return ColorPurple(name)
+		}
+
+		if row.isCrypto() {
+			return ColorLightCyan(name)
+		}
+
+		if row.isDocument() {
+			return ColorGreen(name)
+		}
+
+		if row.isCompressed() {
+			return ColorRed(name)
+		}
+
+		if row.isTemp() {
+			return ColorDarkGray(name)
+		}
+
+		if row.isCompiled() {
+			return ColorYellow(name)
 		}
 	}
 
@@ -334,6 +458,10 @@ func (row *Row) Mode() string {
 	return strings.Join(modeStr[:], "")
 }
 
+func (row *Row) isDir() bool {
+	return row.fileInfo.IsDir()
+}
+
 func (row *Row) isExec() bool {
 	var m uint32
 	m = uint32(row.fileInfo.Mode())
@@ -343,6 +471,152 @@ func (row *Row) isExec() bool {
 		if m&(1<<uint(9-1-i)) != 0 && i%3 == 2 {
 			return true
 		}
+	}
+
+	return false
+}
+
+func (row *Row) isImmediate() bool {
+	name := row.fileInfo.Name()
+
+	nameWithoutExt := name[:len(name)-len(filepath.Ext(name))]
+	if strings.ToLower(nameWithoutExt) == "readme" {
+		return true
+	}
+
+	immediateFiles := []string{
+		"Makefile", "Cargo.toml", "SConstruct", "CMakeLists.txt",
+		"build.gradle", "pom.xml", "Rakefile", "package.json", "Gruntfile.js",
+		"Gruntfile.coffee", "BUILD", "BUILD.bazel", "WORKSPACE", "build.xml",
+		"webpack.config.js", "meson.build",
+	}
+
+	if contains(immediateFiles, name) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isImage() bool {
+	imageExts := []string{
+		"png", "jpeg", "jpg", "gif", "bmp", "tiff", "tif",
+		"ppm", "pgm", "pbm", "pnm", "webp", "raw", "arw",
+		"svg", "stl", "eps", "dvi", "ps", "cbr", "jpf",
+		"cbz", "xpm", "ico", "cr2", "orf", "nef",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(imageExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isVideo() bool {
+	videoExts := []string{
+		"avi", "flv", "m2v", "m4v", "mkv", "mov", "mp4", "mpeg",
+		"mpg", "ogm", "ogv", "vob", "wmv", "webm", "m2ts",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(videoExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isMusic() bool {
+	musicExts := []string{
+		"aac", "m4a", "mp3", "ogg", "wma", "mka", "opus",
+		"alac", "ape", "flac", "wav",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(musicExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCrypto() bool {
+	cryptoExts := []string{
+		"asc", "enc", "gpg", "pgp", "sig", "signature", "pfx", "p12",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(cryptoExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isDocument() bool {
+	documentExts := []string{
+		"djvu", "doc", "docx", "dvi", "eml", "eps", "fotd",
+		"odp", "odt", "pdf", "ppt", "pptx", "rtf",
+		"xls", "xlsx",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(documentExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCompressed() bool {
+	compressedExts := []string{
+		"zip", "tar", "Z", "z", "gz", "bz2", "a", "ar", "7z",
+		"iso", "dmg", "tc", "rar", "par", "tgz", "xz", "txz",
+		"lz", "tlz", "lzma", "deb", "rpm", "zst",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(compressedExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isTemp() bool {
+	name := row.fileInfo.Name()
+
+	// XXXX~ or #XXXX#
+	if name[len(name)-1:] == "~" || (name[:1] == "#" && name[len(name)-1:] == "#") {
+		return true
+	}
+
+	tempExts := []string{"tmp", "swp", "swo", "swn", "bak", "bk"}
+
+	ext := ext(name)
+
+	if contains(tempExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCompiled() bool {
+	compiledExts := []string{"class", "elc", "hi", "o", "pyc", "zwc"}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(compiledExts, ext) {
+		return true
 	}
 
 	return false
@@ -501,7 +775,7 @@ func main() {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			root := c.Args().Get(0)
+			root := c.Args().Get(0) // TODO: 引数の数をチェックする。
 
 			level := levelOption(c.Uint("level"))
 			colored := coloredOption(!c.Bool("disable-color"))
