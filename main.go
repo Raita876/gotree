@@ -65,6 +65,20 @@ func FormatSize(size int64) string {
 	return "?????"
 }
 
+func contains(sl []string, s string) bool {
+	for _, v := range sl {
+		if v == s {
+			return true
+		}
+	}
+
+	return false
+}
+
+func ext(fileName string) string {
+	return filepath.Ext(fileName)[1:]
+}
+
 type Walker struct {
 	dirNum     int
 	fileNum    int
@@ -347,6 +361,152 @@ func (row *Row) isExec() bool {
 		if m&(1<<uint(9-1-i)) != 0 && i%3 == 2 {
 			return true
 		}
+	}
+
+	return false
+}
+
+func (row *Row) isImmediate() bool {
+	name := row.fileInfo.Name()
+
+	nameWithoutExt := name[:len(name)-len(filepath.Ext(name))]
+	if strings.ToLower(nameWithoutExt) == "readme" {
+		return true
+	}
+
+	immediateFiles := []string{
+		"Makefile", "Cargo.toml", "SConstruct", "CMakeLists.txt",
+		"build.gradle", "pom.xml", "Rakefile", "package.json", "Gruntfile.js",
+		"Gruntfile.coffee", "BUILD", "BUILD.bazel", "WORKSPACE", "build.xml",
+		"webpack.config.js", "meson.build",
+	}
+
+	if contains(immediateFiles, name) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isImage() bool {
+	imageExts := []string{
+		"png", "jpeg", "jpg", "gif", "bmp", "tiff", "tif",
+		"ppm", "pgm", "pbm", "pnm", "webp", "raw", "arw",
+		"svg", "stl", "eps", "dvi", "ps", "cbr", "jpf",
+		"cbz", "xpm", "ico", "cr2", "orf", "nef",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(imageExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isVideo() bool {
+	videoExts := []string{
+		"avi", "flv", "m2v", "m4v", "mkv", "mov", "mp4", "mpeg",
+		"mpg", "ogm", "ogv", "vob", "wmv", "webm", "m2ts",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(videoExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isMusic() bool {
+	musicExts := []string{
+		"aac", "m4a", "mp3", "ogg", "wma", "mka", "opus",
+		"alac", "ape", "flac", "wav",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(musicExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCrypto() bool {
+	cryptoExts := []string{
+		"asc", "enc", "gpg", "pgp", "sig", "signature", "pfx", "p12",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(cryptoExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isDocument() bool {
+	documentExts := []string{
+		"djvu", "doc", "docx", "dvi", "eml", "eps", "fotd",
+		"odp", "odt", "pdf", "ppt", "pptx", "rtf",
+		"xls", "xlsx",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(documentExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCompressed() bool {
+	compressedExts := []string{
+		"zip", "tar", "Z", "z", "gz", "bz2", "a", "ar", "7z",
+		"iso", "dmg", "tc", "rar", "par", "tgz", "xz", "txz",
+		"lz", "tlz", "lzma", "deb", "rpm", "zst",
+	}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(compressedExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isTemp() bool {
+	name := row.fileInfo.Name()
+
+	// XXXX~ or #XXXX#
+	if name[len(name)-1:] == "~" || (name[:1] == "#" && name[len(name)-1:] == "#") {
+		return true
+	}
+
+	tempExts := []string{"tmp", "swp", "swo", "swn", "bak", "bk"}
+
+	ext := ext(name)
+
+	if contains(tempExts, ext) {
+		return true
+	}
+
+	return false
+}
+
+func (row *Row) isCompiled() bool {
+	compiledExts := []string{"class", "elc", "hi", "o", "pyc", "zwc"}
+
+	ext := ext(row.fileInfo.Name())
+
+	if contains(compiledExts, ext) {
+		return true
 	}
 
 	return false
