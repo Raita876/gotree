@@ -350,7 +350,7 @@ func (row *Row) Name() string {
 		}
 
 		if row.isDocument() {
-			return ColorCyan(name)
+			return ColorGreen(name)
 		}
 
 		if row.isCompressed() {
