@@ -395,20 +395,17 @@ func (row *Row) Str() string {
 	var str string
 	for i := 0; i < int(row.level-1); i++ {
 		if row.isBlank[i] {
-			str += CONNECTOR_BLANK
+			str += row.connectorBlank()
 		} else {
-			str += CONNECTOR_LINE
+			str += row.connectorLine()
 		}
 	}
 
 	if row.onRightAngle {
-		str += CONNECTOR_RIGHT_ANGLE + row.File()
+		str += row.connectorRightAngle() + row.File()
 	} else {
-		str += CONNECTOR_CROSS + row.File()
+		str += row.connectorCross() + row.File()
 	}
-
-	// debug
-	// str += fmt.Sprintf("(level=%d, isblank=%v)", row.level, row.isBlank)
 
 	return str
 }
@@ -456,6 +453,34 @@ func (row *Row) Mode() string {
 	}
 
 	return strings.Join(modeStr[:], "")
+}
+
+func (row *Row) connectorCross() string {
+	if row.colored {
+		return ColorDarkGray(CONNECTOR_CROSS)
+	}
+
+	return CONNECTOR_CROSS
+}
+
+func (row *Row) connectorLine() string {
+	if row.colored {
+		return ColorDarkGray(CONNECTOR_LINE)
+	}
+
+	return CONNECTOR_LINE
+}
+
+func (row *Row) connectorRightAngle() string {
+	if row.colored {
+		return ColorDarkGray(CONNECTOR_RIGHT_ANGLE)
+	}
+
+	return CONNECTOR_RIGHT_ANGLE
+}
+
+func (row *Row) connectorBlank() string {
+	return CONNECTOR_BLANK
 }
 
 func (row *Row) isDir() bool {
