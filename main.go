@@ -43,6 +43,10 @@ const (
 	PRINT_COLOR_LIGHT_MAGENTA = "\x1b[95m%s\x1b[0m"
 	PRINT_COLOR_LIGHT_CYAN    = "\x1b[96m%s\x1b[0m"
 	PRINT_COLOR_LIGHT_WHITE   = "\x1b[97m%s\x1b[0m"
+
+	// format
+	PRINT_BOLD       = "\x1b[1m%s\x1b[0m"
+	PRINT_UNDER_LINE = "\x1b[4m%s\x1b[0m"
 )
 
 func ColorRed(s string) string {
@@ -103,6 +107,14 @@ func ColorLightCyan(s string) string {
 
 func ColorLightWhite(s string) string {
 	return fmt.Sprintf(PRINT_COLOR_LIGHT_WHITE, s)
+}
+
+func FormatBold(s string) string {
+	return fmt.Sprintf(PRINT_BOLD, s)
+}
+
+func FormatUnderLine(s string) string {
+	return fmt.Sprintf(PRINT_UNDER_LINE, s)
 }
 
 func FormatSize(size int64) string {
@@ -332,11 +344,11 @@ func (row *Row) Name() string {
 		}
 
 		if row.isExec() {
-			return ColorLightGreen(name)
+			return ColorLightGreen(name + "*")
 		}
 
 		if row.isImmediate() {
-			return ColorLightYellow(name)
+			return FormatUnderLine(ColorLightYellow(name))
 		}
 
 		if row.isImage() {
