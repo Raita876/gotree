@@ -340,7 +340,7 @@ func (row *Row) Name() string {
 
 	if row.colored {
 		if row.isDir() {
-			return ColorBlue(name) + "/"
+			return ColorLightBlue(name) + "/"
 		}
 
 		if row.isExec() {
@@ -422,7 +422,7 @@ func (row *Row) Mode() string {
 	for i, c := range str {
 		if m&(1<<uint(32-1-i)) != 0 {
 			if row.colored {
-				modeStr[0] = ColorBlue(string(c))
+				modeStr[0] = ColorLightBlue(string(c))
 			} else {
 				modeStr[0] = string(c)
 			}
