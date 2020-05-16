@@ -484,7 +484,7 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
-├── 01
+├── [runner docker]  01
 │   ├── [runner docker]  README.md
 │   ├── [runner docker]  compiled.o
 │   ├── [runner docker]  compressed.zip
