@@ -101,35 +101,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree <directory>",
 			want: `tmp
-├── [94m01[0m/
-│   ├── [4m[93mREADME.md[0m[0m
-│   ├── [33mcompiled.o[0m
-│   ├── [31mcompressed.zip[0m
-│   ├── [96mcrypto.asc[0m
-│   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec[0m*
-│   ├── [95mimage.png[0m
-│   ├── [35mmusic.mp3[0m
-│   ├── [90mtmp.bk[0m
-│   ├── [35mvideo.mp4[0m
-│   └── [35mwav.wav[0m
-├── corge
-├── [94mfoo[0m/
-│   ├── [94mbar[0m/
-│   │   └── baz
-│   ├── quux
-│   └── qux
-├── [94mgrault[0m/
-│   ├── [94mgarply[0m/
-│   │   ├── fred
-│   │   └── [94mwaldo[0m/
-│   │       ├── wibble
-│   │       └── wobble
-│   └── plugh
-└── [94mxyzzy[0m/
-    └── [94mthud[0m/
-        ├── flob
-        └── wubble
+[90m├── [0m[94m01[0m/
+[90m│   [0m[90m├── [0m[4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[92mexec[0m*
+[90m│   [0m[90m├── [0m[95mimage.png[0m
+[90m│   [0m[90m├── [0m[35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[35mwav.wav[0m
+[90m├── [0mcorge
+[90m├── [0m[94mfoo[0m/
+[90m│   [0m[90m├── [0m[94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0mbaz
+[90m│   [0m[90m├── [0mquux
+[90m│   [0m[90m└── [0mqux
+[90m├── [0m[94mgrault[0m/
+[90m│   [0m[90m├── [0m[94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0mfred
+[90m│   [0m[90m│   [0m[90m└── [0m[94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0mwibble
+[90m│   [0m[90m│   [0m    [90m└── [0mwobble
+[90m│   [0m[90m└── [0mplugh
+[90m└── [0m[94mxyzzy[0m/
+    [90m└── [0m[94mthud[0m/
+        [90m├── [0mflob
+        [90m└── [0mwubble
 
 8 directories, 21 files`,
 			colored:    true,
@@ -187,28 +187,28 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree -L 2 <directory>",
 			want: `tmp
-├── [94m01[0m/
-│   ├── [4m[93mREADME.md[0m[0m
-│   ├── [33mcompiled.o[0m
-│   ├── [31mcompressed.zip[0m
-│   ├── [96mcrypto.asc[0m
-│   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec[0m*
-│   ├── [95mimage.png[0m
-│   ├── [35mmusic.mp3[0m
-│   ├── [90mtmp.bk[0m
-│   ├── [35mvideo.mp4[0m
-│   └── [35mwav.wav[0m
-├── corge
-├── [94mfoo[0m/
-│   ├── [94mbar[0m/
-│   ├── quux
-│   └── qux
-├── [94mgrault[0m/
-│   ├── [94mgarply[0m/
-│   └── plugh
-└── [94mxyzzy[0m/
-    └── [94mthud[0m/
+[90m├── [0m[94m01[0m/
+[90m│   [0m[90m├── [0m[4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[92mexec[0m*
+[90m│   [0m[90m├── [0m[95mimage.png[0m
+[90m│   [0m[90m├── [0m[35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[35mwav.wav[0m
+[90m├── [0mcorge
+[90m├── [0m[94mfoo[0m/
+[90m│   [0m[90m├── [0m[94mbar[0m/
+[90m│   [0m[90m├── [0mquux
+[90m│   [0m[90m└── [0mqux
+[90m├── [0m[94mgrault[0m/
+[90m│   [0m[90m├── [0m[94mgarply[0m/
+[90m│   [0m[90m└── [0mplugh
+[90m└── [0m[94mxyzzy[0m/
+    [90m└── [0m[94mthud[0m/
 
 7 directories, 15 files`,
 			colored:    true,
@@ -259,35 +259,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --permission <directory>",
 			want: `tmp
-├── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94m01[0m/
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [4m[93mREADME.md[0m[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [33mcompiled.o[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [31mcompressed.zip[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [96mcrypto.asc[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [32mdocument.xlsx[0m
-│   ├── [.[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m]  [92mexec[0m*
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [95mimage.png[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mmusic.mp3[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [90mtmp.bk[0m
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mvideo.mp4[0m
-│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mwav.wav[0m
-├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
-├── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mfoo[0m/
-│   ├── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mbar[0m/
-│   │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  baz
-│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  quux
-│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  qux
-├── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mgrault[0m/
-│   ├── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mgarply[0m/
-│   │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  fred
-│   │   └── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mwaldo[0m/
-│   │       ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wibble
-│   │       └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wobble
-│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  plugh
-└── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mxyzzy[0m/
-    └── [[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mthud[0m/
-        ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
-        └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
+[90m├── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94m01[0m/
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m]  [92mexec[0m*
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [95mimage.png[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mwav.wav[0m
+[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
+[90m├── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mfoo[0m/
+[90m│   [0m[90m├── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  baz
+[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  quux
+[90m│   [0m[90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  qux
+[90m├── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mgrault[0m/
+[90m│   [0m[90m├── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  fred
+[90m│   [0m[90m│   [0m[90m└── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wibble
+[90m│   [0m[90m│   [0m    [90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wobble
+[90m│   [0m[90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  plugh
+[90m└── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mxyzzy[0m/
+    [90m└── [0m[[94md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [94mthud[0m/
+        [90m├── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
+        [90m└── [0m[.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
 
 8 directories, 21 files`,
 			colored:    true,
@@ -345,38 +345,38 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree -a <directory>",
 			want: `tmp
-├── .aaa
-├── [94m.bbb[0m/
-│   └── .ccc
-├── [94m01[0m/
-│   ├── [4m[93mREADME.md[0m[0m
-│   ├── [33mcompiled.o[0m
-│   ├── [31mcompressed.zip[0m
-│   ├── [96mcrypto.asc[0m
-│   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec[0m*
-│   ├── [95mimage.png[0m
-│   ├── [35mmusic.mp3[0m
-│   ├── [90mtmp.bk[0m
-│   ├── [35mvideo.mp4[0m
-│   └── [35mwav.wav[0m
-├── corge
-├── [94mfoo[0m/
-│   ├── [94mbar[0m/
-│   │   └── baz
-│   ├── quux
-│   └── qux
-├── [94mgrault[0m/
-│   ├── [94mgarply[0m/
-│   │   ├── fred
-│   │   └── [94mwaldo[0m/
-│   │       ├── wibble
-│   │       └── wobble
-│   └── plugh
-└── [94mxyzzy[0m/
-    └── [94mthud[0m/
-        ├── flob
-        └── wubble
+[90m├── [0m.aaa
+[90m├── [0m[94m.bbb[0m/
+[90m│   [0m[90m└── [0m.ccc
+[90m├── [0m[94m01[0m/
+[90m│   [0m[90m├── [0m[4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[92mexec[0m*
+[90m│   [0m[90m├── [0m[95mimage.png[0m
+[90m│   [0m[90m├── [0m[35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[35mwav.wav[0m
+[90m├── [0mcorge
+[90m├── [0m[94mfoo[0m/
+[90m│   [0m[90m├── [0m[94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0mbaz
+[90m│   [0m[90m├── [0mquux
+[90m│   [0m[90m└── [0mqux
+[90m├── [0m[94mgrault[0m/
+[90m│   [0m[90m├── [0m[94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0mfred
+[90m│   [0m[90m│   [0m[90m└── [0m[94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0mwibble
+[90m│   [0m[90m│   [0m    [90m└── [0mwobble
+[90m│   [0m[90m└── [0mplugh
+[90m└── [0m[94mxyzzy[0m/
+    [90m└── [0m[94mthud[0m/
+        [90m├── [0mflob
+        [90m└── [0mwubble
 
 9 directories, 23 files`,
 			colored:    true,
@@ -439,35 +439,35 @@ func TestTree(t *testing.T) {
 			// TODO: allow user group to be specified.
 			name: "gotree --uid --gid <directory>",
 			want: `tmp
-├── [[33mrunner[0m [33mdocker[0m]  [94m01[0m/
-│   ├── [[33mrunner[0m [33mdocker[0m]  [4m[93mREADME.md[0m[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [33mcompiled.o[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [31mcompressed.zip[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [96mcrypto.asc[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [32mdocument.xlsx[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [92mexec[0m*
-│   ├── [[33mrunner[0m [33mdocker[0m]  [95mimage.png[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [35mmusic.mp3[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [90mtmp.bk[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [35mvideo.mp4[0m
-│   └── [[33mrunner[0m [33mdocker[0m]  [35mwav.wav[0m
-├── [[33mrunner[0m [33mdocker[0m]  corge
-├── [[33mrunner[0m [33mdocker[0m]  [94mfoo[0m/
-│   ├── [[33mrunner[0m [33mdocker[0m]  [94mbar[0m/
-│   │   └── [[33mrunner[0m [33mdocker[0m]  baz
-│   ├── [[33mrunner[0m [33mdocker[0m]  quux
-│   └── [[33mrunner[0m [33mdocker[0m]  qux
-├── [[33mrunner[0m [33mdocker[0m]  [94mgrault[0m/
-│   ├── [[33mrunner[0m [33mdocker[0m]  [94mgarply[0m/
-│   │   ├── [[33mrunner[0m [33mdocker[0m]  fred
-│   │   └── [[33mrunner[0m [33mdocker[0m]  [94mwaldo[0m/
-│   │       ├── [[33mrunner[0m [33mdocker[0m]  wibble
-│   │       └── [[33mrunner[0m [33mdocker[0m]  wobble
-│   └── [[33mrunner[0m [33mdocker[0m]  plugh
-└── [[33mrunner[0m [33mdocker[0m]  [94mxyzzy[0m/
-    └── [[33mrunner[0m [33mdocker[0m]  [94mthud[0m/
-        ├── [[33mrunner[0m [33mdocker[0m]  flob
-        └── [[33mrunner[0m [33mdocker[0m]  wubble
+[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [94m01[0m/
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [92mexec[0m*
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [95mimage.png[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[[33mrunner[0m [33mdocker[0m]  [35mwav.wav[0m
+[90m├── [0m[[33mrunner[0m [33mdocker[0m]  corge
+[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [94mfoo[0m/
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0m[[33mrunner[0m [33mdocker[0m]  baz
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  quux
+[90m│   [0m[90m└── [0m[[33mrunner[0m [33mdocker[0m]  qux
+[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [94mgrault[0m/
+[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  [94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0m[[33mrunner[0m [33mdocker[0m]  fred
+[90m│   [0m[90m│   [0m[90m└── [0m[[33mrunner[0m [33mdocker[0m]  [94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0m[[33mrunner[0m [33mdocker[0m]  wibble
+[90m│   [0m[90m│   [0m    [90m└── [0m[[33mrunner[0m [33mdocker[0m]  wobble
+[90m│   [0m[90m└── [0m[[33mrunner[0m [33mdocker[0m]  plugh
+[90m└── [0m[[33mrunner[0m [33mdocker[0m]  [94mxyzzy[0m/
+    [90m└── [0m[[33mrunner[0m [33mdocker[0m]  [94mthud[0m/
+        [90m├── [0m[[33mrunner[0m [33mdocker[0m]  flob
+        [90m└── [0m[[33mrunner[0m [33mdocker[0m]  wubble
 
 8 directories, 21 files`,
 			colored:    true,
@@ -527,35 +527,35 @@ func TestTree(t *testing.T) {
 		{
 			name: "gotree --size <directory>",
 			want: `tmp
-├── [-]  [94m01[0m/
-│   ├── [[32m0[0m]  [4m[93mREADME.md[0m[0m
-│   ├── [[32m0[0m]  [33mcompiled.o[0m
-│   ├── [[32m0[0m]  [31mcompressed.zip[0m
-│   ├── [[32m0[0m]  [96mcrypto.asc[0m
-│   ├── [[32m0[0m]  [32mdocument.xlsx[0m
-│   ├── [[32m0[0m]  [92mexec[0m*
-│   ├── [[32m0[0m]  [95mimage.png[0m
-│   ├── [[32m0[0m]  [35mmusic.mp3[0m
-│   ├── [[32m0[0m]  [90mtmp.bk[0m
-│   ├── [[32m0[0m]  [35mvideo.mp4[0m
-│   └── [[32m0[0m]  [35mwav.wav[0m
-├── [[32m0[0m]  corge
-├── [-]  [94mfoo[0m/
-│   ├── [-]  [94mbar[0m/
-│   │   └── [[32m0[0m]  baz
-│   ├── [[32m0[0m]  quux
-│   └── [[32m0[0m]  qux
-├── [-]  [94mgrault[0m/
-│   ├── [-]  [94mgarply[0m/
-│   │   ├── [[32m0[0m]  fred
-│   │   └── [-]  [94mwaldo[0m/
-│   │       ├── [[32m0[0m]  wibble
-│   │       └── [[32m0[0m]  wobble
-│   └── [[32m0[0m]  plugh
-└── [-]  [94mxyzzy[0m/
-    └── [-]  [94mthud[0m/
-        ├── [[32m0[0m]  flob
-        └── [[32m0[0m]  wubble
+[90m├── [0m[-]  [94m01[0m/
+[90m│   [0m[90m├── [0m[[32m0[0m]  [4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [92mexec[0m*
+[90m│   [0m[90m├── [0m[[32m0[0m]  [95mimage.png[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[[32m0[0m]  [35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[[32m0[0m]  [35mwav.wav[0m
+[90m├── [0m[[32m0[0m]  corge
+[90m├── [0m[-]  [94mfoo[0m/
+[90m│   [0m[90m├── [0m[-]  [94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0m[[32m0[0m]  baz
+[90m│   [0m[90m├── [0m[[32m0[0m]  quux
+[90m│   [0m[90m└── [0m[[32m0[0m]  qux
+[90m├── [0m[-]  [94mgrault[0m/
+[90m│   [0m[90m├── [0m[-]  [94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0m[[32m0[0m]  fred
+[90m│   [0m[90m│   [0m[90m└── [0m[-]  [94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0m[[32m0[0m]  wibble
+[90m│   [0m[90m│   [0m    [90m└── [0m[[32m0[0m]  wobble
+[90m│   [0m[90m└── [0m[[32m0[0m]  plugh
+[90m└── [0m[-]  [94mxyzzy[0m/
+    [90m└── [0m[-]  [94mthud[0m/
+        [90m├── [0m[[32m0[0m]  flob
+        [90m└── [0m[[32m0[0m]  wubble
 
 8 directories, 21 files`,
 			colored:    true,
@@ -658,35 +658,35 @@ func TestTree(t *testing.T) {
 
 func testCaseWithDate() (string, error) {
 	testCase := `tmp
-├── [[34m__DATETIME__[0m]  [94m01[0m/
-│   ├── [[34m__DATETIME__[0m]  [4m[93mREADME.md[0m[0m
-│   ├── [[34m__DATETIME__[0m]  [33mcompiled.o[0m
-│   ├── [[34m__DATETIME__[0m]  [31mcompressed.zip[0m
-│   ├── [[34m__DATETIME__[0m]  [96mcrypto.asc[0m
-│   ├── [[34m__DATETIME__[0m]  [32mdocument.xlsx[0m
-│   ├── [[34m__DATETIME__[0m]  [92mexec[0m*
-│   ├── [[34m__DATETIME__[0m]  [95mimage.png[0m
-│   ├── [[34m__DATETIME__[0m]  [35mmusic.mp3[0m
-│   ├── [[34m__DATETIME__[0m]  [90mtmp.bk[0m
-│   ├── [[34m__DATETIME__[0m]  [35mvideo.mp4[0m
-│   └── [[34m__DATETIME__[0m]  [35mwav.wav[0m
-├── [[34m__DATETIME__[0m]  corge
-├── [[34m__DATETIME__[0m]  [94mfoo[0m/
-│   ├── [[34m__DATETIME__[0m]  [94mbar[0m/
-│   │   └── [[34m__DATETIME__[0m]  baz
-│   ├── [[34m__DATETIME__[0m]  quux
-│   └── [[34m__DATETIME__[0m]  qux
-├── [[34m__DATETIME__[0m]  [94mgrault[0m/
-│   ├── [[34m__DATETIME__[0m]  [94mgarply[0m/
-│   │   ├── [[34m__DATETIME__[0m]  fred
-│   │   └── [[34m__DATETIME__[0m]  [94mwaldo[0m/
-│   │       ├── [[34m__DATETIME__[0m]  wibble
-│   │       └── [[34m__DATETIME__[0m]  wobble
-│   └── [[34m__DATETIME__[0m]  plugh
-└── [[34m__DATETIME__[0m]  [94mxyzzy[0m/
-    └── [[34m__DATETIME__[0m]  [94mthud[0m/
-        ├── [[34m__DATETIME__[0m]  flob
-        └── [[34m__DATETIME__[0m]  wubble
+[90m├── [0m[[34m__DATETIME__[0m]  [94m01[0m/
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [4m[93mREADME.md[0m[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [33mcompiled.o[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [31mcompressed.zip[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [96mcrypto.asc[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [32mdocument.xlsx[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [92mexec[0m*
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [95mimage.png[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [35mmusic.mp3[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [90mtmp.bk[0m
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [35mvideo.mp4[0m
+[90m│   [0m[90m└── [0m[[34m__DATETIME__[0m]  [35mwav.wav[0m
+[90m├── [0m[[34m__DATETIME__[0m]  corge
+[90m├── [0m[[34m__DATETIME__[0m]  [94mfoo[0m/
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [94mbar[0m/
+[90m│   [0m[90m│   [0m[90m└── [0m[[34m__DATETIME__[0m]  baz
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  quux
+[90m│   [0m[90m└── [0m[[34m__DATETIME__[0m]  qux
+[90m├── [0m[[34m__DATETIME__[0m]  [94mgrault[0m/
+[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  [94mgarply[0m/
+[90m│   [0m[90m│   [0m[90m├── [0m[[34m__DATETIME__[0m]  fred
+[90m│   [0m[90m│   [0m[90m└── [0m[[34m__DATETIME__[0m]  [94mwaldo[0m/
+[90m│   [0m[90m│   [0m    [90m├── [0m[[34m__DATETIME__[0m]  wibble
+[90m│   [0m[90m│   [0m    [90m└── [0m[[34m__DATETIME__[0m]  wobble
+[90m│   [0m[90m└── [0m[[34m__DATETIME__[0m]  plugh
+[90m└── [0m[[34m__DATETIME__[0m]  [94mxyzzy[0m/
+    [90m└── [0m[[34m__DATETIME__[0m]  [94mthud[0m/
+        [90m├── [0m[[34m__DATETIME__[0m]  flob
+        [90m└── [0m[[34m__DATETIME__[0m]  wubble
 
 8 directories, 21 files`
 
