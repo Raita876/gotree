@@ -47,9 +47,6 @@ jobs:
           - os: lin64
             goos: linux
             arch: amd64
-          - os: win64
-            goos: windows
-            arch: amd64
 
     steps:
       - name: Set up Go 1.14
