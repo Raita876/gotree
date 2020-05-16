@@ -107,7 +107,7 @@ func TestTree(t *testing.T) {
 │   ├── [31mcompressed.zip[0m
 │   ├── [96mcrypto.asc[0m
 │   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec*[0m
+│   ├── [92mexec[0m*
 │   ├── [95mimage.png[0m
 │   ├── [35mmusic.mp3[0m
 │   ├── [90mtmp.bk[0m
@@ -193,7 +193,7 @@ func TestTree(t *testing.T) {
 │   ├── [31mcompressed.zip[0m
 │   ├── [96mcrypto.asc[0m
 │   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec*[0m
+│   ├── [92mexec[0m*
 │   ├── [95mimage.png[0m
 │   ├── [35mmusic.mp3[0m
 │   ├── [90mtmp.bk[0m
@@ -265,7 +265,7 @@ func TestTree(t *testing.T) {
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [31mcompressed.zip[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [96mcrypto.asc[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [32mdocument.xlsx[0m
-│   ├── [.[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m]  [92mexec*[0m
+│   ├── [.[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m[31mw[0m[32mx[0m]  [92mexec[0m*
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [95mimage.png[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [35mmusic.mp3[0m
 │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  [90mtmp.bk[0m
@@ -354,7 +354,7 @@ func TestTree(t *testing.T) {
 │   ├── [31mcompressed.zip[0m
 │   ├── [96mcrypto.asc[0m
 │   ├── [32mdocument.xlsx[0m
-│   ├── [92mexec*[0m
+│   ├── [92mexec[0m*
 │   ├── [95mimage.png[0m
 │   ├── [35mmusic.mp3[0m
 │   ├── [90mtmp.bk[0m
@@ -445,7 +445,7 @@ func TestTree(t *testing.T) {
 │   ├── [[33mrunner[0m [33mdocker[0m]  [31mcompressed.zip[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [96mcrypto.asc[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [32mdocument.xlsx[0m
-│   ├── [[33mrunner[0m [33mdocker[0m]  [92mexec*[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [92mexec[0m*
 │   ├── [[33mrunner[0m [33mdocker[0m]  [95mimage.png[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [35mmusic.mp3[0m
 │   ├── [[33mrunner[0m [33mdocker[0m]  [90mtmp.bk[0m
@@ -533,7 +533,7 @@ func TestTree(t *testing.T) {
 │   ├── [[32m0[0m]  [31mcompressed.zip[0m
 │   ├── [[32m0[0m]  [96mcrypto.asc[0m
 │   ├── [[32m0[0m]  [32mdocument.xlsx[0m
-│   ├── [[32m0[0m]  [92mexec*[0m
+│   ├── [[32m0[0m]  [92mexec[0m*
 │   ├── [[32m0[0m]  [95mimage.png[0m
 │   ├── [[32m0[0m]  [35mmusic.mp3[0m
 │   ├── [[32m0[0m]  [90mtmp.bk[0m
@@ -664,7 +664,7 @@ func testCaseWithDate() (string, error) {
 │   ├── [[34m__DATETIME__[0m]  [31mcompressed.zip[0m
 │   ├── [[34m__DATETIME__[0m]  [96mcrypto.asc[0m
 │   ├── [[34m__DATETIME__[0m]  [32mdocument.xlsx[0m
-│   ├── [[34m__DATETIME__[0m]  [92mexec*[0m
+│   ├── [[34m__DATETIME__[0m]  [92mexec[0m*
 │   ├── [[34m__DATETIME__[0m]  [95mimage.png[0m
 │   ├── [[34m__DATETIME__[0m]  [35mmusic.mp3[0m
 │   ├── [[34m__DATETIME__[0m]  [90mtmp.bk[0m
