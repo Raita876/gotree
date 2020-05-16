@@ -658,6 +658,18 @@ func TestTree(t *testing.T) {
 
 func testCaseWithDate() (string, error) {
 	testCase := `tmp
+├── [[34m2020-05-16 22:41[0m]  [34m01[0m
+│   ├── [[34m__DATETIME__[0m]  [4m[93mREADME.md[0m[0m
+│   ├── [[34m__DATETIME__[0m]  [33mcompiled.o[0m
+│   ├── [[34m__DATETIME__[0m]  [31mcompressed.zip[0m
+│   ├── [[34m__DATETIME__[0m]  [96mcrypto.asc[0m
+│   ├── [[34m__DATETIME__[0m]  [32mdocument.xlsx[0m
+│   ├── [[34m__DATETIME__[0m]  [92mexec*[0m
+│   ├── [[34m__DATETIME__[0m]  [95mimage.png[0m
+│   ├── [[34m__DATETIME__[0m]  [35mmusic.mp3[0m
+│   ├── [[34m__DATETIME__[0m]  [90mtmp.bk[0m
+│   ├── [[34m__DATETIME__[0m]  [35mvideo.mp4[0m
+│   └── [[34m__DATETIME__[0m]  [35mwav.wav[0m
 ├── [[34m__DATETIME__[0m]  corge
 ├── [[34m__DATETIME__[0m]  [34mfoo[0m
 │   ├── [[34m__DATETIME__[0m]  [34mbar[0m
