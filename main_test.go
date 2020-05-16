@@ -79,6 +79,36 @@ func TestTree(t *testing.T) {
 		includeDot includeDotOption
 	}{
 		{
+			name: "gotree <directory>",
+			want: `tmp
+├── corge
+├── [34mfoo[0m
+│   ├── [34mbar[0m
+│   │   └── baz
+│   ├── quux
+│   └── qux
+├── [34mgrault[0m
+│   ├── [34mgarply[0m
+│   │   ├── fred
+│   │   └── [34mwaldo[0m
+│   │       ├── wibble
+│   │       └── wobble
+│   └── plugh
+└── [34mxyzzy[0m
+    └── [34mthud[0m
+        ├── flob
+        └── wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+		},
+		{
 			name: "gotree --disable-color <directory>",
 			want: `tmp
 ├── corge
@@ -109,6 +139,29 @@ func TestTree(t *testing.T) {
 			includeDot: false,
 		},
 		{
+			name: "gotree -L 2 <directory>",
+			want: `tmp
+├── corge
+├── [34mfoo[0m
+│   ├── [34mbar[0m
+│   ├── quux
+│   └── qux
+├── [34mgrault[0m
+│   ├── [34mgarply[0m
+│   └── plugh
+└── [34mxyzzy[0m
+    └── [34mthud[0m
+
+6 directories, 4 files`,
+			colored:    true,
+			level:      2,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+		},
+		{
 			name: "gotree --disable-color -L 2 <directory>",
 			want: `tmp
 ├── corge
@@ -126,6 +179,36 @@ func TestTree(t *testing.T) {
 			colored:    false,
 			level:      2,
 			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: false,
+		},
+		{
+			name: "gotree --permission <directory>",
+			want: `tmp
+├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  corge
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mfoo[0m
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mbar[0m
+│   │   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  baz
+│   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  quux
+│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  qux
+├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgrault[0m
+│   ├── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mgarply[0m
+│   │   ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  fred
+│   │   └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mwaldo[0m
+│   │       ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wibble
+│   │       └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wobble
+│   └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  plugh
+└── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mxyzzy[0m
+    └── [[34md[0m[33mr[0m[31mw[0m[32mx[0m[33mr[0m-[32mx[0m[33mr[0m-[32mx[0m]  [34mthud[0m
+        ├── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  flob
+        └── [.[33mr[0m[31mw[0m-[33mr[0m--[33mr[0m--]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: true,
 			uid:        false,
 			gid:        false,
 			size:       false,
@@ -160,6 +243,39 @@ func TestTree(t *testing.T) {
 			gid:        false,
 			size:       false,
 			includeDot: false,
+		},
+		{
+			name: "gotree -a <directory>",
+			want: `tmp
+├── .a
+├── [34m.b[0m
+│   └── .c
+├── corge
+├── [34mfoo[0m
+│   ├── [34mbar[0m
+│   │   └── baz
+│   ├── quux
+│   └── qux
+├── [34mgrault[0m
+│   ├── [34mgarply[0m
+│   │   ├── fred
+│   │   └── [34mwaldo[0m
+│   │       ├── wibble
+│   │       └── wobble
+│   └── plugh
+└── [34mxyzzy[0m
+    └── [34mthud[0m
+        ├── flob
+        └── wubble
+
+8 directories, 12 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       false,
+			includeDot: true,
 		},
 		{
 			name: "gotree --disable-color -a <directory>",
@@ -197,6 +313,38 @@ func TestTree(t *testing.T) {
 		{
 			// This test case was created for "github actions". uid has a value according to it.
 			// TODO: allow user group to be specified.
+			name: "gotree --uid --gid <directory>",
+			want: `tmp
+├── [[33mrunner[0m [33mdocker[0m]  corge
+├── [[33mrunner[0m [33mdocker[0m]  [34mfoo[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mbar[0m
+│   │   └── [[33mrunner[0m [33mdocker[0m]  baz
+│   ├── [[33mrunner[0m [33mdocker[0m]  quux
+│   └── [[33mrunner[0m [33mdocker[0m]  qux
+├── [[33mrunner[0m [33mdocker[0m]  [34mgrault[0m
+│   ├── [[33mrunner[0m [33mdocker[0m]  [34mgarply[0m
+│   │   ├── [[33mrunner[0m [33mdocker[0m]  fred
+│   │   └── [[33mrunner[0m [33mdocker[0m]  [34mwaldo[0m
+│   │       ├── [[33mrunner[0m [33mdocker[0m]  wibble
+│   │       └── [[33mrunner[0m [33mdocker[0m]  wobble
+│   └── [[33mrunner[0m [33mdocker[0m]  plugh
+└── [[33mrunner[0m [33mdocker[0m]  [34mxyzzy[0m
+    └── [[33mrunner[0m [33mdocker[0m]  [34mthud[0m
+        ├── [[33mrunner[0m [33mdocker[0m]  flob
+        └── [[33mrunner[0m [33mdocker[0m]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        true,
+			gid:        true,
+			size:       false,
+			includeDot: false,
+		},
+		{
+			// This test case was created for "github actions". uid has a value according to it.
+			// TODO: allow user group to be specified.
 			name: "gotree --disable-color --uid --gid <directory>",
 			want: `tmp
 ├── [runner docker]  corge
@@ -224,6 +372,36 @@ func TestTree(t *testing.T) {
 			uid:        true,
 			gid:        true,
 			size:       false,
+			includeDot: false,
+		},
+		{
+			name: "gotree --size <directory>",
+			want: `tmp
+├── [[32m0[0m]  corge
+├── [-]  [34mfoo[0m
+│   ├── [-]  [34mbar[0m
+│   │   └── [[32m0[0m]  baz
+│   ├── [[32m0[0m]  quux
+│   └── [[32m0[0m]  qux
+├── [-]  [34mgrault[0m
+│   ├── [-]  [34mgarply[0m
+│   │   ├── [[32m0[0m]  fred
+│   │   └── [-]  [34mwaldo[0m
+│   │       ├── [[32m0[0m]  wibble
+│   │       └── [[32m0[0m]  wobble
+│   └── [[32m0[0m]  plugh
+└── [-]  [34mxyzzy[0m
+    └── [-]  [34mthud[0m
+        ├── [[32m0[0m]  flob
+        └── [[32m0[0m]  wubble
+
+7 directories, 10 files`,
+			colored:    true,
+			level:      math.MaxInt64,
+			permission: false,
+			uid:        false,
+			gid:        false,
+			size:       true,
 			includeDot: false,
 		},
 		{
