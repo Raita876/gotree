@@ -210,7 +210,7 @@ func TestTree(t *testing.T) {
 └── [34mxyzzy[0m
     └── [34mthud[0m
 
-6 directories, 4 files`,
+7 directories, 15 files`,
 			colored:    true,
 			level:      2,
 			permission: false,
@@ -246,7 +246,7 @@ func TestTree(t *testing.T) {
 └── xyzzy
     └── thud
 
-6 directories, 4 files`,
+7 directories, 15 files`,
 			colored:    false,
 			level:      2,
 			permission: false,
