@@ -11,6 +11,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/mattn/go-isatty"
 	"github.com/urfave/cli/v2"
 )
 
@@ -803,7 +804,7 @@ func main() {
 			root := c.Args().Get(0) // TODO: 引数の数をチェックする。
 
 			level := levelOption(c.Uint("level"))
-			colored := coloredOption(!c.Bool("disable-color"))
+			colored := coloredOption(!c.Bool("disable-color") && isTerminal())
 			permission := permissionOption(c.Bool("permission"))
 			uid := uidOption(c.Bool("uid"))
 			gid := gidOption(c.Bool("gid"))
@@ -825,4 +826,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+}
+
+func isTerminal() bool {
+	if isatty.IsTerminal(os.Stdout.Fd()) || isatty.IsCygwinTerminal(os.Stdout.Fd()) {
+		return true
+	}
+
+	return false
 }
