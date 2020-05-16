@@ -501,7 +501,7 @@ func main() {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			root := c.Args().Get(0)
+			root := c.Args().Get(0) // TODO: 引数の数をチェックする。
 
 			level := levelOption(c.Uint("level"))
 			colored := coloredOption(!c.Bool("disable-color"))
