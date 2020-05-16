@@ -251,12 +251,12 @@ func (row *Row) Name() string {
 	name := row.fileInfo.Name()
 
 	if row.colored {
-		if row.fileInfo.IsDir() {
-			name = ColorBlue(name)
-		} else {
-			if row.isExec() {
-				name = ColorGreen(name)
-			}
+		if row.isDir() {
+			return ColorBlue(name)
+		}
+
+		if row.isExec() {
+			return ColorGreen(name)
 		}
 	}
 
@@ -332,6 +332,10 @@ func (row *Row) Mode() string {
 	}
 
 	return strings.Join(modeStr[:], "")
+}
+
+func (row *Row) isDir() bool {
+	return row.fileInfo.IsDir()
 }
 
 func (row *Row) isExec() bool {
