@@ -658,7 +658,7 @@ func TestTree(t *testing.T) {
 
 func testCaseWithDate() (string, error) {
 	testCase := `tmp
-├── [[34m2020-05-16 22:41[0m]  [34m01[0m
+├── [[34m__DATETIME__[0m]  [34m01[0m
 │   ├── [[34m__DATETIME__[0m]  [4m[93mREADME.md[0m[0m
 │   ├── [[34m__DATETIME__[0m]  [33mcompiled.o[0m
 │   ├── [[34m__DATETIME__[0m]  [31mcompressed.zip[0m
