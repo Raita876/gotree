@@ -364,6 +364,7 @@ func TestTree(t *testing.T) {
     └── [runner docker]  thud
         ├── [runner docker]  flob
         └── [runner docker]  wubble
+
 7 directories, 10 files`,
 			colored:    false,
 			level:      math.MaxInt64,
