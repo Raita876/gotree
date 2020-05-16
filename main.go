@@ -490,6 +490,11 @@ func main() {
 				Usage:   "Print the size.",
 			},
 			&cli.BoolFlag{
+				Name:    "datetime",
+				Aliases: []string{"D"},
+				Usage:   "Print file datetime.",
+			},
+			&cli.BoolFlag{
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "All files are listed.",
@@ -505,7 +510,7 @@ func main() {
 			gid := gidOption(c.Bool("gid"))
 			size := sizeOption(c.Bool("size"))
 			includeDot := includeDotOption(c.Bool("all"))
-			datetime := datetimeOption(true) // TODO: cli.Context から取得する
+			datetime := datetimeOption(c.Bool("datetime"))
 
 			err := Tree(root, colored, level, permission, uid, gid, size, includeDot, datetime)
 			if err != nil {
